@@ -28,7 +28,7 @@ export function HeroVideo() {
     <>
       <video
         ref={ref}
-        className="absolute inset-0 h-full w-full object-cover"
+        className={`hero-drift absolute inset-0 h-full w-full object-cover ${playing ? '' : '[animation-play-state:paused]'}`}
         poster="/video/hero-poster.webp"
         muted
         loop

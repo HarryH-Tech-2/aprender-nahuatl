@@ -155,32 +155,37 @@ export default function Home() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
 
-      {/* Hero: full-bleed film of the Nahua world, with the headline over a dark gradient. */}
-      <section className="relative isolate flex min-h-[min(88svh,52rem)] items-end overflow-hidden bg-basalt text-white">
+      {/* Hero: a symmetrical temple scene with everything centred over it; the navbar floats on top. */}
+      <section className="relative isolate -mt-[68px] flex min-h-[min(100svh,56rem)] items-center justify-center overflow-hidden bg-[#120d09] text-white">
         <HeroVideo />
-        <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10 md:bg-gradient-to-r md:from-black/80 md:via-black/40 md:to-transparent" />
-        <div className="wrap relative pb-14 pt-32 md:pb-20">
-          {/* Kept narrow on desktop so the text sits in the dark side of the scene, clear of the doorway. */}
-          <div className="max-w-2xl md:max-w-[38rem]">
-            <h1 className="text-[clamp(2.75rem,8.5vw,5.75rem)] leading-[0.95] [text-shadow:0_2px_24px_rgba(0,0,0,.45)]">
-              Aprende náhuatl
-              <span className="mt-3 block font-sans text-[clamp(1.25rem,3vw,1.75rem)] font-bold leading-tight tracking-normal">
-                gratis, desde cero y en español
-              </span>
-            </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-white/90 sm:text-xl">
-              La lengua de Tenochtitlan no se quedó en el pasado: hoy la hablan más de un millón y medio de personas en México.
-              Sus palabras ya están en tu mesa, en tu calle y en el mapa. Te toca a ti hablarla.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link href="/curso/sonidos-y-saludos" className="btn btn-red">Empezar la lección 1</Link>
-              <Link href="/curso" className="font-bold underline underline-offset-4 hover:text-maize">Ver las 8 lecciones</Link>
-            </div>
-            <p className="mt-5 text-sm text-white/75">Gratis, solo con tu correo. Náhuatl central o de la Huasteca. Quince minutos por lección.</p>
-          </div>
+        {/* Darken the middle for the text, and fade the bottom into the page. */}
+        <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_50%,rgba(10,6,3,.62),rgba(10,6,3,.15)_70%,transparent)]" />
+        <div aria-hidden className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/70 to-transparent" />
+        <div aria-hidden className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-amate via-amate/60 to-transparent" />
+
+        <div className="wrap relative flex flex-col items-center pb-28 pt-36 text-center">
+          <h1 className="flex flex-col items-center [text-shadow:0_4px_30px_rgba(0,0,0,.6)]">
+            <span className="font-sans text-[clamp(2.75rem,9vw,6.5rem)] font-normal leading-none tracking-tight text-white">Aprende</span>
+            <span className="hero-gold display -mt-1 text-[clamp(3.5rem,13vw,9rem)] leading-[0.95]">náhuatl</span>
+          </h1>
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/90 [text-shadow:0_2px_12px_rgba(0,0,0,.7)] sm:text-xl">
+            De Tenochtitlan a tu calle: la lengua de los mexicas sigue viva en más de un millón y medio de voces. Aprende a
+            hablarla con lecciones interactivas, gratis, desde cero y en español.
+          </p>
+          <Link href="/curso/sonidos-y-saludos" className="hero-cta group mt-10">
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-[#3a2410]/70 bg-[#1a1008]">
+              <Image src="/img/icono.png" alt="" width={48} height={48} className="h-full w-full object-cover" />
+            </span>
+            <span className="text-left">
+              <span className="block text-xl font-bold leading-tight">Empezar el curso</span>
+              <span className="block text-sm opacity-80">Gratis, solo con tu correo. Central o Huasteca.</span>
+            </span>
+          </Link>
+          <Link href="/curso" className="mt-5 text-sm font-bold text-white/85 underline underline-offset-4 hover:text-maize">
+            Ver las 8 lecciones
+          </Link>
         </div>
       </section>
-      <div className="greca greca-red" aria-hidden />
 
       {/* Answer-first definition: what AI answers and featured snippets quote. */}
       <section className="wrap grid gap-10 py-16 lg:grid-cols-[1.25fr_1fr] lg:items-start" aria-labelledby="que-es">

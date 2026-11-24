@@ -143,6 +143,39 @@ body {
 details > summary { cursor: pointer; list-style: none; }
 details > summary::-webkit-details-marker { display: none; }
 
+/* ---- hero ---- */
+.hero-gold {
+  background: linear-gradient(180deg, #fbe3a1 0%, #e8ad1c 45%, #b9791a 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 24px rgba(0, 0, 0, .55));
+  text-shadow: none;
+}
+.hero-cta {
+  display: inline-flex; align-items: center; gap: 1rem;
+  padding: .6rem 2rem .6rem .6rem;
+  border-radius: 999px;
+  color: #1c1208;
+  background: linear-gradient(180deg, #fbe3a1, #e8ad1c 55%, #c98d1e);
+  border: 2px solid #fbe3a1;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.35), 0 10px 40px rgba(232,173,28,.35), inset 0 1px 0 rgba(255,255,255,.6);
+  transition: transform 200ms, box-shadow 200ms;
+}
+.hero-cta:hover { transform: translateY(-2px); box-shadow: 0 0 0 1px rgba(0,0,0,.35), 0 14px 50px rgba(232,173,28,.5), inset 0 1px 0 rgba(255,255,255,.6); }
+.btn-gold {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: .45rem 1.1rem; border-radius: 999px; font-weight: 700; white-space: nowrap;
+  color: #1c1208; background: linear-gradient(180deg, #fbe3a1, #e8ad1c 60%, #c98d1e);
+  border: 1px solid #fbe3a1; transition: filter 200ms;
+}
+.btn-gold:hover { filter: brightness(1.08); }
+
+/* A very slow push-in on the hero video, so the scene clearly moves. */
+@keyframes hero-drift { from { transform: scale(1); } to { transform: scale(1.09) translateY(1.5%); } }
+.hero-drift { animation: hero-drift 24s ease-in-out infinite alternate; transform-origin: 50% 45%; }
+@media (prefers-reduced-motion: reduce) { .hero-drift { animation: none; } }
+
 /* ---- navbar and footer ---- */
 /* Four codex pigments in a repeating band. */
 .codex-stripe {

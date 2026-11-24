@@ -52,6 +52,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const inLesson = pathname.endsWith('/jugar');
+  const overHero = pathname === '/' && !scrolled && !open;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -62,7 +63,7 @@ export function Header() {
   return (
     <header
       className={`sticky top-0 z-40 text-amate transition-[background-color,box-shadow] duration-300 ${
-        scrolled || open ? 'bg-basalt/95 shadow-[0_8px_30px_rgba(0,0,0,.35)] backdrop-blur-md' : 'bg-basalt'
+        overHero ? 'bg-transparent' : scrolled || open ? 'bg-basalt/95 shadow-[0_8px_30px_rgba(0,0,0,.35)] backdrop-blur-md' : 'bg-basalt'
       }`}
     >
       <div className="wrap flex h-16 items-center gap-6">
@@ -103,7 +104,7 @@ export function Header() {
           {!inLesson && <VariantSwitch dark />}
           <AccountLink />
           {!inLesson && (
-            <Link href="/curso/sonidos-y-saludos" className="btn btn-red btn-sm whitespace-nowrap !border-2 !shadow-none hover:!bg-[#c92d24]">
+            <Link href="/curso/sonidos-y-saludos" className="btn-gold">
               Empezar gratis
             </Link>
           )}
@@ -125,7 +126,7 @@ export function Header() {
         </button>
       </div>
 
-      <div aria-hidden className="codex-stripe h-1" />
+      <div aria-hidden className={`codex-stripe h-1 transition-opacity duration-300 ${overHero ? 'opacity-0' : ''}`} />
 
       {/* Mobile menu: animates open by growing its grid row from 0fr to 1fr. */}
       <div

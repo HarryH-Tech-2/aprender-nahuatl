@@ -32,6 +32,12 @@ export default function Page() {
           Procuramos seguir la ortografía que usan los materiales del Instituto de Docencia e Investigación Etnológica de Zacatecas (IDIEZ).
         </p>
 
+        <p>
+          Algunas formas del náhuatl central que enseñamos son usos modernos y no del náhuatl clásico: <em className="nah">niltze</em> como
+          saludo, <em className="nah">tlen</em> en lugar de <em className="nah">tlein</em>, o <em className="nah">ma cualli ohtli</em> como despedida.
+          Las elegimos porque son las que hoy se oyen y se enseñan.
+        </p>
+
         <h2>Lo que todavía falta</h2>
         <p>
           <strong>El contenido está en revisión.</strong> Las lecciones se escribieron a partir de gramáticas y diccionarios

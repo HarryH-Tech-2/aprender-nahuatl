@@ -17,7 +17,7 @@ export default function Page() {
       lead={
         <p>
           Miles de lugares de México tienen nombre náhuatl, y casi todos se arman igual: una o dos raíces y una terminación de
-          lugar. Aquí están desarmados. En la{' '}
+          lugar. Aquí están desarmados. (Un detalle: después de l, -tlan se vuelve -lan, como en Tollan o Tlaxcallan.) En la{' '}
           <Link className="font-bold underline" href="/curso/lugares-y-caminos">lección 7</Link> aprendes a leerlos por tu cuenta.
         </p>
       }

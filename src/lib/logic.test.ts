@@ -53,6 +53,13 @@ describe('toNahuatl huasteca', () => {
   ])('%i → %s', (n, w) => expect(words(n, 'huasteca')).toBe(w));
 });
 
+describe('toNahuatl huasteca above 200', () => {
+  it('220 cannot be misread as 10 + 20', () => {
+    expect(words(220, 'huasteca')).toBe('mahtlactli oncempohualli');
+    expect(words(30, 'huasteca')).toBe('cempohualli huan mahtlactli');
+  });
+});
+
 describe('toNahuatl bad input', () => {
   it.each([0, -3, 2.5, 'abc', 8000, '', '12abc', NaN])('%s is rejected with a message', (x) => {
     const r = toNahuatl(x as number | string, 'central');

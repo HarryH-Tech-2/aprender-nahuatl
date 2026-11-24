@@ -22,7 +22,7 @@ const STEMS: Record<Variant, Record<number, string>> = {
   huasteca: { 1: 'cem', 2: 'om', 3: 'ex', 4: 'nauh', 5: 'macuil', 6: 'chicuacem', 7: 'chicom', 8: 'chicuex', 9: 'chiucnauh', 10: 'mahtlac', 15: 'caxtol' },
 };
 
-/** Classical "on-" (and): om- before o, m, p; "yei"/"ye" lose their y. */
+/** Classical "on-" (and): om- before a vowel, m or p ("yei"/"ye" lose their y first); on- elsewhere. */
 function on(s: string): string {
   if (s.startsWith('ye')) return 'ome' + s.slice(2);
   return (/^[omp]/.test(s) ? 'om' : 'on') + s;
@@ -50,8 +50,9 @@ function multiple(k: number, suffix: 'pohualli' | 'tzontli', v: Variant): string
   const stems = STEMS[v];
   if (stems[k]) return fit(stems[k]);
   const base = k < 15 ? 'mahtlactli' : 'caxtolli';
-  const rest = stems[k - (k < 15 ? 10 : 15)];
-  return v === 'central' ? `${base} ${fit(on(rest))}` : `${base} huan ${fit(rest)}`;
+  // Multipliers 11-19 use the Classical compound in both variants: joined with "huan",
+  // 220 ("mahtlactli huan cempohualli") would read as 10 + 20.
+  return `${base} ${fit(on(STEMS.central[k - (k < 15 ? 10 : 15)]))}`;
 }
 
 const ERR_RANGE = `Escribe un número entero del 1 al ${MAX_NUMBER.toLocaleString('es-MX')}.`;

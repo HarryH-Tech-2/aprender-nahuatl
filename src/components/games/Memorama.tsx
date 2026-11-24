@@ -9,7 +9,13 @@ import { pick } from '@/lib/variant';
 
 const PAIRS = 8;
 
+/** Restarts when the variant changes, so a game never mixes two variants' words. */
 export function Memorama() {
+  const { variant } = useAppState();
+  return <MemoramaGame key={variant} />;
+}
+
+function MemoramaGame() {
   const { progress, variant, update, hydrated } = useAppState();
   const seed = useSessionSeed();
   const [round, setRound] = useState(0);

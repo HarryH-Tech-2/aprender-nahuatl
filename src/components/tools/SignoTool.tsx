@@ -24,7 +24,7 @@ export function SignoTool() {
     e.preventDefault();
     setShared('');
     const d = Number(day), m = Number(month), y = Number(year);
-    if (!day || !month || !year || !isValidDate(y, m, d)) {
+    if (!day || !month || year.length !== 4 || y < 1000 || !isValidDate(y, m, d)) {
       setResult(null);
       setError('Esa fecha no existe. Revisa el día, el mes y el año (con cuatro cifras).');
       return;

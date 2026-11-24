@@ -13,6 +13,8 @@ create table if not exists public.profiles (
 
 alter table public.profiles enable row level security;
 
+grant select, insert, update on public.profiles to authenticated;
+
 create policy "Learners read their own profile"
   on public.profiles for select to authenticated
   using ((select auth.uid()) = id);
@@ -26,7 +28,7 @@ create policy "Learners update their own profile"
   using ((select auth.uid()) = id)
   with check ((select auth.uid()) = id);
 
--- Only the server (service role) may change `plan`; keep `updated_at` current.
+-- Learners cannot change `plan`; the server (service role) and the dashboard can. Keep `updated_at` current.
 create or replace function public.profiles_guard()
 returns trigger
 language plpgsql
@@ -34,7 +36,7 @@ security invoker
 set search_path = ''
 as $$
 begin
-  if new.plan is distinct from old.plan and coalesce(auth.role(), '') <> 'service_role' then
+  if new.plan is distinct from old.plan and coalesce(auth.role(), '') in ('authenticated', 'anon') then
     new.plan := old.plan;
   end if;
   new.updated_at := now();

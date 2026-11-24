@@ -9,7 +9,13 @@ import { pick } from '@/lib/variant';
 
 const LIVES = 3;
 
+/** Restarts when the variant changes, so a game never mixes two variants' words. */
 export function Lluvia() {
+  const { variant } = useAppState();
+  return <LluviaGame key={variant} />;
+}
+
+function LluviaGame() {
   const { progress, variant, update, hydrated } = useAppState();
   const seed = useSessionSeed();
   const [game, setGame] = useState(0);

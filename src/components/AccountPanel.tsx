@@ -10,7 +10,7 @@ import { getSupabase } from '@/lib/supabase';
 import { VARIANT_NAMES, VARIANTS } from '@/lib/variant';
 
 export function AccountPanel() {
-  const { hydrated, accountsEnabled, account, progress, signOut, openSignIn } = useAppState();
+  const { hydrated, accountsEnabled, account, progress, signOut, openSignIn, syncFailed, retrySync } = useAppState();
   const [confirming, setConfirming] = useState(false);
   const [status, setStatus] = useState('');
 
@@ -26,7 +26,7 @@ export function AccountPanel() {
       setStatus('No se pudo borrar la cuenta. Inténtalo de nuevo o escríbenos.');
       return;
     }
-    await signOut();
+    await signOut(false);
     setConfirming(false);
     setStatus('Tu cuenta y tu avance se borraron.');
   }
@@ -40,8 +40,20 @@ export function AccountPanel() {
           <>
             <p className="text-lg">Sesión iniciada como <strong>{account.name ?? account.email}</strong></p>
             {account.name && account.email && <p className="text-sm">{account.email}</p>}
-            <p className="mt-2">Tu avance se guarda en tu cuenta y te sigue en cualquier dispositivo.</p>
-            <button type="button" className="btn btn-plain mt-4" onClick={() => void signOut()}>Cerrar sesión</button>
+            {syncFailed ? (
+              <p className="mt-2 font-bold text-cochineal">
+                No se pudo guardar tu avance en tu cuenta. Sigue guardado en este navegador.{' '}
+                <button type="button" className="underline" onClick={retrySync}>Reintentar</button>
+              </p>
+            ) : (
+              <p className="mt-2">Tu avance se guarda en tu cuenta y te sigue en cualquier dispositivo.</p>
+            )}
+            <button
+              type="button" className="btn btn-plain mt-4"
+              onClick={async () => { if (!(await signOut())) setStatus('No se pudo cerrar la sesión. Inténtalo de nuevo.'); }}
+            >
+              Cerrar sesión
+            </button>
           </>
         ) : accountsEnabled ? (
           <>

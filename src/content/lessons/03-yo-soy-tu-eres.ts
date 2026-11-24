@@ -1,11 +1,11 @@
 import { blank, build, choice, info, matchOf, meaningOf, order, v, w, wordFor, write, type Lesson } from '../types';
 
-const yo = w('nehuatl', v('nehuatl', 'na'), 'yo');
-const tu = w('tehuatl', v('tehuatl', 'ta'), 'tú');
-const el = w('yehuatl', v('yehuatl', 'ya'), 'él, ella');
-const nosotros = w('tehuantin', v('tehuantin', 'tohhuantin'), 'nosotros');
-const ustedes = w('amehuantin', v('amehuantin', 'inmohhuantin'), 'ustedes');
-const ellos = w('yehuantin', v('yehuantin', 'inihhuantin'), 'ellos, ellas');
+const yo = w('nehhuatl', v('nehhuatl', 'na'), 'yo');
+const tu = w('tehhuatl', v('tehhuatl', 'ta'), 'tú');
+const el = w('yehhuatl', v('yehhuatl', 'ya'), 'él, ella');
+const nosotros = w('tehhuantin', v('tehhuantin', 'tohhuantin'), 'nosotros');
+const ustedes = w('amehhuantin', v('amehhuantin', 'inmohhuantin'), 'ustedes');
+const ellos = w('yehhuantin', v('yehhuantin', 'inihhuantin'), 'ellos, ellas');
 const tlacatl = w('tlacatl', 'tlacatl', 'persona, hombre');
 const cihuatl = w('cihuatl', 'cihuatl', 'mujer');
 const conetl = w('conetl', 'conetl', 'niño, niña');
@@ -51,20 +51,20 @@ export const lesson03: Lesson = {
     info(
       'Los pronombres',
       v(
-        'Como el prefijo ya dice quién, el pronombre no hace falta. Se usa para dar énfasis, igual que en español «YO soy mexicano».\n\n*nehuatl* yo · *tehuatl* tú · *yehuatl* él, ella\n\nEn el habla diaria se acortan: *neh*, *teh*, *yeh*.',
-        'Como el prefijo ya dice quién, el pronombre no hace falta. Se usa para dar énfasis, igual que en español «YO soy mexicano».\n\n*na* yo · *ta* tú · *ya* él, ella\n\nSon mucho más cortos que en el náhuatl central (*nehuatl, tehuatl, yehuatl*).',
+        'Como el prefijo ya dice quién, el pronombre no hace falta. Se usa para dar énfasis, igual que en español «YO soy mexicano».\n\n*nehhuatl* yo · *tehhuatl* tú · *yehhuatl* él, ella\n\nEn el habla diaria se acortan: *neh*, *teh*, *yeh*.',
+        'Como el prefijo ya dice quién, el pronombre no hace falta. Se usa para dar énfasis, igual que en español «YO soy mexicano».\n\n*na* yo · *ta* tú · *ya* él, ella\n\nSon mucho más cortos que en el náhuatl central (*nehhuatl, tehhuatl, yehhuatl*).',
       ),
       [
-        { nah: v('Nehuatl nimexihcatl.', 'Na nimexihcatl.'), es: 'Yo soy mexicano.' },
-        { nah: v('¿Tehuatl titemachtiani?', '¿Ta titlamachtihquetl?'), es: '¿Tú eres maestra?' },
+        { nah: v('Nehhuatl nimexihcatl.', 'Na nimexihcatl.'), es: 'Yo soy mexicano.' },
+        { nah: v('¿Tehhuatl titemachtiani?', '¿Ta titlamachtihquetl?'), es: '¿Tú eres maestra?' },
       ],
     ),
     meaningOf(yo, pronombres),
     meaningOf(tu, pronombres),
     wordFor(el, pronombres),
-    order('Yo soy mexicana', [yo.nah, 'nimexihcatl'], ['timexihcatl']),
-    blank(v('Tehuatl ___cihuatl.', 'Ta ___cihuatl.'), 'Tú eres mujer.', ['ti', 'ni', 'an'], 0),
-    blank(v('Nehuatl ___tlacatl.', 'Na ___tlacatl.'), 'Yo soy persona.', ['ni', 'ti', 'mo'], 0),
+    order('Yo soy mexicana', [yo.nah, 'nimexihcatl'], ['timexihcatl'], undefined, [v('nimexihcatl nehhuatl', 'nimexihcatl na')]),
+    blank(v('Tehhuatl ___cihuatl.', 'Ta ___cihuatl.'), 'Tú eres mujer.', ['ti', 'ni', 'an'], 0),
+    blank(v('Nehhuatl ___tlacatl.', 'Na ___tlacatl.'), 'Yo soy persona.', ['ni', 'ti', 'mo'], 0),
     info(
       'Oficios y gentilicios',
       v(
@@ -101,7 +101,7 @@ export const lesson03: Lesson = {
     choice('¿Qué significa «coconeh»?', ['niños', 'cocos', 'coyotes'], 0),
     write('soy mujer', 'nicihuatl'),
     write('eres persona', 'titlacatl'),
-    write('yo', v('nehuatl | neh', 'na | nah')),
+    write('yo', v('nehhuatl | nehuatl | neh | nehhua', 'na | nah | naha')),
     info(
       '¡Cualli!',
       'Ya puedes decir quién eres con una sola palabra. Recuerda los tres prefijos: *ni-* yo, *ti-* tú, y nada para él o ella. Vuelven en cada lección.\n\nSiguiente signo: *Cuetzpalin*, la lagartija. Toca contar… de veinte en veinte.',

@@ -70,7 +70,7 @@ export const lesson06: Lesson = {
     ),
     build('lo quiero', ['ni', 'c', 'nequi'], ['ti', 'qui']),
     build('lo quieres', ['ti', 'c', 'nequi'], ['ni', 'mo']),
-    order('Quiero agua', ['Nicnequi', 'atl'], ['Ticnequi']),
+    order('Quiero agua', ['Nicnequi', 'atl'], ['Ticnequi'], undefined, ['atl Nicnequi']),
     blank('Ti___cua tlaxcalli.', 'Comes tortilla.', ['c', 'ni', 'mo'], 0),
     info(
       'Tlacua: comer «algo»',
@@ -95,10 +95,10 @@ export const lesson06: Lesson = {
       'Decir que no',
       v(
         'Para negar se pone *ahmo* antes del verbo:\n\n*Ahmo nicochi.* No duermo.\n*Ahmo nicnequi chilli.* No quiero chile.\n*Ahmo nicmati.* No sé.',
-        'Para negar se pone *axcanah* antes del verbo. En el habla diaria se acorta a *ax-* y se pega:\n\n*Axcanah nicochi.* / *Axnicochi.* No duermo.\n*Axnicnequi chilli.* No quiero chile.\n*Axnicmati.* No sé.',
+        'Para negar se le pega *ax-* al verbo:\n\n*Axnicochi.* No duermo.\n*Axnicnequi chilli.* No quiero chile.\n*Axnicmati.* No sé.\n\n*Axcanah* es el «no» suelto, el que usas para responder una pregunta.',
       ),
     ),
-    order('No quiero chile', [v('Ahmo', 'Axcanah'), 'nicnequi', 'chilli'], ['ticnequi']),
+    order('No quiero chile', [v('Ahmo nicnequi', 'Axnicnequi'), 'chilli'], [v('Ahmo ticnequi', 'Axticnequi'), 'atl']),
     choice('¿Cómo dices «no sé»?', [v('Ahmo nicmati', 'Axnicmati'), 'Nicmati', v('Ahmo ticmati', 'Axticmati')], 0),
     info(
       '¿Qué haces?',
@@ -111,8 +111,8 @@ export const lesson06: Lesson = {
     order('¿Qué haces?', ['¿Tlen', 'ticchihua?'], ['nicchihua?']),
     blank('—¿Tlen ticchihua? —___tlacua.', '—¿Qué haces? —Como.', ['Ni', 'Ti', 'Mo'], 0),
     write('duermo', 'nicochi'),
-    write('quiero agua', 'nicnequi atl'),
-    write('te quiero', tequiero.nah),
+    write('quiero agua', 'nicnequi atl | atl nicnequi'),
+    write('te quiero', 'nimitztlazohtla | nimitzicnelia'),
     info(
       '¡Cualli!',
       'Este fue el salto más grande del curso: ya armas verbos con sujeto y objeto adentro. *Ni-mitz-itta*: tres piezas, una oración.\n\nSiguiente signo: *Mazatl*, el venado. Vamos a recorrer el mapa de México leyendo sus nombres.',

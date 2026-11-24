@@ -170,7 +170,12 @@ export function TilesExercise({ step, variant, seed, locked, onAnswer }: Common 
           );
         })}
       </div>
-      {!locked && <CheckButton disabled={picked.length === 0} onClick={() => onAnswer(normalize(given) === normalize(target), target)} />}
+      {!locked && (
+        <CheckButton
+          disabled={picked.length === 0}
+          onClick={() => onAnswer([target, ...(step.accept ?? []).map((a) => pick(a, variant))].some((t) => normalize(t) === normalize(given)), target)}
+        />
+      )}
     </div>
   );
 }

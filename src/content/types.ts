@@ -11,9 +11,9 @@ export type Step =
   /** Match Nahuatl to Spanish. */
   | { type: 'match'; pairs: Example[] }
   /** Build one word from tiles. `pieces` are in the correct order; `extra` are decoys. */
-  | { type: 'build'; prompt: string; es: string; pieces: V[]; extra?: V[]; explain?: V }
+  | { type: 'build'; prompt: string; es: string; pieces: V[]; extra?: V[]; explain?: V; accept?: V[] }
   /** Put words in order. `pieces` are in the correct order; `extra` are decoys. */
-  | { type: 'order'; prompt: string; es: string; pieces: V[]; extra?: V[]; explain?: V }
+  | { type: 'order'; prompt: string; es: string; pieces: V[]; extra?: V[]; explain?: V; accept?: V[] }
   /** Type the answer in Nahuatl. */
   | { type: 'type'; prompt: string; accepted: { central: string[]; huasteca: string[] }; explain?: V }
   /** Choose the word that fills ___ in the sentence. */
@@ -48,8 +48,9 @@ export const choice = (prompt: string, options: V[], answer: number, extra: { na
 export const build = (es: string, pieces: V[], extra?: V[], explain?: V): Step => ({
   type: 'build', prompt: 'Arma la palabra', es, pieces, ...(extra ? { extra } : {}), ...(explain ? { explain } : {}),
 });
-export const order = (es: string, pieces: V[], extra?: V[], explain?: V): Step => ({
-  type: 'order', prompt: 'Ordena la frase', es, pieces, ...(extra ? { extra } : {}), ...(explain ? { explain } : {}),
+/** `accept` lists other word orders that are also right. */
+export const order = (es: string, pieces: V[], extra?: V[], explain?: V, accept?: V[]): Step => ({
+  type: 'order', prompt: 'Ordena la frase', es, pieces, ...(extra ? { extra } : {}), ...(explain ? { explain } : {}), ...(accept ? { accept } : {}),
 });
 export const blank = (sentence: V, es: string, options: V[], answer: number, explain?: V): Step => ({
   type: 'blank', sentence, es, options, answer, ...(explain ? { explain } : {}),

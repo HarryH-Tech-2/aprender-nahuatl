@@ -150,3 +150,11 @@ Per-page Spanish titles and descriptions, `lang="es-MX"`, sitemap, robots, Open 
 4. Contact email address to show on `/contacto`.
 5. Name of the person or company that operates the site, for `/privacidad` and `/terminos`. Until supplied, those pages are drafted with clearly marked placeholders and must be completed before launch.
 6. Analytics. **[Call]** v1 ships with no analytics or tracking, so no cookie banner is needed; adding it later is a separate decision.
+
+## Changes after approval (2026-11-24)
+
+- Images: Harry asked for all images to be generated with Higgsfield. The 20 day-sign glyphs, hero art, family illustration and site icon come from there, in one codex-style prompt, instead of hand-drawn SVG.
+- Accounts use the Supabase browser client only (no server-side session), so there is no `/auth/callback` route; sign-in returns to `/cuenta`.
+- Added a `/herramientas` page listing the six tools.
+- The header hides the variant switch during a lesson; switching variant restarts lessons and games.
+- A code review and a Nahuatl language review were run on the finished build; their fixes are in. The language review is not a substitute for a speaker's review.

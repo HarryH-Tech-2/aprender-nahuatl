@@ -76,6 +76,12 @@ export function NumberTool() {
             <p className="text-sm font-bold">{result.value.toLocaleString('es-MX')} en náhuatl</p>
             <p lang="nah" className="nah-big mt-1 text-cochineal">{result.words}</p>
 
+            {variant === 'huasteca' && result.value >= 220 && (
+              <p className="mt-2 text-sm">
+                Forma reconstruida: en la Huasteca, hoy los números grandes casi siempre se dicen en español.
+              </p>
+            )}
+
             <h2 className="mt-6 text-xl">Cómo se arma</h2>
             <ul className="mt-2 space-y-1.5">
               {result.parts.map((p) => (

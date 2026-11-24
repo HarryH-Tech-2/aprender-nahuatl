@@ -1,14 +1,14 @@
 import { blank, choice, info, matchOf, meaningOf, order, v, w, wordFor, write, type Lesson } from '../types';
 
 const hola = w('hola', v('niltze', 'piyali'), 'hola', 'En el centro también se oye «pialli».');
-const quentica = w('quen-tica', v('¿quen tica?', '¿quenin tiitztoc?'), '¿cómo estás?');
+const quentica = w('quen-tica', v('¿quen ticah?', '¿quenin tiitztoc?'), '¿cómo estás?');
 const cualli = w('cualli', 'cualli', 'bien, bueno');
 const gracias = w('tlazohcamati', v('tlazohcamati', 'tlazcamati'), 'gracias');
 const si = w('quemah', v('quemah', 'quena'), 'sí');
 const no = w('ahmo', v('ahmo', 'axcanah'), 'no');
 const notoca = w('notoca', v('notoca', 'notocah'), 'mi nombre es');
 const motoca = w('tlen-motoca', v('¿tlen motoca?', '¿tlen motocah?'), '¿cómo te llamas?');
-const nosvemos = w('timoittazqueh', v('timoittazqueh', 'timoittazceh'), 'nos vemos');
+const nosvemos = w('titottazqueh', v('titottazqueh', 'timoittazceh'), 'nos vemos');
 const atl = w('atl', 'atl', 'agua');
 const xochitl = w('xochitl', 'xochitl', 'flor');
 const calli = w('calli', 'calli', 'casa');
@@ -78,11 +78,11 @@ export const lesson01: Lesson = {
     info(
       'Saludar',
       v(
-        'Para saludar di *niltze* (también oirás *pialli*). Para preguntar cómo está alguien: *¿quen tica?* La respuesta más sencilla es *cualli*, «bien».\n\nPara dar las gracias: *tlazohcamati*. Y para despedirte: *timoittazqueh*, «nos vemos».',
+        'Para saludar di *niltze* (también oirás *pialli*). Para preguntar cómo está alguien: *¿quen ticah?* La respuesta más sencilla es *cualli*, «bien».\n\nPara dar las gracias: *tlazohcamati*. Y para despedirte: *titottazqueh*, «nos vemos».',
         'Para saludar di *piyali*. Para preguntar cómo está alguien: *¿quenin tiitztoc?* La respuesta más sencilla es *cualli*, «bien».\n\nPara dar las gracias: *tlazcamati*. Y para despedirte: *timoittazceh*, «nos vemos».',
       ),
       [
-        { nah: v('—Niltze. ¿Quen tica?', '—Piyali. ¿Quenin tiitztoc?'), es: '—Hola. ¿Cómo estás?' },
+        { nah: v('—Niltze. ¿Quen ticah?', '—Piyali. ¿Quenin tiitztoc?'), es: '—Hola. ¿Cómo estás?' },
         { nah: v('—Cualli, tlazohcamati.', '—Cualli, tlazcamati.'), es: '—Bien, gracias.' },
       ],
     ),
@@ -90,7 +90,7 @@ export const lesson01: Lesson = {
     meaningOf(quentica, saludos),
     wordFor(gracias, saludos),
     matchOf(saludos),
-    blank(v('—¿Quen tica? —___, tlazohcamati.', '—¿Quenin tiitztoc? —___, tlazcamati.'), '—¿Cómo estás? —Bien, gracias.', ['Cualli', 'Atl', v('Ahmo', 'Axcanah')], 0),
+    blank(v('—¿Quen ticah? —___, tlazohcamati.', '—¿Quenin tiitztoc? —___, tlazcamati.'), '—¿Cómo estás? —Bien, gracias.', ['Cualli', 'Atl', v('Ahmo', 'Axcanah')], 0),
     info(
       'Sí, no y tu nombre',
       v(
@@ -104,9 +104,9 @@ export const lesson01: Lesson = {
     ),
     wordFor(si, [si, no, cualli]),
     meaningOf(no, [no, si, gracias]),
-    order('Me llamo Citlali', [v('Notoca', 'Notocah'), 'Citlali'], [v('Motoca', 'Motocah')], 'no- es «mi»; mo- es «tu».'),
+    order('Me llamo Citlali', [v('Notoca', 'Notocah'), 'Citlali'], [v('Motoca', 'Motocah')], 'no- es «mi»; mo- es «tu».', [v('Citlali Notoca', 'Citlali Notocah')]),
     choice('Alguien te pregunta tu nombre. ¿Qué te dijo?', [motoca.nah, quentica.nah, nosvemos.nah], 0),
-    write('gracias', gracias.nah),
+    write('gracias', v('tlazohcamati | nitlazohcamati', 'tlazcamati | tlazohcamati')),
     write('agua', 'atl'),
     write('casa', 'calli'),
     meaningOf(nosvemos, saludos),

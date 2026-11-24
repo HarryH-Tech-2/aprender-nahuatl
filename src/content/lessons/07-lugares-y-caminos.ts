@@ -40,7 +40,7 @@ export const lesson07: Lesson = {
     wordFor(tepetl, naturaleza),
     info(
       'Cuatro terminaciones de lugar',
-      'Con cuatro piezas lees la mayoría de los nombres:\n\n*-co* o *-c* «en»: *Mexih-co*, *Chapoltepe-c*\n*-tlan* «lugar de, junto a»: *Maza-tlan*\n*-pan* «sobre, en»: *Tlal-pan*\n*-can* «lugar donde»: *Coyohua-can*\n\nSe usa *-c* después de vocal y *-co* después de consonante.\n\nEn español se deformaron un poco: *-tlan* acabó en *-tlán*, *-tla* o *-lan*; *-pan* a veces en *-pa*.',
+      'Con cuatro piezas lees la mayoría de los nombres:\n\n*-co* o *-c* «en»: *Mexih-co*, *Chapoltepe-c*\n*-tlan* «lugar de, junto a»: *Maza-tlan*\n*-pan* «sobre, en»: *Tlal-pan*\n*-can* «lugar donde»: *Coyohuah-can*\n\nSe usa *-c* después de vocal y *-co* después de consonante.\n\nDos detalles: después de *l*, *-tlan* se vuelve *-lan* (*Tol-lan*, Tula). Y muchos nombres en *-tla* llevan otra pieza, *-tlah*, «donde abunda»: *Cuauhtlah*, Cuautla, «arboleda».',
       [
         { nah: 'Mazatlan', es: 'Mazatlán: lugar de venados' },
         { nah: 'Tlalpan', es: 'Tlalpan: sobre la tierra' },
@@ -70,14 +70,14 @@ export const lesson07: Lesson = {
     wordFor(ohtli, naturaleza2),
     info(
       'Xochimilco y Acapulco',
-      'Con tres piezas salen nombres famosos:\n\n*xochi-tl* (flor) + *mil-li* (milpa) + *-co* = *Xochimilco*, «en la sementera de flores».\n\n*aca-tl* (carrizo) + *-pol* (grandote) + *-co* = *Acapolco*, «en los carrizos grandes».\n\nY el más famoso: *Tenochtitlan* lleva *te-tl* (piedra) y *noch-tli* (tuna): «junto al nopal de la piedra».',
+      'Con tres piezas salen nombres famosos:\n\n*xochi-tl* (flor) + *mil-li* (milpa) + *-co* = *Xochimilco*, «en la sementera de flores».\n\n*aca-tl* (carrizo) + *-pol* (grandote) + *-co* = *Acapolco*, «en los carrizos grandes».\n\nY el más famoso: *Tenochtitlan* lleva *te-tl* (piedra) y *noch-tli* (tuna): «junto a la tuna de piedra».',
     ),
     build('en la sementera de flores', ['Xochi', 'mil', 'co'], ['tl', 'pan']),
     build('en los carrizos grandes', ['Aca', 'pol', 'co'], ['tl', 'tlan']),
     choice('¿Qué raíz NO está en «Tenochtitlan»?', ['atl (agua)', 'tetl (piedra)', 'nochtli (tuna)'], 0),
     info(
       'Altepetl: agua y cerro',
-      'La palabra para «pueblo» o «ciudad» es *altepetl*: *a-tl* (agua) + *tepe-tl* (cerro). Para los nahuas, un pueblo era eso: un cerro con su manantial.\n\nY *Mexihco* se suele explicar como *metz-tli* (luna) + *xic-tli* (ombligo) + *-co*: «en el ombligo de la luna».',
+      'La palabra para «pueblo» o «ciudad» es *altepetl*: *a-tl* (agua) + *tepe-tl* (cerro); al juntarse, *a-* toma una *l*: *al-tepetl*. Para los nahuas, un pueblo era eso: un cerro con su manantial.\n\nY *Mexihco* se suele explicar como *metz-tli* (luna) + *xic-tli* (ombligo) + *-co*: «en el ombligo de la luna».',
       [{ nah: 'altepetl', es: 'pueblo, ciudad (agua-cerro)' }, { nah: 'Mexihco', es: 'México' }],
     ),
     build('pueblo (agua + cerro)', ['al', 'tepe', 'tl'], ['co', 'tlan']),
@@ -96,7 +96,7 @@ export const lesson07: Lesson = {
     meaningOf(canin, [canin, nichanti, altepetl]),
     write('cerro', 'tepetl'),
     write('camino', 'ohtli'),
-    write('vivo en México', 'nichanti mexihco'),
+    write('vivo en México', 'nichanti mexihco | nichanti mexico | mexihco nichanti'),
     info(
       '¡Cualli!',
       'Ya lees el mapa. En la herramienta *¿Qué significa tu ciudad?* tienes decenas de nombres desarmados pieza por pieza: busca el tuyo.\n\nÚltimo signo de esta primera vuelta: *Tochtli*, el conejo. Vas a juntar todo en una conversación.',

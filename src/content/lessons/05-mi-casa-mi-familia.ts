@@ -64,7 +64,7 @@ export const lesson05: Lesson = {
     choice('¿Qué significa?', ['nuestra casa', 'tu casa', 'mi casa'], 0, { nah: 'tocal' }),
     build('su casa (de ella)', ['i', 'cal'], ['no', 'li']),
     build('nuestra tierra', ['to', 'tlal'], ['mo', 'li']),
-    blank('___toca Xochitl.', 'Mi nombre es Xóchitl.', ['No', 'Mo', 'I'], 0),
+    blank(v('___toca Xochitl.', '___tocah Xochitl.'), 'Mi nombre es Xóchitl.', ['No', 'Mo', 'I'], 0),
     info(
       'La familia',
       v(
@@ -103,12 +103,12 @@ export const lesson05: Lesson = {
       [
         { nah: 'ichichi Juan', es: 'el perro de Juan' },
         { nah: v('inan Citlali', 'inanan Citlali'), es: 'la mamá de Citlali' },
-        { nah: 'ical nocniuh', es: 'la casa de mi amigo' },
+        { nah: v('ical nocniuh', 'ical nohuampoh'), es: 'la casa de mi amigo' },
       ],
     ),
-    order('el gato de María', ['imizton', 'María'], ['nomizton']),
+    order('el gato de María', ['imizton', 'María'], ['nomizton'], undefined, ['María imizton']),
     blank('___chichi Juan.', 'El perro de Juan.', ['I', 'No', 'To'], 0),
-    write('mi casa', 'nocal'),
+    write('mi casa', 'nocal | nochan'),
     write('tu casa', 'mocal'),
     write('mi perro', 'nochichi'),
     write('mi mamá', v('nonan | nonantzin', 'nonanan | nonan')),

@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useAppState } from '../AppState';
 import { Nah, RichText } from '../Nah';
@@ -18,7 +19,17 @@ type Feedback = { correct: boolean; answer: string; explain?: string; again: boo
 
 const PRAISE = ['¡Cualli!', '¡Órale, muy bien!', '¡Eso!', '¡Cualli, así se hace!'];
 
+/**
+ * The lesson starts over on every fresh visit (Next keeps recently visited pages mounted, which would
+ * otherwise bring back a finished lesson) and whenever the variant changes.
+ */
 export function Player({ lesson }: { lesson: Lesson }) {
+  const { variant } = useAppState();
+  const { bfcacheId } = useRouter();
+  return <LessonRun key={`${bfcacheId}-${variant}`} lesson={lesson} />;
+}
+
+function LessonRun({ lesson }: { lesson: Lesson }) {
   const { progress, variant, hydrated, update, account, accountsEnabled, openSignIn } = useAppState();
   // Order of the answer options: different on every visit, stable while you play.
   const seed = useSessionSeed() + lesson.n * 1000;

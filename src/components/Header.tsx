@@ -70,7 +70,8 @@ export function Header() {
         )}
 
         <div className="ml-auto hidden items-center gap-3 lg:flex">
-          <VariantSwitch />
+          {/* Not during a lesson: switching variant there would restart it. */}
+          {!inLesson && <VariantSwitch />}
           <AccountButton />
         </div>
 
@@ -94,7 +95,7 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          <VariantSwitch />
+          {!inLesson && <VariantSwitch />}
           <AccountButton />
         </div>
       )}

@@ -60,7 +60,7 @@ export const lesson04: Lesson = {
     info(
       'Del once al diecinueve',
       v(
-        'Se dice el diez y se le suma con *on-* («y»): *mahtlactli once* es 11, «diez y uno».\n\nEl quince tiene nombre propio: *caxtolli*. Del 16 al 19 se le suma igual: *caxtolli once* es 16.\n\nAntes de *o* y de *m*, *on-* se vuelve *om-*: *omome* (y dos), *omei* (y tres).',
+        'Se dice el diez y se le suma con *on-* («y»): *mahtlactli once* es 11, «diez y uno».\n\nEl quince tiene nombre propio: *caxtolli*. Del 16 al 19 se le suma igual: *caxtolli once* es 16.\n\nAntes de vocal, de *m* y de *p*, *on-* se vuelve *om-*: *omome* (y dos), *ommahtlactli* (y diez). *Yei* pierde su y: *omei* (y tres).',
         'Se dice el diez y se le suma con *huan* («y»): *mahtlactli huan ce* es 11, «diez y uno».\n\nEl quince tiene nombre propio: *caxtolli*. Del 16 al 19 se le suma igual: *caxtolli huan ce* es 16.\n\nEn el náhuatl central antiguo se decía con *on-*: *mahtlactli once*.',
       ),
       [
@@ -94,7 +94,10 @@ export const lesson04: Lesson = {
     matchOf(grandes),
     info(
       'Contar cosas',
-      'El número va antes de la cosa, y las cosas (lo que no está vivo) no cambian en plural: *ome calli* es «dos casas», no hace falta más.',
+      v(
+        'El número va antes de la cosa, y las cosas (lo que no está vivo) no cambian en plural: *ome calli* es «dos casas», no hace falta más.',
+        'El número va antes de la cosa. Después de un número, la cosa puede quedarse igual: *ome calli* es «dos casas». (Sin número, hoy en la Huasteca muchas cosas sí toman plural con *-meh*.)',
+      ),
       [
         { nah: 'ce xochitl', es: 'una flor' },
         { nah: 'ome calli', es: 'dos casas' },
@@ -103,7 +106,7 @@ export const lesson04: Lesson = {
     ),
     order('dos casas', ['ome', 'calli'], ['ce']),
     blank('Nicnequi ___ tamalli.', 'Quiero cinco tamales.', ['macuilli', 'mahtlactli', 'ome'], 0),
-    write('uno', 'ce'),
+    write('uno', 'ce | cen'),
     write('dos', 'ome'),
     write('cinco', 'macuilli'),
     write('veinte', 'cempohualli'),

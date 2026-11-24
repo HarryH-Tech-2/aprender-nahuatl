@@ -25,6 +25,6 @@ export const PRONUNCIACION: Sound[] = [
   s('tl', 'tl', 'Un solo sonido: una t que se suelta por los lados de la lengua, como una l sin voz.', 'tlacatl', 'persona', 'Al final de palabra no lleva vocal: «atl», no «atle».'),
   s('tz', 'tz', 'Suena «ts», como en «pizza».', 'tzopilotl', 'zopilote'),
   s('x', 'x', 'Suena «sh», como cuando pides silencio.', 'xochitl', 'flor', '«Mexihco» se decía «Me-shih-co».'),
-  s('y', 'y', 'Como la y de «yo».', 'yei', 'tres'),
+  s('y', 'y', 'Como la y de «yo».', 'yolotl', 'corazón'),
   s('z', 'z', 'Suena «s», como en el español de México.', 'zacatl', 'zacate'),
 ];

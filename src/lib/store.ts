@@ -9,14 +9,24 @@ let state: Progress = EMPTY;
 let loaded = false;
 const listeners = new Set<() => void>();
 
+function read(): Progress {
+  try {
+    return parseProgress(JSON.parse(window.localStorage.getItem(KEY) ?? 'null'));
+  } catch {
+    return emptyProgress();
+  }
+}
+
 function load() {
   if (loaded || typeof window === 'undefined') return;
   loaded = true;
-  try {
-    state = parseProgress(JSON.parse(window.localStorage.getItem(KEY) ?? 'null'));
-  } catch {
-    state = emptyProgress();
-  }
+  state = read();
+  // Another tab changed the progress: pick it up, so this tab never saves a stale copy over it.
+  window.addEventListener('storage', (e) => {
+    if (e.key !== null && e.key !== KEY) return;
+    state = read();
+    listeners.forEach((l) => l());
+  });
 }
 
 export function getProgress(): Progress {

@@ -77,6 +77,13 @@ describe('lessons', () => {
               expect(s.pieces.length, at).toBeGreaterThanOrEqual(2);
               expect(s.pieces.every(filled), at).toBe(true);
               expect(s.es.length, at).toBeGreaterThan(0);
+              for (const alt of s.accept ?? []) {
+                for (const vr of VARIANTS) {
+                  const sorted = (x: string) => x.split(' ').sort().join(' ');
+                  const target = s.pieces.map((q) => pick(q, vr)).join(s.type === 'build' ? '' : ' ');
+                  expect(sorted(pick(alt, vr)), `${at} alternative must reuse the same words`).toBe(sorted(target));
+                }
+              }
               break;
             case 'type':
               for (const vr of VARIANTS) expect(s.accepted[vr].length, `${at} ${vr}`).toBeGreaterThan(0);
@@ -96,6 +103,27 @@ describe('lessons', () => {
   });
 });
 
+describe('variant leaks', () => {
+  it('every lesson that teaches a variant-specific word uses it consistently in the Huasteca text', () => {
+    const banned = ['nocniuh', 'timoittaz' + 'queh', ' notoca ', 'yehuatl', 'tehuatl'];
+    for (const l of LESSONS) {
+      const texts: string[] = [];
+      const add = (x: V | undefined) => x !== undefined && texts.push(` ${pick(x, 'huasteca')} `);
+      for (const s of l.steps) {
+        if (s.type === 'info') { add(s.body); s.examples?.forEach((e) => add(e.nah)); }
+        if (s.type === 'choice') { add(s.nah); s.options.forEach(add); }
+        if (s.type === 'blank') { add(s.sentence); s.options.forEach(add); }
+        if (s.type === 'build' || s.type === 'order') { s.pieces.forEach(add); s.extra?.forEach(add); }
+        if (s.type === 'match') s.pairs.forEach((q) => add(q.nah));
+      }
+      for (const b of banned) {
+        const hit = texts.find((t) => t.toLowerCase().includes(b) && !t.includes('náhuatl central') && !t.includes('En el centro'));
+        expect(hit, `lesson ${l.n}: central form "${b.trim()}" shown to Huasteca learners`).toBeUndefined();
+      }
+    }
+  });
+});
+
 describe('reference content', () => {
   it('pronunciation guide has 18 unique entries', () => {
     expect(PRONUNCIACION).toHaveLength(18);
@@ -109,6 +137,8 @@ describe('reference content', () => {
   it('has at least 80 nahuatlismos, unique', () => {
     expect(NAHUATLISMOS.length).toBeGreaterThanOrEqual(80);
     expect(new Set(NAHUATLISMOS.map((t) => t.es)).size).toBe(NAHUATLISMOS.length);
+    // The Nahuatl column must hold a Nahuatl word, never the Spanish headword again.
+    for (const t of NAHUATLISMOS) expect(t.nah, t.es).not.toBe(t.es);
   });
   it('dictionary gathers course vocabulary without duplicate ids', () => {
     const d = dictionary();

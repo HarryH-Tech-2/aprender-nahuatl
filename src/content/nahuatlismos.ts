@@ -109,7 +109,7 @@ const rows: [Nahuatlismo['cat'], string, string, string][] = [
   ['verbos', 'pepenar', 'pepena', 'Recoger del suelo.'],
   ['verbos', 'pizcar', 'pixca', 'Cosechar.'],
   ['verbos', 'achicopalarse', 'achicopalarse', 'Entristecerse; origen náhuatl probable, forma discutida.'],
-  ['verbos', 'chipotle', 'chilpoctli', 'chilli + poctli: chile ahumado.'],
+  ['comida', 'chipotle', 'chilpoctli', 'chilli + poctli: chile ahumado.'],
 ];
 
 export const NAHUATLISMOS: Nahuatlismo[] = rows.map(([cat, es, nah, note]) => ({ cat, es, nah, note }));

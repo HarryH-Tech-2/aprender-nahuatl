@@ -1,0 +1,55 @@
+import type { Metadata } from 'next';
+import { CONTACT_EMAIL, LEGAL_UPDATED, OPERATOR_ADDRESS, OPERATOR_NAME, pending } from '@/lib/legal';
+
+export const metadata: Metadata = {
+  title: 'Aviso de privacidad',
+  description: 'Qué datos guarda Aprender Náhuatl, para qué los usa y cómo puedes borrarlos.',
+  alternates: { canonical: '/privacidad' },
+};
+
+export default function Page() {
+  return (
+    <div className="wrap py-10">
+      <div className="prose-col space-y-4 [&_h2]:mt-8 [&_h2]:text-2xl [&_li]:ml-5 [&_li]:list-disc">
+        <h1 className="text-4xl sm:text-5xl">Aviso de privacidad</h1>
+        <p className="text-sm">Última actualización: {LEGAL_UPDATED}</p>
+        <p className="rounded-xl border-2 border-dashed border-ink/60 p-3 text-sm">
+          <strong>Borrador.</strong> Este aviso debe completarse y revisarse por un profesional antes de publicar el sitio.
+        </p>
+
+        <h2>Quién es responsable</h2>
+        <p>
+          {pending(OPERATOR_NAME, 'nombre de la persona o empresa responsable')}, con domicilio en{' '}
+          {pending(OPERATOR_ADDRESS, 'domicilio')}, es responsable del tratamiento de tus datos personales. Contacto:{' '}
+          {pending(CONTACT_EMAIL, 'correo de contacto')}.
+        </p>
+
+        <h2>Qué datos guardamos</h2>
+        <ul>
+          <li><strong>Sin cuenta:</strong> ninguno en nuestros servidores. Tu avance (lecciones terminadas, puntajes, racha y la variante que elegiste) se guarda solo en tu navegador.</li>
+          <li><strong>Con cuenta:</strong> tu correo electrónico, tu nombre si entras con Google, y ese mismo avance, para que te siga entre dispositivos.</li>
+          <li><strong>Fecha de nacimiento:</strong> la herramienta «Tu signo» hace el cálculo en tu dispositivo. La fecha no se envía ni se guarda.</li>
+        </ul>
+
+        <h2>Para qué los usamos</h2>
+        <p>Únicamente para que puedas iniciar sesión y conservar tu avance. No vendemos ni compartimos tus datos, no mostramos publicidad y no usamos herramientas de analítica ni de rastreo.</p>
+
+        <h2>Dónde se guardan</h2>
+        <p>Las cuentas y el avance se almacenan con Supabase, y el sitio se sirve desde Vercel; ambos actúan como encargados y pueden procesar datos fuera de México.</p>
+
+        <h2>Tus derechos</h2>
+        <p>
+          Puedes acceder a tus datos, corregirlos, cancelarlos u oponerte a su uso (derechos ARCO). Para borrar tu cuenta y todo
+          tu avance, entra a «Mi cuenta» y elige «Borrar mi cuenta»; el borrado es inmediato. Para cualquier otra solicitud, escribe a{' '}
+          {pending(CONTACT_EMAIL, 'correo de contacto')}.
+        </p>
+
+        <h2>Menores de edad</h2>
+        <p>El curso se puede usar sin cuenta. Si eres menor de edad, pide permiso a tu madre, padre o tutor antes de crear una.</p>
+
+        <h2>Cambios</h2>
+        <p>Si este aviso cambia, publicaremos aquí la nueva versión con su fecha.</p>
+      </div>
+    </div>
+  );
+}

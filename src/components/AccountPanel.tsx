@@ -1,0 +1,108 @@
+'use client';
+import Link from 'next/link';
+import { useState } from 'react';
+import { useAppState } from './AppState';
+import { VariantSwitch } from './Header';
+import { LESSONS } from '@/content/lessons';
+import { todayISO } from '@/lib/daily';
+import { liveStreak } from '@/lib/progress';
+import { getSupabase } from '@/lib/supabase';
+import { VARIANT_NAMES, VARIANTS } from '@/lib/variant';
+
+export function AccountPanel() {
+  const { hydrated, accountsEnabled, account, progress, signOut, openSignIn } = useAppState();
+  const [confirming, setConfirming] = useState(false);
+  const [status, setStatus] = useState('');
+
+  if (!hydrated) return <p className="font-bold">Cargando…</p>;
+
+  async function deleteAccount() {
+    setStatus('Borrando tu cuenta…');
+    const session = (await getSupabase()?.auth.getSession())?.data.session;
+    const res = session
+      ? await fetch('/api/delete-account', { method: 'POST', headers: { Authorization: `Bearer ${session.access_token}` } })
+      : null;
+    if (!res?.ok) {
+      setStatus('No se pudo borrar la cuenta. Inténtalo de nuevo o escríbenos.');
+      return;
+    }
+    await signOut();
+    setConfirming(false);
+    setStatus('Tu cuenta y tu avance se borraron.');
+  }
+
+  const streak = liveStreak(progress.streak, todayISO());
+
+  return (
+    <div className="space-y-8">
+      <section className="plate p-5">
+        {account ? (
+          <>
+            <p className="text-lg">Sesión iniciada como <strong>{account.name ?? account.email}</strong></p>
+            {account.name && account.email && <p className="text-sm">{account.email}</p>}
+            <p className="mt-2">Tu avance se guarda en tu cuenta y te sigue en cualquier dispositivo.</p>
+            <button type="button" className="btn btn-plain mt-4" onClick={() => void signOut()}>Cerrar sesión</button>
+          </>
+        ) : accountsEnabled ? (
+          <>
+            <p className="text-lg font-bold">No has iniciado sesión</p>
+            <p className="mt-1">Tu avance está guardado solo en este navegador. Con una cuenta gratuita no lo pierdes si cambias de dispositivo.</p>
+            <button type="button" className="btn mt-4" onClick={() => openSignIn(true)}>Crear cuenta o iniciar sesión</button>
+          </>
+        ) : (
+          <>
+            <p className="text-lg font-bold">Las cuentas todavía no están activas</p>
+            <p className="mt-1">Por ahora tu avance se guarda en este navegador. Si borras los datos del navegador, se pierde.</p>
+          </>
+        )}
+        <p role="status" className="mt-3 min-h-6 font-bold">{status}</p>
+      </section>
+
+      <section>
+        <h2 className="text-2xl">Tu avance</h2>
+        <p className="mt-2 font-bold">
+          {streak > 0 ? `Racha: ${streak} ${streak === 1 ? 'día' : 'días'} seguidos.` : 'Todavía no tienes racha: termina una lección hoy.'}
+          {progress.streak.longest > 1 && ` Tu mejor racha: ${progress.streak.longest} días.`}
+        </p>
+        <div className="mt-4 grid gap-4 sm:grid-cols-2">
+          {VARIANTS.map((v) => {
+            const done = LESSONS.filter((l) => progress[v].completed.includes(l.slug));
+            return (
+              <div key={v} className="plate-flat p-4">
+                <p className="display text-xl">{VARIANT_NAMES[v]}</p>
+                <p className="mt-1">{done.length} de {LESSONS.length} lecciones</p>
+                <ul className="mt-2 space-y-1 text-sm">
+                  {done.map((l) => (
+                    <li key={l.slug}>
+                      {l.n}. {l.title}: {Math.round((progress[v].best[l.slug] ?? 0) * 100)}%
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+        <div className="mt-5 flex flex-wrap items-center gap-4">
+          <span className="font-bold">Variante que estás aprendiendo:</span>
+          <VariantSwitch />
+          <Link href="/curso" className="btn btn-sm">Ir al curso</Link>
+        </div>
+      </section>
+
+      {account && (
+        <section className="border-t-[3px] border-ink pt-6">
+          <h2 className="text-2xl">Borrar mi cuenta</h2>
+          <p className="mt-2">Se borran tu cuenta y todo tu avance, aquí y en nuestros servidores. No se puede deshacer.</p>
+          {confirming ? (
+            <div className="mt-4 flex flex-wrap gap-3">
+              <button type="button" className="btn btn-red" onClick={() => void deleteAccount()}>Sí, borrar mi cuenta</button>
+              <button type="button" className="btn btn-plain" onClick={() => setConfirming(false)}>Cancelar</button>
+            </div>
+          ) : (
+            <button type="button" className="btn btn-plain mt-4" onClick={() => setConfirming(true)}>Borrar mi cuenta</button>
+          )}
+        </section>
+      )}
+    </div>
+  );
+}

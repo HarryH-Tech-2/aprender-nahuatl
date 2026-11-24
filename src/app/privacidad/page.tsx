@@ -28,6 +28,7 @@ export default function Page() {
         <ul>
           <li><strong>Sin cuenta:</strong> ninguno en nuestros servidores. Tu avance (lecciones terminadas, puntajes, racha y la variante que elegiste) se guarda solo en tu navegador.</li>
           <li><strong>Con cuenta:</strong> tu correo electrónico, tu nombre si entras con Google, y ese mismo avance, para que te siga entre dispositivos.</li>
+          <li><strong>Lista del curso:</strong> para empezar las lecciones te pedimos tu correo y, si quieres, tu nombre. Los usamos para avisarte de lecciones nuevas y para saber qué lecciones interesan más. Puedes pedir que te borremos de la lista en cualquier momento.</li>
           <li><strong>Estadísticas de uso:</strong> usamos Google Analytics para saber cuántas personas visitan el sitio, qué páginas leen y cuántas lecciones terminan. Google Analytics usa cookies y recibe datos como tu navegador, tu dispositivo, tu ubicación aproximada (ciudad) y las páginas que visitas. No le enviamos tu nombre ni tu correo.</li>
           <li><strong>Fecha de nacimiento:</strong> la herramienta «Tu signo» hace el cálculo en tu dispositivo. La fecha no se envía ni se guarda.</li>
         </ul>

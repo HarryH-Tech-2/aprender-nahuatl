@@ -22,7 +22,7 @@ export function LessonStart({ slug, n, minutes }: { slug: string; n: number; min
   return (
     <div className="mt-6 flex flex-wrap items-center gap-4">
       <Link href={`/curso/${slug}/jugar`} className="btn btn-red">{done ? 'Repetir la lección' : 'Empezar la lección'}</Link>
-      <span className="font-bold">Unos {minutes} minutos. Gratis, sin registro.</span>
+      <span className="font-bold">Unos {minutes} minutos. Gratis.</span>
     </div>
   );
 }

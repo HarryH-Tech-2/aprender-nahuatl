@@ -14,7 +14,7 @@ import { SITE_NAME, SITE_URL } from '@/lib/site';
 export const metadata: Metadata = {
   title: { absolute: 'Aprende náhuatl gratis: curso en línea desde cero, en español' },
   description:
-    'Curso de náhuatl gratuito y en español: 8 lecciones interactivas, frases básicas, números y pronunciación. Aprende náhuatl central o de la Huasteca desde cero, sin registro.',
+    'Curso de náhuatl gratuito y en español: 8 lecciones interactivas, frases básicas, números y pronunciación. Aprende náhuatl central o de la Huasteca desde cero, gratis.',
   alternates: { canonical: '/' },
 };
 
@@ -59,7 +59,7 @@ const FAQ: [string, string][] = [
   ],
   [
     '¿Se puede aprender náhuatl gratis en línea?',
-    'Sí. En Aprender Náhuatl las ocho lecciones, los juegos y las herramientas son gratuitos, están en español y no piden registro ni tarjeta. Puedes empezar la primera lección ahora mismo.',
+    'Sí. En Aprender Náhuatl las lecciones, los juegos y las herramientas son gratuitos y están en español. Para empezar solo te pedimos tu correo; no hay pagos ni tarjeta.',
   ],
   [
     '¿Es difícil aprender náhuatl?',
@@ -176,7 +176,7 @@ export default function Home() {
               <Link href="/curso/sonidos-y-saludos" className="btn btn-red">Empezar la lección 1</Link>
               <Link href="/curso" className="font-bold underline underline-offset-4 hover:text-maize">Ver las 8 lecciones</Link>
             </div>
-            <p className="mt-5 text-sm text-white/75">Sin registro. Náhuatl central o de la Huasteca. Quince minutos por lección.</p>
+            <p className="mt-5 text-sm text-white/75">Gratis, solo con tu correo. Náhuatl central o de la Huasteca. Quince minutos por lección.</p>
           </div>
         </div>
       </section>

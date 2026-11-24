@@ -56,6 +56,12 @@ No environment variables are needed. Without them the sign-in buttons are hidden
    - `CNAME` record, host `www`, value `cname.vercel-dns.com`
 3. Wait for Vercel to show the domain as valid (minutes to a few hours). HTTPS is automatic.
 
+## Course waitlist (demand test)
+
+- Starting lesson 1 asks for an email first (once per device). Lessons 2-8 appear normal, but starting one shows "not open yet, we'll email you" and records the interest. Switch: `RELEASED_LESSONS` in `src/lib/release.ts`.
+- Storage: run `supabase/migrations/0002_waitlist.sql`; needs `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel. Until those exist, learners are let in and nothing is stored (only GA4 counts).
+- Reports: the SQL file has queries for sign-ups per week and interest per locked lesson. GA4 events: `sign_up` (source, variant) and `lesson_interest` (lesson, variant).
+
 ## Google Analytics 4 (through Google Tag Manager)
 
 The site loads Tag Manager container `GTM-WQ6ZGHMT` (src/lib/analytics.ts), only on the Vercel production deployment. GA4 itself is set up inside the container:

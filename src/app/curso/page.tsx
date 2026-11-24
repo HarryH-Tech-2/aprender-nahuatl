@@ -35,7 +35,7 @@ export default function CursoPage() {
 
       <Faq
         items={[
-          ['¿El curso de náhuatl es gratis?', 'Sí. Las ocho lecciones son gratuitas y no piden registro ni tarjeta. Tu avance se guarda en tu navegador; con una cuenta gratuita te sigue en cualquier dispositivo.'],
+          ['¿El curso de náhuatl es gratis?', 'Sí. Solo te pedimos tu correo para empezar, sin tarjeta ni pagos. Tu avance se guarda en tu navegador.'],
           ['¿Qué aprendo en el curso?', 'A pronunciar el náhuatl, saludar y presentarte, contar de veinte en veinte, hablar de tu familia, usar verbos en presente, leer nombres de lugares y sostener una conversación sencilla.'],
           ['¿Cuánto dura cada lección?', 'Unos quince minutos. Cada lección mezcla explicaciones cortas con ejercicios: opción múltiple, unir parejas, armar palabras con piezas, ordenar frases y escribir.'],
           ['¿Necesito saber náhuatl antes?', 'No. El curso empieza desde cero y está explicado en español de México.'],

@@ -36,11 +36,11 @@ A website where people (mostly in Mexico) learn the Nahuatl language in a fun, i
 
 - Never `git push`, deploy or submit to search engines without Harry's explicit say-so. Local commits are fine.
 - Windows dev machine, Node 22.
-- The site must be fully usable without Firebase keys (progress in the browser only), so it can be built and tested before Harry creates the Firebase project.
+- The site must be fully usable without Supabase keys (progress in the browser only), so it can be built and tested before Harry creates the Supabase project.
 
 ## Approaches considered
 
-1. **Next.js + Firebase (Auth + Firestore) — chosen.** Same kind of site as the reference; server-rendered pages for search; local-first progress that syncs on sign-in; Stripe subscription can be added later via a webhook writing an entitlement field on the user document. Firebase chosen because Harry already has Firebase tooling installed. **[Call]** — Harry handed over the technical choices; Supabase is an equal swap if he prefers.
+1. **Next.js on Vercel + Supabase (Postgres + Auth) — chosen.** Same kind of site as the reference; server-rendered pages for search; local-first progress that syncs on sign-in; Stripe subscription can be added later via a webhook writing an entitlement column. **[Harry]** chose Vercel for hosting, Namecheap for the domain, and asked for Postgres or something simpler. **[Call]** Supabase, added through the Vercel Marketplace, is Postgres with sign-in built in and its keys injected into the Vercel project automatically — simpler than plain Postgres (Neon) plus a separate sign-in library and email sender. An earlier draft proposed Firebase; dropped.
 2. Static site with browser-only progress. Simpler, but no real accounts and subscriptions later would mean rework. Rejected: accounts are a goal.
 3. Hosted course platform. Payments built in, but cannot do the interactive lessons, tools or variant switch. Rejected.
 
@@ -49,9 +49,9 @@ A website where people (mostly in Mexico) learn the Nahuatl language in a fun, i
 ### Stack **[Call]**
 
 - Next.js (App Router, TypeScript), Tailwind CSS, no component library.
-- Firebase Auth (Google sign-in and email link) and Firestore, client SDK only. No server-side secrets in v1.
+- Supabase Auth (Google sign-in and email magic link) and Supabase Postgres, accessed from the browser with the public anon key under row-level security, using `@supabase/ssr`. No server-side secrets needed in v1.
 - Vitest for unit tests of the logic (number converter, calendar, answer checking, progress merge). Playwright optional, left to the builder.
-- Hosting undecided (see Open items); nothing in v1 may depend on a specific host beyond "can run Next.js".
+- Hosting: Vercel. **[Harry]** Domain aprendernahuatl.com registered at Namecheap, pointed at Vercel by DNS records (Harry does this; the builder documents the exact records in the README).
 
 ### Variants
 
@@ -118,17 +118,17 @@ Header: logo, Curso, Herramientas (menu), Juegos, Acerca · variant switch · "I
 
 ### Look and feel **[Call]**
 
-Not a copy of the reference's Egyptian look. Direction: codex-inspired — warm amate-paper background, ink-black text, accents drawn from codex pigments (cochineal red, turquoise, maize yellow, jade green). A characterful display serif for headings, a clean sans for body. Day-sign glyphs as original, simple SVG line drawings in a consistent style (not traced from any codex facsimile or third-party artwork). No stock photos in v1. Mobile first: most Mexican users will be on phones. The builder should use the frontend-design skill.
+Aztec / Nahuatl inspired. **[Harry]** Not a copy of the reference's Egyptian look. **[Call]** on the specifics: Mexica codices and stone carving as the two sources — warm amate-paper background, ink-black text and thick codex-style black outlines, accents from codex pigments (cochineal red, turquoise, maize yellow, jade green), dark basalt-stone sections for contrast, xicalcoliuhqui (step-fret) borders and dividers, the Sun Stone's ring structure as the model for the course wheel. A characterful display face for headings, a clean sans for body. Day-sign glyphs as original SVG drawings in the codex manner (flat colour, heavy outline), consistent with each other, not traced from any facsimile or third-party artwork. No stock photos in v1. Mobile first: most Mexican users will be on phones. The builder should use the frontend-design skill.
 
 Tone: warm, encouraging, a little playful, Mexican ("¡Órale!", "¡Bien hecho!"), never solemn. Nahuatl praise words taught and reused ("¡Cualli!").
 
 ### Accounts and data
 
 - Anonymous by default. Progress is kept in `localStorage`.
-- Sign in with Google or email link. On first sign-in, local progress is merged into the account (union of completed lessons, max of scores/streaks); afterwards Firestore is the source of truth with the local copy as offline cache.
-- Firestore: one document per user, `users/{uid}`: `displayName`, `variant`, `createdAt`, `plan: "free"` (reserved for payments), `progress: { central: {...}, huasteca: {...} }` holding completed lesson ids, best score per lesson, pronunciation self-test state, streak (current, longest, last active date), game high scores. Security rules: a user can read and write only their own document, and cannot write `plan`.
-- `/cuenta`: name, variant, progress summary, sign out, delete account (deletes the document and the auth user).
-- If Firebase config env vars are absent, sign-in UI is hidden and everything else works.
+- Sign in with Google or email link. On first sign-in, local progress is merged into the account (union of completed lessons, max of scores/streaks); afterwards the database is the source of truth with the local copy as offline cache.
+- Postgres: one row per user in `profiles` (`id` = auth user id, `display_name`, `variant`, `created_at`, `plan` default `'free'`, reserved for payments, `progress jsonb`). `progress` is `{ central: {...}, huasteca: {...} }` holding completed lesson ids, best score per lesson, pronunciation self-test state, streak (current, longest, last active date), game high scores. Row-level security: a user can read and update only their own row, and cannot change `plan`. The schema ships as a SQL migration file in the repo.
+- `/cuenta`: name, variant, progress summary, sign out, delete account (removes the row and the auth user; this one action needs a server route with the service-role key).
+- If the Supabase env vars are absent, sign-in UI is hidden and everything else works.
 
 ### SEO basics
 
@@ -144,8 +144,8 @@ Per-page Spanish titles and descriptions, `lang="es-MX"`, sitemap, robots, Open 
 
 ## Open items for Harry (none block building)
 
-1. Create a Firebase project and supply the web config, when ready to turn accounts on.
-2. Where to host (Vercel, Firebase App Hosting, other).
+1. Create the Vercel project and add Supabase from the Vercel Marketplace, when ready to turn accounts on; set up Google sign-in credentials.
+2. Buy aprendernahuatl.com at Namecheap and point it at Vercel.
 3. Find a Nahuatl speaker/teacher to review content, and to record audio later.
 4. Contact email address to show on `/contacto`.
 5. Name of the person or company that operates the site, for `/privacidad` and `/terminos`. Until supplied, those pages are drafted with clearly marked placeholders and must be completed before launch.

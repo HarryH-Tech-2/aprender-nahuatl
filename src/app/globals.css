@@ -166,7 +166,11 @@ details.faq summary .faq-icon { transition: transform 300ms ease; }
 details.faq[open] summary .faq-icon { transform: rotate(45deg); }
 details.faq[open] { border-color: var(--color-cochineal); }
 
+@keyframes cookie-in { from { transform: translateY(1.5rem); opacity: 0; } to { transform: none; opacity: 1; } }
+.cookie-in { animation: cookie-in 450ms cubic-bezier(.2,.8,.2,1) both; }
+
 @media (prefers-reduced-motion: reduce) {
   .marquee { animation: none; }
+  .cookie-in { animation: none; }
   details.faq::details-content { transition: none; }
 }

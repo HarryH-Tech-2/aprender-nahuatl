@@ -8,6 +8,7 @@ import { VariantChooser } from '@/components/VariantChooser';
 import { SignInDialog } from '@/components/SignInDialog';
 import { SITE_NAME, SITE_URL } from '@/lib/site';
 import { Analytics } from '@/components/Analytics';
+import { CookieBanner } from '@/components/CookieBanner';
 
 // Display: a heavy slab that echoes the thick ink outlines of the codices.
 const display = Alfa_Slab_One({ weight: '400', subsets: ['latin', 'latin-ext'], variable: '--font-display', display: 'swap' });
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           <Footer />
           <VariantChooser />
           <SignInDialog />
+          <CookieBanner />
         </AppStateProvider>
         <Analytics />
       </body>

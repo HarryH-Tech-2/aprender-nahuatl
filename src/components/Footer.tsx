@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { SIGNS } from '@/content/signs';
 import { TOOLS } from '@/lib/site';
+import { CookiePreferencesLink } from './CookieBanner';
 
 const COLUMNS: { title: string; links: [string, string][] }[] = [
   {
@@ -82,7 +83,10 @@ export function Footer() {
             <strong className="text-amate/90">Contenido en revisión.</strong> Las lecciones aún no las revisan hablantes nativos.{' '}
             <Link className="underline underline-offset-4 hover:text-white" href="/contacto">Avísanos de un error</Link>.
           </p>
-          <p>© 2026 aprendernahuatl.com</p>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <CookiePreferencesLink className="underline underline-offset-4 hover:text-white" />
+            <p>© 2026 aprendernahuatl.com</p>
+          </div>
         </div>
       </div>
     </footer>

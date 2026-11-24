@@ -158,3 +158,4 @@ Per-page Spanish titles and descriptions, `lang="es-MX"`, sitemap, robots, Open 
 - Added a `/herramientas` page listing the six tools.
 - The header hides the variant switch during a lesson; switching variant restarts lessons and games.
 - A code review and a Nahuatl language review were run on the finished build; their fixes are in. The language review is not a substitute for a speaker's review.
+- Analytics (2026-11-24): Harry asked to connect Google Analytics 4 and Search Console. GA4 loads only when `NEXT_PUBLIC_GA_ID` is set; the privacy notice now discloses it. Events: `lesson_complete`, `game_over`.

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useAppState } from '../AppState';
 import { vocabFor } from '@/lib/dictionary';
 import { recordGame } from '@/lib/progress';
+import { track } from '@/lib/analytics';
 import { shuffle } from '@/lib/shuffle';
 import { useSessionSeed } from '@/lib/store';
 import { pick } from '@/lib/variant';
@@ -54,6 +55,7 @@ function LluviaGame() {
     if (left === 0) {
       setPlaying(false);
       update((p) => recordGame(p, variant, 'lluvia', score));
+      track('game_over', { game: 'lluvia', variant, score });
     } else setRound((r) => r + 1);
   }
 

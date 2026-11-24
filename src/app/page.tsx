@@ -143,7 +143,7 @@ const jsonLd = [
 
 function SectionHead({ id, title, children }: { id?: string; title: string; children?: React.ReactNode }) {
   return (
-    <div className="prose-col">
+    <div className="max-w-[48rem]">
       <h2 id={id} className="text-3xl sm:text-4xl">{title}</h2>
       {children && <div className="mt-4 space-y-3 text-lg">{children}</div>}
     </div>
@@ -161,7 +161,7 @@ export default function Home() {
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10 md:bg-gradient-to-r md:from-black/80 md:via-black/40 md:to-transparent" />
         <div className="wrap relative pb-14 pt-32 md:pb-20">
           {/* Kept narrow on desktop so the text sits in the dark side of the scene, clear of the doorway. */}
-          <div className="max-w-2xl md:max-w-[34rem]">
+          <div className="max-w-2xl md:max-w-[38rem]">
             <h1 className="text-[clamp(2.75rem,8.5vw,5.75rem)] leading-[0.95] [text-shadow:0_2px_24px_rgba(0,0,0,.45)]">
               Aprende náhuatl
               <span className="mt-3 block font-sans text-[clamp(1.25rem,3vw,1.75rem)] font-bold leading-tight tracking-normal">
@@ -360,7 +360,7 @@ export default function Home() {
               width={1400} height={788} sizes="(max-width: 1024px) 100vw, 50vw" className="block h-auto w-full"
             />
           </div>
-          <div className="prose-col">
+          <div className="max-w-[44rem]">
             <h2 id="hoy" className="text-3xl sm:text-4xl">El náhuatl hoy: una lengua viva</h2>
             <p className="mt-4 text-lg">
               No es una lengua muerta ni un recuerdo de museo. Se habla en casa, en la milpa, en el mercado, en la radio comunitaria
@@ -377,7 +377,7 @@ export default function Home() {
 
       <section className="wrap py-16" aria-labelledby="preguntas">
         <h2 id="preguntas" className="text-3xl sm:text-4xl">Preguntas frecuentes sobre el náhuatl</h2>
-        <div className="mt-8 max-w-3xl space-y-3">
+        <div className="mt-8 grid gap-3 lg:grid-cols-2 lg:items-start">
           {FAQ.map(([q, a]) => (
             <details key={q} className="faq plate-flat transition-colors">
               <summary className="flex items-center justify-between gap-4 p-4 text-lg font-bold">
@@ -389,7 +389,7 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="mt-14 max-w-3xl text-sm">
+        <div className="mt-14 max-w-4xl text-sm">
           <h2 className="font-sans text-base font-bold">Fuentes</h2>
           <ul className="mt-2 list-disc space-y-1 pl-5">
             <li>INEGI, Censo de Población y Vivienda 2020: hablantes de lenguas indígenas.</li>

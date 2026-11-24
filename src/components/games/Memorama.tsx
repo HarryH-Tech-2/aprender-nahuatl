@@ -3,6 +3,7 @@ import { useMemo, useRef, useState } from 'react';
 import { useAppState } from '../AppState';
 import { vocabFor } from '@/lib/dictionary';
 import { recordGame } from '@/lib/progress';
+import { track } from '@/lib/analytics';
 import { shuffle } from '@/lib/shuffle';
 import { useSessionSeed } from '@/lib/store';
 import { pick } from '@/lib/variant';
@@ -57,7 +58,11 @@ function MemoramaGame() {
       const all = [...matched, a.id];
       setMatched(all);
       setOpen([]);
-      if (all.length === pairs) update((p) => recordGame(p, variant, 'memorama', Math.max(10, 100 - (total - pairs) * 4)));
+      if (all.length === pairs) {
+        const score = Math.max(10, 100 - (total - pairs) * 4);
+        update((p) => recordGame(p, variant, 'memorama', score));
+        track('game_over', { game: 'memorama', variant, score });
+      }
     } else {
       timer.current = setTimeout(() => setOpen([]), 1100);
     }

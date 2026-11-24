@@ -7,6 +7,7 @@ import { Footer } from '@/components/Footer';
 import { VariantChooser } from '@/components/VariantChooser';
 import { SignInDialog } from '@/components/SignInDialog';
 import { SITE_NAME, SITE_URL } from '@/lib/site';
+import { Analytics } from '@/components/Analytics';
 
 // Display: a heavy slab that echoes the thick ink outlines of the codices.
 const display = Alfa_Slab_One({ weight: '400', subsets: ['latin', 'latin-ext'], variable: '--font-display', display: 'swap' });
@@ -26,6 +27,10 @@ export const metadata: Metadata = {
     images: [{ url: '/img/og.jpg', width: 1200, height: 630, alt: 'Ilustración de Tenochtitlan al estilo de los códices' }],
   },
   twitter: { card: 'summary_large_image' },
+  // Search Console HTML-tag verification (not needed if the domain is verified by DNS).
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
+    : {}),
 };
 
 export const viewport: Viewport = { themeColor: '#f6e8c9' };
@@ -46,6 +51,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           <VariantChooser />
           <SignInDialog />
         </AppStateProvider>
+        <Analytics />
       </body>
     </html>
   );

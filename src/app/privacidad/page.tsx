@@ -28,14 +28,22 @@ export default function Page() {
         <ul>
           <li><strong>Sin cuenta:</strong> ninguno en nuestros servidores. Tu avance (lecciones terminadas, puntajes, racha y la variante que elegiste) se guarda solo en tu navegador.</li>
           <li><strong>Con cuenta:</strong> tu correo electrónico, tu nombre si entras con Google, y ese mismo avance, para que te siga entre dispositivos.</li>
+          <li><strong>Estadísticas de uso:</strong> usamos Google Analytics para saber cuántas personas visitan el sitio, qué páginas leen y cuántas lecciones terminan. Google Analytics usa cookies y recibe datos como tu navegador, tu dispositivo, tu ubicación aproximada (ciudad) y las páginas que visitas. No le enviamos tu nombre ni tu correo.</li>
           <li><strong>Fecha de nacimiento:</strong> la herramienta «Tu signo» hace el cálculo en tu dispositivo. La fecha no se envía ni se guarda.</li>
         </ul>
 
         <h2>Para qué los usamos</h2>
-        <p>Únicamente para que puedas iniciar sesión y conservar tu avance. No vendemos ni compartimos tus datos, no mostramos publicidad y no usamos herramientas de analítica ni de rastreo.</p>
+        <p>Para que puedas iniciar sesión y conservar tu avance, y para entender en conjunto cómo se usa el sitio y mejorarlo. No vendemos tus datos ni mostramos publicidad.</p>
+
+        <h2>Cookies y Google Analytics</h2>
+        <p>
+          Google Analytics guarda cookies en tu navegador para distinguir visitas. Puedes bloquearlas desde la configuración de tu
+          navegador o con el complemento de inhabilitación de Google Analytics; el sitio sigue funcionando igual. Google trata esos
+          datos conforme a su propia política de privacidad.
+        </p>
 
         <h2>Dónde se guardan</h2>
-        <p>Las cuentas y el avance se almacenan con Supabase, y el sitio se sirve desde Vercel; ambos actúan como encargados y pueden procesar datos fuera de México.</p>
+        <p>Las cuentas y el avance se almacenan con Supabase, el sitio se sirve desde Vercel y las estadísticas las procesa Google; los tres actúan como encargados y pueden procesar datos fuera de México.</p>
 
         <h2>Tus derechos</h2>
         <p>

@@ -14,6 +14,7 @@ import { todayISO } from '@/lib/daily';
 import { completeLesson, isUnlocked } from '@/lib/progress';
 import { useSessionSeed } from '@/lib/store';
 import { pick } from '@/lib/variant';
+import { track } from '@/lib/analytics';
 
 type Feedback = { correct: boolean; answer: string; explain?: string; again: boolean };
 
@@ -110,6 +111,7 @@ function LessonRun({ lesson }: { lesson: Lesson }) {
     const right = graded.filter(({ i }) => firstTry[i]).length;
     const result = graded.length ? right / graded.length : 1;
     update((p) => completeLesson(p, variant, lesson.slug, result, todayISO()));
+    track('lesson_complete', { lesson: lesson.slug, lesson_number: lesson.n, variant, score: Math.round(result * 100) });
     setScore(result);
     window.scrollTo({ top: 0 });
   }

@@ -45,7 +45,7 @@ body {
 /* Component classes live in a layer so Tailwind utilities (hidden, lg:flex…) can override them. */
 @layer components {
 /* ---- codex building blocks: flat pigment, heavy ink outline, hard shadow ---- */
-.wrap { width: 100%; max-width: 68rem; margin-inline: auto; padding-inline: 1.25rem; }
+.wrap { width: 100%; max-width: 80rem; margin-inline: auto; padding-inline: clamp(1.25rem, 3vw, 2.5rem); }
 .prose-col { max-width: 40rem; }
 
 .plate {

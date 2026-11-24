@@ -56,6 +56,27 @@ No environment variables are needed. Without them the sign-in buttons are hidden
    - `CNAME` record, host `www`, value `cname.vercel-dns.com`
 3. Wait for Vercel to show the domain as valid (minutes to a few hours). HTTPS is automatic.
 
+## Google Analytics 4
+
+1. analytics.google.com, Admin, Create, Property: name `aprendernahuatl`, time zone Mexico City, currency MXN. Put it in the existing Personal-Projects-Account.
+2. Add a Web data stream for `https://aprendernahuatl.com` (keep Enhanced measurement on; it records page views on in-app navigation).
+3. Copy the Measurement ID (`G-...`) into Vercel: Settings, Environment Variables, `NEXT_PUBLIC_GA_ID`, then redeploy.
+4. Custom events the site sends: `lesson_complete` (lesson, lesson_number, variant, score) and `game_over` (game, variant, score). In GA4, Admin, Events, mark `lesson_complete` as a key event, and register `lesson`, `variant` and `score` as custom dimensions/metrics if you want them in reports.
+
+Analytics is off whenever `NEXT_PUBLIC_GA_ID` is empty, including local development.
+
+## Google Search Console
+
+Preferred: a Domain property (covers https, http, www and every page).
+
+1. search.google.com/search-console, Add property, Domain, `aprendernahuatl.com`.
+2. Google shows a `TXT` record. In Namecheap, Advanced DNS, add a TXT record with host `@` and that value.
+3. Click Verify (DNS can take from minutes to a few hours).
+4. Sitemaps, submit `https://aprendernahuatl.com/sitemap.xml` (only once the site is live).
+5. Settings, Associations: link the Search Console property to the GA4 property.
+
+Alternative: a URL-prefix property verified by HTML tag. Put the tag's `content` value in `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` and redeploy.
+
 ## Adding a paid plan later
 
 Each lesson has `access: 'free' | 'member'` and each profile has `plan` (only the server can change it). To charge: mark lessons `member`, add Stripe checkout, and have a Stripe webhook set `plan = 'member'` using the service-role key.

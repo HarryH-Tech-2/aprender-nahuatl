@@ -37,8 +37,8 @@ export function CookieBanner() {
           <h2 id="cookies-titulo" lang="nah" className="display text-2xl leading-tight text-maize">{pick(TITLE, variant)}</h2>
           <p className="mt-0.5 text-sm text-amate/70">«¿Sí o no?»</p>
           <p id="cookies-texto" className="mt-3 text-[0.95rem] leading-relaxed text-amate/90">
-            Usamos cookies de Google Analytics para saber cuántas personas aprenden con nosotros y qué lecciones sirven más.
-            No mostramos publicidad. Tu avance en el curso se guarda igual, aceptes o no.{' '}
+            Usamos Google Analytics para saber cuántas personas aprenden con nosotros y qué lecciones sirven más. Si aceptas, usa
+            cookies. Si no, no guarda cookies y solo cuenta tu visita de forma anónima. No mostramos publicidad.{' '}
             <Link href="/privacidad" className="font-bold text-maize underline underline-offset-4">Aviso de privacidad</Link>
           </p>
         </div>

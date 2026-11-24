@@ -29,7 +29,10 @@ function read(): Consent {
 
 type Gtag = (command: 'consent', action: 'update', params: Record<string, string>) => void;
 
-/** Record the visitor's answer. Withdrawing consent also clears the Google Analytics cookies already set. */
+/**
+ * Record the visitor's answer and tell Google Consent Mode. Accepting turns analytics cookies on; rejecting keeps
+ * them off (GA then sends only cookieless pings) and clears any Google Analytics cookies already set.
+ */
 export function setConsent(value: 'granted' | 'denied') {
   try {
     window.localStorage.setItem(KEY, value);
@@ -37,9 +40,9 @@ export function setConsent(value: 'granted' | 'denied') {
     // Storage blocked: the answer lasts for this visit only.
   }
   reopened = false;
+  const gtag = (window as unknown as { gtag?: Gtag }).gtag;
+  gtag?.('consent', 'update', { analytics_storage: value });
   if (value === 'denied') {
-    const gtag = (window as unknown as { gtag?: Gtag }).gtag;
-    gtag?.('consent', 'update', { analytics_storage: 'denied' });
     for (const c of document.cookie.split(';')) {
       const name = c.split('=')[0].trim();
       if (name.startsWith('_ga')) {

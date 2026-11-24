@@ -37,8 +37,10 @@ export default function Page() {
 
         <h2>Cookies y Google Analytics</h2>
         <p>
-          Google Analytics solo se activa si lo aceptas en el aviso de cookies; si lo rechazas, no se carga ningún código de Google.
-          Puedes cambiar tu respuesta cuando quieras con «Preferencias de cookies», al pie de cada página. También puedes bloquear
+          Usamos el «modo de consentimiento» de Google. Si aceptas en el aviso de cookies, Google Analytics guarda cookies para
+          distinguir visitas. Si las rechazas o no respondes, no se guardan cookies de analítica: Google solo recibe señales
+          anónimas, sin cookies ni identificadores, que permiten contar la visita (por ejemplo, la página vista, el tipo de
+          navegador y la hora). Puedes cambiar tu respuesta cuando quieras con «Preferencias de cookies», al pie de cada página. También puedes bloquear
           las cookies desde tu navegador; el sitio sigue funcionando igual. Tu avance en el curso se guarda en el almacenamiento
           local de tu navegador, que es necesario para que el curso funcione y no se usa para medirte. Google trata los datos de
           analítica conforme a su propia política de privacidad.

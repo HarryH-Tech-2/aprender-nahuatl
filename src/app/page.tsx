@@ -160,7 +160,8 @@ export default function Home() {
         <HeroVideo />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10 md:bg-gradient-to-r md:from-black/80 md:via-black/40 md:to-transparent" />
         <div className="wrap relative pb-14 pt-32 md:pb-20">
-          <div className="max-w-2xl">
+          {/* Kept narrow on desktop so the text sits in the dark side of the scene, clear of the doorway. */}
+          <div className="max-w-2xl md:max-w-[34rem]">
             <h1 className="text-[clamp(2.75rem,8.5vw,5.75rem)] leading-[0.95] [text-shadow:0_2px_24px_rgba(0,0,0,.45)]">
               Aprende náhuatl
               <span className="mt-3 block font-sans text-[clamp(1.25rem,3vw,1.75rem)] font-bold leading-tight tracking-normal">

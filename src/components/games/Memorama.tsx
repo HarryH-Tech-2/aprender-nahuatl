@@ -74,7 +74,7 @@ export function Memorama() {
         <button type="button" className="btn btn-sm btn-plain ml-auto" onClick={again}>Repartir de nuevo</button>
       </div>
 
-      <ul className="mt-5 grid grid-cols-4 gap-2 sm:gap-3">
+      <ul className="mx-auto mt-5 grid max-w-xl grid-cols-4 gap-2 sm:gap-3">
         {cards.map((c, i) => {
           const isMatched = matched.includes(c.id);
           const faceUp = isMatched || open.includes(i);
@@ -86,7 +86,7 @@ export function Memorama() {
                 aria-label={faceUp ? c.text : `Carta ${i + 1}, boca abajo`}
                 disabled={isMatched}
                 onClick={() => flip(i)}
-                className={`tile aspect-[3/4] w-full !min-h-0 !px-1 text-[clamp(0.7rem,3.1vw,1.1rem)] leading-tight [overflow-wrap:anywhere] ${
+                className={`tile aspect-[4/5] w-full !min-h-0 !px-1 text-[clamp(0.7rem,3.1vw,1.1rem)] leading-tight [overflow-wrap:anywhere] ${
                   isMatched ? 'is-right' : faceUp ? (c.side === 'nah' ? '!bg-maize-soft' : '') : '!bg-cochineal'
                 }`}
               >

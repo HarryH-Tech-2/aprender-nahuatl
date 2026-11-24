@@ -106,7 +106,7 @@ export function Player({ lesson }: { lesson: Lesson }) {
   const common = { variant, seed: seed + pos * 31, locked: feedback !== null, onAnswer: answer };
 
   return (
-    <div className="wrap max-w-2xl pb-40 pt-5">
+    <div className="wrap min-h-[85dvh] max-w-2xl pb-40 pt-5">
       <div className="flex items-center gap-3">
         <Link href={exitHref} className="font-bold underline underline-offset-4">Salir</Link>
         <div

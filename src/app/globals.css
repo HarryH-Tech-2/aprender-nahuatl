@@ -39,6 +39,8 @@ h1, h2, h3, .display {
 }
 ::selection { background: var(--color-maize); }
 
+/* Component classes live in a layer so Tailwind utilities (hidden, lg:flex…) can override them. */
+@layer components {
 /* ---- codex building blocks: flat pigment, heavy ink outline, hard shadow ---- */
 .wrap { width: 100%; max-width: 68rem; margin-inline: auto; padding-inline: 1.25rem; }
 .prose-col { max-width: 40rem; }
@@ -131,6 +133,8 @@ h1, h2, h3, .display {
   .sign.is-next, .pop { animation: none; }
   .falling { animation-name: wait; }
   .btn, .btn:hover, .btn:active { transition: none; transform: none; }
+}
+
 }
 
 details > summary { cursor: pointer; list-style: none; }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { LessonStart } from '@/components/lesson/LessonStart';
 import { VocabTable } from '@/components/VocabTable';
 import { LESSONS, lessonBySlug } from '@/content/lessons';
@@ -21,7 +22,16 @@ export async function generateMetadata({ params }: PageProps<'/curso/[slug]'>): 
   };
 }
 
-export default async function LessonPage({ params }: PageProps<'/curso/[slug]'>) {
+export default function LessonPage({ params }: PageProps<'/curso/[slug]'>) {
+  // The slug is read inside Suspense so navigation to a lesson is instant.
+  return (
+    <Suspense fallback={<div className="wrap py-16 font-bold">Cargando la lección…</div>}>
+      <LessonContent params={params} />
+    </Suspense>
+  );
+}
+
+async function LessonContent({ params }: { params: Promise<{ slug: string }> }) {
   const lesson = lessonBySlug((await params).slug);
   if (!lesson) notFound();
   const sign = SIGNS[lesson.n - 1];

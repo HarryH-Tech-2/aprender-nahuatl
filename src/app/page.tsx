@@ -42,14 +42,14 @@ export default function Home() {
 
       {/* Hero: the art sits to the right; its empty paper is where the headline goes. */}
       <section className="relative overflow-hidden border-b-[3px] border-ink bg-[#e4b26a]">
-        <div className="relative aspect-[16/10] w-full md:absolute md:inset-0 md:aspect-auto">
+        <div className="relative aspect-[16/10] w-full md:absolute md:inset-y-0 md:right-0 md:aspect-auto md:w-[66%] md:[mask-image:linear-gradient(to_right,transparent,black_22%)]">
           <Image
             src="/img/hero.webp" alt="Tenochtitlan al amanecer, pintada al estilo de los códices: dos personas platican frente al lago"
-            fill priority sizes="100vw" className="object-cover object-[78%_center] md:object-right"
+            fill priority sizes="(max-width: 768px) 100vw, 66vw" className="object-cover object-[78%_center] md:object-right"
           />
         </div>
-        <div className="wrap relative py-8 md:py-24 lg:py-32">
-          <div className="max-w-[26rem]">
+        <div className="wrap relative py-8 md:py-20 lg:py-28">
+          <div className="md:max-w-[38%]">
             <h1 className="text-[clamp(2.9rem,11vw,5.25rem)] leading-[0.95]">Aprende náhuatl</h1>
             <p className="mt-4 text-xl font-bold leading-snug">
               La lengua de Tenochtitlan sigue viva. Empieza a hablarla hoy, quince minutos a la vez.

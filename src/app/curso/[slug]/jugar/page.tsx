@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { Player } from '@/components/lesson/Player';
 import { LESSONS, lessonBySlug } from '@/content/lessons';
 
@@ -14,7 +15,15 @@ export async function generateMetadata({ params }: PageProps<'/curso/[slug]/juga
   return { title: `${lesson.title}: lección en curso`, robots: { index: false }, alternates: { canonical: `/curso/${lesson.slug}` } };
 }
 
-export default async function PlayPage({ params }: PageProps<'/curso/[slug]/jugar'>) {
+export default function PlayPage({ params }: PageProps<'/curso/[slug]/jugar'>) {
+  return (
+    <Suspense fallback={<div className="wrap py-16 text-center font-bold">Cargando la lección…</div>}>
+      <PlayContent params={params} />
+    </Suspense>
+  );
+}
+
+async function PlayContent({ params }: { params: Promise<{ slug: string }> }) {
   const lesson = lessonBySlug((await params).slug);
   if (!lesson) notFound();
   return <Player lesson={lesson} />;

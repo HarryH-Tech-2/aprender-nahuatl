@@ -1,23 +1,45 @@
 import Script from 'next/script';
-import { GA_ID } from '@/lib/analytics';
+import { ANALYTICS_ON, GA_ID, GTM_ID } from '@/lib/analytics';
 
 /**
- * Google Analytics 4 with Google Consent Mode (advanced). Loads for every visitor when NEXT_PUBLIC_GA_ID is set.
- * Until the visitor accepts, analytics_storage is "denied": GA sets no cookies and sends only cookieless pings,
- * which still count the visit and feed GA4's behavioural modelling. Accepting switches cookies on; rejecting
- * keeps them off (see lib/consent.ts). Page views on client-side navigation come from enhanced measurement.
+ * Google Consent Mode defaults, set before any Google script runs. Until the visitor accepts,
+ * analytics_storage is "denied": no analytics cookies, only cookieless pings that still count the visit.
+ * Advertising signals are always denied (the site shows no ads).
  */
+const CONSENT_DEFAULTS = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;
+var c=null;try{c=localStorage.getItem('an.consent.v1')}catch(e){}
+gtag('consent','default',{analytics_storage:c==='granted'?'granted':'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});`;
+
+/** Google Tag Manager (or a bare GA4 tag when no container is configured), with Consent Mode. */
 export function Analytics() {
-  if (!GA_ID) return null;
+  if (!ANALYTICS_ON) return null;
+  if (GTM_ID) {
+    return (
+      <Script id="gtm" strategy="afterInteractive">
+        {`${CONSENT_DEFAULTS}
+(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${GTM_ID}');`}
+      </Script>
+    );
+  }
   return (
     <>
       <Script id="ga4-init" strategy="afterInteractive">
-        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;
-var c=null;try{c=localStorage.getItem('an.consent.v1')}catch(e){}
-gtag('consent','default',{analytics_storage:c==='granted'?'granted':'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});
-gtag('js',new Date());gtag('config','${GA_ID}');`}
+        {`${CONSENT_DEFAULTS}gtag('js',new Date());gtag('config','${GA_ID}');`}
       </Script>
       <Script src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} strategy="afterInteractive" />
     </>
+  );
+}
+
+/** Tag Manager's fallback for visitors without JavaScript; goes right after <body>. */
+export function AnalyticsNoScript() {
+  if (!ANALYTICS_ON || !GTM_ID) return null;
+  return (
+    <noscript>
+      <iframe
+        src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+        height="0" width="0" style={{ display: 'none', visibility: 'hidden' }} title="Google Tag Manager"
+      />
+    </noscript>
   );
 }

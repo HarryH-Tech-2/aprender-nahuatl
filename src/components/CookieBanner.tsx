@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useAppState } from './AppState';
-import { GA_ID } from '@/lib/analytics';
+import { ANALYTICS_ON } from '@/lib/analytics';
 import { reopenConsent, setConsent, useConsent, useConsentReopened } from '@/lib/consent';
 import { pick, type V } from '@/lib/variant';
 
@@ -17,7 +17,7 @@ export function CookieBanner() {
   const { hydrated, variant } = useAppState();
   const consent = useConsent();
   const reopened = useConsentReopened();
-  if (!GA_ID || !hydrated || (consent !== null && !reopened)) return null;
+  if (!ANALYTICS_ON || !hydrated || (consent !== null && !reopened)) return null;
 
   return (
     <section
@@ -61,7 +61,7 @@ export function CookieBanner() {
 
 /** Footer link that reopens the banner. Hidden when analytics is not configured. */
 export function CookiePreferencesLink({ className = '' }: { className?: string }) {
-  if (!GA_ID) return null;
+  if (!ANALYTICS_ON) return null;
   return (
     <button type="button" className={className} onClick={reopenConsent}>
       Preferencias de cookies

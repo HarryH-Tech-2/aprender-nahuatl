@@ -56,14 +56,16 @@ No environment variables are needed. Without them the sign-in buttons are hidden
    - `CNAME` record, host `www`, value `cname.vercel-dns.com`
 3. Wait for Vercel to show the domain as valid (minutes to a few hours). HTTPS is automatic.
 
-## Google Analytics 4
+## Google Analytics 4 (through Google Tag Manager)
 
-1. analytics.google.com, Admin, Create, Property: name `aprendernahuatl`, time zone Mexico City, currency MXN. Put it in the existing Personal-Projects-Account.
-2. Add a Web data stream for `https://aprendernahuatl.com` (keep Enhanced measurement on; it records page views on in-app navigation).
-3. Copy the Measurement ID (`G-...`) into Vercel: Settings, Environment Variables, `NEXT_PUBLIC_GA_ID`, then redeploy.
-4. Custom events the site sends: `lesson_complete` (lesson, lesson_number, variant, score) and `game_over` (game, variant, score). In GA4, Admin, Events, mark `lesson_complete` as a key event, and register `lesson`, `variant` and `score` as custom dimensions/metrics if you want them in reports.
+The site loads Tag Manager container `GTM-WQ6ZGHMT` (src/lib/analytics.ts), only on the Vercel production deployment. GA4 itself is set up inside the container:
 
-Analytics is off whenever `NEXT_PUBLIC_GA_ID` is empty, including local development.
+1. tagmanager.google.com, container GTM-WQ6ZGHMT: Tags, New, **Google tag**, Tag ID = the GA4 property's measurement ID (`G-...`, from GA4 Admin, Data streams). Trigger: **Initialization - All Pages**. Leave consent settings at "Not set": the site sends Google Consent Mode defaults itself.
+2. Custom events (optional): Triggers, New, **Custom Event**, event name `lesson_complete|game_over`, "Use regex matching" on. Tags, New, **Google Analytics: GA4 Event**, measurement ID the same `G-...`, event name `{{Event}}`, event parameters `lesson`, `lesson_number`, `variant`, `score`, `game` from Data Layer Variables of the same names. Fire on that trigger.
+3. **Submit** and **Publish** the container.
+4. Check with Tag Manager's Preview mode on the live site, then GA4, Reports, Realtime.
+
+Consent: until a visitor accepts the cookie banner, `analytics_storage` is denied (no cookies; cookieless pings still count the visit).
 
 ## Google Search Console
 

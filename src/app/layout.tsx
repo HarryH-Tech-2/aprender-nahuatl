@@ -7,7 +7,7 @@ import { Footer } from '@/components/Footer';
 import { VariantChooser } from '@/components/VariantChooser';
 import { SignInDialog } from '@/components/SignInDialog';
 import { SITE_NAME, SITE_URL } from '@/lib/site';
-import { Analytics } from '@/components/Analytics';
+import { Analytics, AnalyticsNoScript } from '@/components/Analytics';
 import { CookieBanner } from '@/components/CookieBanner';
 
 // Display: a heavy slab that echoes the thick ink outlines of the codices.
@@ -40,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="es-MX" className={`${display.variable} ${body.variable}`}>
       <body className="flex min-h-dvh flex-col antialiased">
+        <AnalyticsNoScript />
         <a href="#contenido" className="btn btn-sm sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50">
           Saltar al contenido
         </a>

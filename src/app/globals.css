@@ -1,26 +1,137 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-amate: #f6e8c9;
+  --color-amate-deep: #ecd29f;
+  --color-stucco: #fdf7e6;
+  --color-ink: #17110c;
+  --color-basalt: #2a2521;
+  --color-cochineal: #b3261e;
+  --color-turquoise: #14857f;
+  --color-turquoise-soft: #bfe3dc;
+  --color-maize: #e8ad1c;
+  --color-maize-soft: #f8dc8a;
+  --color-jade: #2c7a4b;
+  --color-jade-soft: #cfe6c4;
+  --font-display: var(--font-display), "Rockwell", "Georgia", serif;
+  --font-sans: var(--font-body), "Verdana", system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  background: var(--color-amate);
+  color: var(--color-ink);
+  scroll-behavior: smooth;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
 }
+h1, h2, h3, .display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: 0.005em;
+}
+:focus-visible {
+  outline: 3px solid var(--color-turquoise);
+  outline-offset: 3px;
+}
+::selection { background: var(--color-maize); }
+
+/* ---- codex building blocks: flat pigment, heavy ink outline, hard shadow ---- */
+.wrap { width: 100%; max-width: 68rem; margin-inline: auto; padding-inline: 1.25rem; }
+.prose-col { max-width: 40rem; }
+
+.plate {
+  background: var(--color-stucco);
+  border: 3px solid var(--color-ink);
+  border-radius: 14px;
+  box-shadow: 5px 5px 0 var(--color-ink);
+}
+.plate-flat { background: var(--color-stucco); border: 3px solid var(--color-ink); border-radius: 14px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 3rem; padding: 0.6rem 1.35rem;
+  font-weight: 700; font-size: 1.0625rem; line-height: 1.2; text-align: center;
+  color: var(--color-ink); background: var(--color-maize);
+  border: 3px solid var(--color-ink); border-radius: 12px;
+  box-shadow: 4px 4px 0 var(--color-ink);
+  transition: transform 80ms, box-shadow 80ms;
+  cursor: pointer;
+}
+.btn:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 var(--color-ink); }
+.btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--color-ink); }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; transform: none; box-shadow: 4px 4px 0 var(--color-ink); }
+.btn-red { background: var(--color-cochineal); color: #fff; }
+.btn-teal { background: var(--color-turquoise); color: #fff; }
+.btn-plain { background: var(--color-stucco); }
+.btn-sm { min-height: 2.5rem; padding: 0.35rem 0.9rem; font-size: 0.95rem; box-shadow: 3px 3px 0 var(--color-ink); }
+
+/* An answer option / tile inside exercises */
+.tile {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 3.25rem; padding: 0.6rem 1rem;
+  font-weight: 700; font-size: 1.125rem; text-align: center;
+  background: var(--color-stucco); color: var(--color-ink);
+  border: 3px solid var(--color-ink); border-radius: 12px;
+  box-shadow: 3px 3px 0 var(--color-ink);
+  cursor: pointer;
+}
+.tile:hover:not([disabled]) { background: var(--color-maize-soft); }
+.tile[aria-pressed="true"], .tile[aria-checked="true"] { background: var(--color-maize); }
+.tile.is-right { background: var(--color-jade-soft); border-color: var(--color-jade); box-shadow: 3px 3px 0 var(--color-jade); }
+.tile.is-wrong { background: #f6cfc9; border-color: var(--color-cochineal); box-shadow: 3px 3px 0 var(--color-cochineal); }
+.tile.is-used { opacity: 0.25; box-shadow: none; }
+.tile[disabled] { cursor: default; }
+
+/* Nahuatl words inside running text */
+.nah { font-style: normal; font-weight: 700; color: var(--color-cochineal); }
+.on-dark .nah { color: var(--color-maize); }
+.nah-big { font-family: var(--font-display); font-size: clamp(1.9rem, 7vw, 3rem); line-height: 1.1; overflow-wrap: anywhere; }
+
+.field {
+  width: 100%; min-height: 3.25rem; padding: 0.5rem 0.9rem; font-size: 1.125rem;
+  background: #fff; color: var(--color-ink);
+  border: 3px solid var(--color-ink); border-radius: 12px;
+}
+.label { display: block; font-weight: 700; margin-bottom: 0.35rem; }
+
+/* Step-fret (xicalcoliuhqui) band */
+.greca {
+  height: 22px;
+  background-color: var(--color-ink);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='22' viewBox='0 0 44 22'%3E%3Cpath d='M0 22V4h18v10h-6V10h-6v12zM22 22V4h18v4H28v4h6v6H22z' fill='%23e8ad1c'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 44px 22px;
+}
+.greca-red { background-color: var(--color-cochineal); }
+
+.on-dark { background: var(--color-basalt); color: var(--color-amate); }
+.on-dark a { text-underline-offset: 3px; }
+
+/* Day-sign cartouche */
+.sign { position: relative; display: block; overflow: hidden; border: 3px solid var(--color-ink); border-radius: 22%; background: #f0c891; }
+.sign img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.sign.is-locked img, .sign.is-soon img { filter: grayscale(1) contrast(0.85); opacity: 0.45; }
+.sign.is-soon { border-style: dashed; }
+.sign.is-done { box-shadow: 0 0 0 4px var(--color-jade); }
+.sign.is-next { box-shadow: 0 0 0 4px var(--color-maize); animation: glow 1.8s ease-in-out infinite; }
+@keyframes glow { 50% { box-shadow: 0 0 0 8px var(--color-maize); } }
+
+@keyframes fall { from { transform: translateY(-3rem); } to { transform: translateY(var(--drop, 18rem)); } }
+@keyframes wait { from { opacity: 1; } to { opacity: 0.999; } }
+.falling { animation: fall linear forwards; }
+@keyframes pop { 0% { transform: scale(0.6); opacity: 0; } 70% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+.pop { animation: pop 420ms ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .sign.is-next, .pop { animation: none; }
+  .falling { animation-name: wait; }
+  .btn, .btn:hover, .btn:active { transition: none; transform: none; }
+}
+
+details > summary { cursor: pointer; list-style: none; }
+details > summary::-webkit-details-marker { display: none; }

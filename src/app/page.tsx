@@ -159,7 +159,7 @@ export default function Home() {
       <section className="relative isolate -mt-[68px] flex min-h-[min(100svh,56rem)] items-center justify-center overflow-hidden bg-[#120d09] text-white">
         <HeroVideo />
         {/* Darken the middle for the text, and fade the bottom into the page. */}
-        <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_50%,rgba(10,6,3,.62),rgba(10,6,3,.15)_70%,transparent)]" />
+        <div aria-hidden className="absolute inset-0 bg-[radial-gradient(ellipse_62%_58%_at_50%_52%,rgba(10,6,3,.72),rgba(10,6,3,.25)_70%,transparent)]" />
         <div aria-hidden className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/70 to-transparent" />
         <div aria-hidden className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-amate via-amate/60 to-transparent" />
 

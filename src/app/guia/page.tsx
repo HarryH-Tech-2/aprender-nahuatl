@@ -64,7 +64,7 @@ export default function Page() {
           dateModified: UPDATED,
           author: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
           publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL, logo: { '@type': 'ImageObject', url: `${SITE_URL}/img/icono.png` } },
-          image: `${SITE_URL}/video/hero-poster.webp`,
+          image: `${SITE_URL}/video/world-poster.webp`,
           mainEntityOfPage: `${SITE_URL}/guia`,
         }}
       />

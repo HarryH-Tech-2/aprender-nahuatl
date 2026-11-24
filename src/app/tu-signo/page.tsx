@@ -12,7 +12,12 @@ export default function Page() {
   return (
     <ToolPage
       sign={17}
+      href="/tu-signo"
       title="Tu signo del tonalpohualli"
+      faq={[
+        ['¿Cuáles son los 20 signos del calendario azteca?', 'Cipactli (caimán), Ehecatl (viento), Calli (casa), Cuetzpalin (lagartija), Coatl (serpiente), Miquiztli (muerte), Mazatl (venado), Tochtli (conejo), Atl (agua), Itzcuintli (perro), Ozomahtli (mono), Malinalli (hierba), Acatl (caña), Ocelotl (jaguar), Cuauhtli (águila), Cozcacuauhtli (zopilote), Ollin (movimiento), Tecpatl (pedernal), Quiahuitl (lluvia) y Xochitl (flor).'],
+        ['¿Qué es el tonalpohualli?', 'Es la «cuenta de los días» de los pueblos nahuas: un calendario de 260 días que combina 13 números con 20 signos. A cada persona se le daba el nombre del día en que nacía.'],
+      ]}
       lead={<p>Cada día del calendario mexica tiene un número del 1 al 13 y uno de veinte signos. Pon tu fecha de nacimiento y descubre el tuyo.</p>}
     >
       <SignoTool />

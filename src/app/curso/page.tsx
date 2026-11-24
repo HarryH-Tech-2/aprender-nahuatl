@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import { LessonList } from '@/components/LessonList';
 import { SignWheel } from '@/components/SignWheel';
+import { Breadcrumbs, Faq } from '@/components/Seo';
 
 export const metadata: Metadata = {
-  title: 'Curso de náhuatl: ocho lecciones interactivas',
+  title: 'Curso de náhuatl gratis en línea: 8 lecciones desde cero',
   description:
     'El curso completo: ocho lecciones gratuitas para aprender náhuatl desde cero, cada una con un signo del tonalpohualli. Sonidos, saludos, números, familia, verbos y lugares.',
   alternates: { canonical: '/curso' },
@@ -12,9 +13,10 @@ export const metadata: Metadata = {
 export default function CursoPage() {
   return (
     <div className="wrap py-10">
+      <Breadcrumbs trail={[['/curso', 'Curso de náhuatl']]} />
       <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.1fr]">
         <div className="prose-col">
-          <h1 className="text-4xl sm:text-5xl">El curso</h1>
+          <h1 className="mt-4 text-4xl sm:text-5xl">Curso de náhuatl gratis</h1>
           <p className="mt-4 text-lg">
             El tonalpohualli, la cuenta de los días, tiene veinte signos. Cada lección que terminas enciende uno.
             Empiezas por Cipactli, el caimán, y avanzas en orden: cada lección abre la siguiente.
@@ -30,6 +32,15 @@ export default function CursoPage() {
       <div className="mt-6">
         <LessonList />
       </div>
+
+      <Faq
+        items={[
+          ['¿El curso de náhuatl es gratis?', 'Sí. Las ocho lecciones son gratuitas y no piden registro ni tarjeta. Tu avance se guarda en tu navegador; con una cuenta gratuita te sigue en cualquier dispositivo.'],
+          ['¿Qué aprendo en el curso?', 'A pronunciar el náhuatl, saludar y presentarte, contar de veinte en veinte, hablar de tu familia, usar verbos en presente, leer nombres de lugares y sostener una conversación sencilla.'],
+          ['¿Cuánto dura cada lección?', 'Unos quince minutos. Cada lección mezcla explicaciones cortas con ejercicios: opción múltiple, unir parejas, armar palabras con piezas, ordenar frases y escribir.'],
+          ['¿Necesito saber náhuatl antes?', 'No. El curso empieza desde cero y está explicado en español de México.'],
+        ]}
+      />
     </div>
   );
 }

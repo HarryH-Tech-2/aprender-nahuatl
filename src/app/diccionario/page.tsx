@@ -3,8 +3,8 @@ import { ToolPage } from '@/components/ToolPage';
 import { DictionaryList } from '@/components/tools/Lists';
 
 export const metadata: Metadata = {
-  title: 'Diccionario náhuatl-español del curso',
-  description: 'Todo el vocabulario del curso, en náhuatl central y de la Huasteca, con búsqueda en náhuatl y en español.',
+  title: 'Diccionario náhuatl-español básico: más de 100 palabras',
+  description: 'Diccionario náhuatl-español con más de 100 palabras básicas en náhuatl central y de la Huasteca: saludos, números, familia, verbos y lugares. Busca en náhuatl o en español.',
   alternates: { canonical: '/diccionario' },
 };
 
@@ -12,7 +12,8 @@ export default function Page() {
   return (
     <ToolPage
       sign={13}
-      title="Diccionario del curso"
+      href="/diccionario"
+      title="Diccionario náhuatl-español"
       lead={<p>Todas las palabras que enseñan las lecciones, en las dos variantes, lado a lado. No es un diccionario completo del náhuatl: es tu vocabulario de trabajo.</p>}
     >
       <DictionaryList />

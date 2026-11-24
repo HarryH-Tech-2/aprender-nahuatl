@@ -13,7 +13,13 @@ export default function Page() {
   return (
     <ToolPage
       sign={7}
+      href="/toponimos"
       title="¿Qué significa tu ciudad?"
+      faq={[
+        ['¿Qué significa México en náhuatl?', 'Mexihco suele explicarse como «en el ombligo de la luna»: metztli (luna) + xictli (ombligo) + -co (en). Hay otras explicaciones, como «lugar de los mexicas».'],
+        ['¿Qué significa -tlán en los nombres de lugares?', 'Viene del sufijo náhuatl -tlan, «lugar de» o «junto a»: Mazatlán es «lugar de venados». Después de l se vuelve -lan, como en Tollan (Tula).'],
+        ['¿Qué significa -tepec?', 'Viene de tepetl (cerro) + -c (en): «en el cerro de». Chapultepec es «en el cerro del chapulín».'],
+      ]}
       lead={
         <p>
           Miles de lugares de México tienen nombre náhuatl, y casi todos se arman igual: una o dos raíces y una terminación de

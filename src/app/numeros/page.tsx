@@ -13,7 +13,13 @@ export default function Page() {
   return (
     <ToolPage
       sign={4}
+      href="/numeros"
       title="Números en náhuatl"
+      faq={[
+        ['¿Cuáles son los números del 1 al 10 en náhuatl?', 'En náhuatl central: ce (1), ome (2), yei (3), nahui (4), macuilli (5), chicuace (6), chicome (7), chicuei (8), chiucnahui (9) y mahtlactli (10). En la Huasteca, 3 es eyi y 8 es chicueyi.'],
+        ['¿Cómo se dice 20 en náhuatl?', 'Veinte es cempohualli, «una cuenta». El náhuatl cuenta de veinte en veinte: 40 es ompohualli, 60 yepohualli y 100 macuilpohualli (cinco veintenas).'],
+        ['¿Por qué el náhuatl cuenta de 20 en 20?', 'Porque su sistema es vigesimal: cuenta con los dedos de las manos y de los pies. 400 (veinte veintenas) se dice centzontli y 8,000 se representaba con una bolsa de copal.'],
+      ]}
       lead={<p>Escribe un número y míralo en palabras, armado pieza por pieza, y dibujado como lo anotaban los mexicas.</p>}
     >
       <NumberTool />

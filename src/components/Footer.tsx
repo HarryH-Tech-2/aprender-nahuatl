@@ -1,49 +1,89 @@
+import Image from 'next/image';
 import Link from 'next/link';
+import { SIGNS } from '@/content/signs';
 import { TOOLS } from '@/lib/site';
 
+const COLUMNS: { title: string; links: [string, string][] }[] = [
+  {
+    title: 'Aprender',
+    links: [
+      ['/curso/sonidos-y-saludos', 'Lección 1: Sonidos y saludos'],
+      ['/curso', 'Curso de náhuatl gratis'],
+      ['/guia', 'Guía para aprender náhuatl'],
+      ['/frases', 'Frases en náhuatl'],
+      ['/juegos', 'Juegos'],
+      ['/palabra-del-dia', 'Palabra del día'],
+    ],
+  },
+  { title: 'Herramientas', links: TOOLS.map((t) => [t.href, t.title]) },
+  {
+    title: 'El sitio',
+    links: [
+      ['/acerca', 'Acerca del curso'],
+      ['/contacto', 'Contacto'],
+      ['/privacidad', 'Aviso de privacidad'],
+      ['/terminos', 'Términos de uso'],
+    ],
+  },
+];
+
 export function Footer() {
+  // The 20 day-signs twice over, so the band can scroll forever without a gap.
+  const band = [...SIGNS, ...SIGNS];
   return (
-    <footer className="on-dark mt-16">
-      <div className="greca" aria-hidden />
-      <div className="wrap grid gap-8 py-10 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="lg:col-span-1">
-          <p className="display text-2xl">Aprender Náhuatl</p>
-          <p className="mt-3 text-sm leading-relaxed opacity-90">
-            Un curso gratuito para acercarse a una lengua viva de México, hablada hoy por más de un millón y medio de personas.
-          </p>
+    <footer className="relative mt-20 overflow-hidden bg-[#1a1613] text-amate">
+      <div aria-hidden className="codex-stripe h-1.5" />
+
+      {/* A slow procession of the 20 day-signs. */}
+      <div aria-hidden className="group relative overflow-hidden border-b border-amate/10 py-6">
+        <div className="marquee flex w-max gap-5 group-hover:[animation-play-state:paused]">
+          {band.map((s, i) => (
+            <Image
+              key={i} src={s.img} alt="" width={128} height={128} sizes="64px"
+              className="h-16 w-16 rounded-2xl opacity-60 grayscale-[60%] transition duration-300 hover:scale-110 hover:opacity-100 hover:grayscale-0"
+            />
+          ))}
         </div>
-        <nav aria-label="Aprender">
-          <p className="mb-2 font-bold text-maize">Aprender</p>
-          <ul className="space-y-1.5 text-sm">
-            <li><Link className="underline" href="/curso/sonidos-y-saludos">Lección 1</Link></li>
-            <li><Link className="underline" href="/curso">El curso completo</Link></li>
-            <li><Link className="underline" href="/juegos">Juegos</Link></li>
-            <li><Link className="underline" href="/palabra-del-dia">Palabra del día</Link></li>
-          </ul>
-        </nav>
-        <nav aria-label="Herramientas">
-          <p className="mb-2 font-bold text-maize">Herramientas</p>
-          <ul className="space-y-1.5 text-sm">
-            {TOOLS.map((t) => (
-              <li key={t.href}><Link className="underline" href={t.href}>{t.title}</Link></li>
-            ))}
-          </ul>
-        </nav>
-        <nav aria-label="El sitio">
-          <p className="mb-2 font-bold text-maize">El sitio</p>
-          <ul className="space-y-1.5 text-sm">
-            <li><Link className="underline" href="/acerca">Acerca</Link></li>
-            <li><Link className="underline" href="/contacto">Contacto</Link></li>
-            <li><Link className="underline" href="/privacidad">Aviso de privacidad</Link></li>
-            <li><Link className="underline" href="/terminos">Términos de uso</Link></li>
-          </ul>
-        </nav>
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#1a1613]" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#1a1613]" />
       </div>
-      <div className="wrap border-t border-amate/25 py-5 text-sm">
-        <p>
-          <strong className="text-maize">Contenido en revisión.</strong> Las lecciones todavía no han sido revisadas por hablantes nativos;
-          puede haber errores. Si encuentras uno, <Link className="underline" href="/contacto">avísanos</Link>.
-        </p>
+
+      <div className="wrap grid gap-12 py-14 lg:grid-cols-[1.3fr_2fr]">
+        <div>
+          <p lang="nah" className="display text-[clamp(2.5rem,6vw,4rem)] leading-none text-maize">Ma cualli ohtli</p>
+          <p className="mt-2 text-lg text-amate/80">«Que tengas buen camino».</p>
+          <p className="mt-6 max-w-sm leading-relaxed text-amate/75">
+            Un curso gratuito para acercarse al náhuatl, la lengua indígena más hablada de México, en español y desde cero.
+          </p>
+          <Link href="/curso/sonidos-y-saludos" className="btn btn-red mt-7">Empezar la lección 1</Link>
+        </div>
+
+        <div className="grid gap-10 sm:grid-cols-3">
+          {COLUMNS.map((c) => (
+            <nav key={c.title} aria-label={c.title}>
+              <p className="mb-4 text-sm font-bold text-maize">{c.title}</p>
+              <ul className="space-y-2.5">
+                {c.links.map(([href, label]) => (
+                  <li key={href}>
+                    <Link href={href} className="text-[0.95rem] text-amate/80 transition-colors hover:text-white">
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          ))}
+        </div>
+      </div>
+
+      <div className="border-t border-amate/10">
+        <div className="wrap flex flex-col gap-3 py-6 text-sm text-amate/65 md:flex-row md:items-center md:justify-between">
+          <p>
+            <strong className="text-amate/90">Contenido en revisión.</strong> Las lecciones aún no las revisan hablantes nativos.{' '}
+            <Link className="underline underline-offset-4 hover:text-white" href="/contacto">Avísanos de un error</Link>.
+          </p>
+          <p>© 2026 aprendernahuatl.com</p>
+        </div>
       </div>
     </footer>
   );

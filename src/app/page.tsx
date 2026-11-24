@@ -216,7 +216,11 @@ export default function Home() {
       <section className="border-y-[3px] border-ink bg-stucco" aria-labelledby="como-aprender">
         <div className="wrap py-16">
           <SectionHead id="como-aprender" title="Cómo aprender náhuatl desde cero">
-            <p>Si hablas español, ya tienes la mitad del camino. Este es el orden que sigue el curso, y el que te recomendamos:</p>
+            <p>
+              Si hablas español, ya tienes la mitad del camino. Este es el orden que sigue el curso, y el que te recomendamos. Para más
+              detalle, lee la{' '}
+              <Link className="font-bold underline underline-offset-4" href="/guia">guía completa para aprender náhuatl desde cero</Link>.
+            </p>
           </SectionHead>
           <ol className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {PASOS.map((p, i) => (
@@ -276,7 +280,8 @@ export default function Home() {
           </table>
         </div>
         <p className="mt-4">
-          Las aprendes paso a paso, con ejercicios, en la{' '}
+          Más de 40 frases, por tema, en{' '}
+          <Link className="font-bold underline underline-offset-4" href="/frases">frases en náhuatl</Link>. Las aprendes con ejercicios en la{' '}
           <Link className="font-bold underline underline-offset-4" href="/curso/sonidos-y-saludos">lección 1: Sonidos y saludos</Link>.
         </p>
       </section>
@@ -374,12 +379,12 @@ export default function Home() {
         <h2 id="preguntas" className="text-3xl sm:text-4xl">Preguntas frecuentes sobre el náhuatl</h2>
         <div className="mt-8 max-w-3xl space-y-3">
           {FAQ.map(([q, a]) => (
-            <details key={q} className="plate-flat group">
+            <details key={q} className="faq plate-flat transition-colors">
               <summary className="flex items-center justify-between gap-4 p-4 text-lg font-bold">
                 <h3 className="font-sans text-lg font-bold">{q}</h3>
-                <span aria-hidden className="display text-2xl transition-transform group-open:rotate-45">+</span>
+                <span aria-hidden className="faq-icon display text-2xl text-cochineal">+</span>
               </summary>
-              <p className="px-4 pb-4">{a}</p>
+              <p className="px-4 pb-5 leading-relaxed">{a}</p>
             </details>
           ))}
         </div>

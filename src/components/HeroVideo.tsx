@@ -67,7 +67,7 @@ export function HeroVideo() {
     <>
       <video
         ref={world}
-        className={`${common} hero-drift ${phase === 'world' ? 'opacity-100' : 'opacity-0'} ${playing && phase === 'world' ? '' : '[animation-play-state:paused]'}`}
+        className={`${common} ${phase === 'world' ? 'opacity-100' : 'opacity-0'}`}
         poster="/video/world-poster.webp"
         muted loop playsInline preload="auto" aria-hidden tabIndex={-1}
         onPlay={() => setPlaying(true)}

@@ -171,13 +171,6 @@ details > summary::-webkit-details-marker { display: none; }
 }
 .btn-gold:hover { filter: brightness(1.08); }
 
-/* A very slow push-in on the hero video, so the scene clearly moves. */
-/* translate3d + will-change keep it on the GPU: a plain scale() on a large video is re-rasterised per frame and
-   visibly judders on big desktop screens. */
-@keyframes hero-drift { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(0, 1%, 0) scale(1.06); } }
-.hero-drift { animation: hero-drift 30s ease-in-out infinite alternate; transform-origin: 50% 45%; will-change: transform; backface-visibility: hidden; }
-@media (prefers-reduced-motion: reduce) { .hero-drift { animation: none; } }
-
 /* ---- navbar and footer ---- */
 /* Four codex pigments in a repeating band. */
 .codex-stripe {

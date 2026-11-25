@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs, Faq, JsonLd } from '@/components/Seo';
-import { SITE_NAME, SITE_URL } from '@/lib/site';
+import { AUTHOR, SITE_NAME, SITE_URL } from '@/lib/site';
 
 const TITLE = 'Cómo aprender náhuatl desde cero: guía para principiantes';
 const UPDATED = '2026-11-24';
@@ -67,7 +67,7 @@ export default function Page() {
           inLanguage: 'es-MX',
           datePublished: UPDATED,
           dateModified: UPDATED,
-          author: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+          author: AUTHOR,
           publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL, logo: { '@type': 'ImageObject', url: `${SITE_URL}/img/icono.png` } },
           image: `${SITE_URL}/video/world-poster.webp`,
           mainEntityOfPage: `${SITE_URL}/guia`,

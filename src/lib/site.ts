@@ -2,6 +2,14 @@ export const SITE_NAME = 'Aprender Náhuatl';
 // The www host is the one Vercel serves (the bare domain redirects to it), so canonicals must use it.
 export const SITE_URL = 'https://www.aprendernahuatl.com';
 
+/** The site's author, for structured data. Keep it factual: no claims of fluency or teaching credentials. */
+export const AUTHOR = {
+  '@type': 'Person',
+  name: 'Harry Harrison',
+  url: `${SITE_URL}/acerca#quien`,
+  sameAs: ['https://www.linkedin.com/in/harry-harrison/'],
+} as const;
+
 export const TOOLS = [
   { href: '/pronunciacion', title: 'Alfabeto y pronunciación', blurb: 'Cada letra del náhuatl, con ejemplos y una prueba rápida.', sign: 2 },
   { href: '/numeros', title: 'Números en náhuatl', blurb: 'Escribe un número y míralo en palabras y en glifos mexicas.', sign: 4 },

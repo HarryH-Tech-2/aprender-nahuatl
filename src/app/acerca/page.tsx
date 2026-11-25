@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs, JsonLd } from '@/components/Seo';
-import { SITE_NAME, SITE_URL } from '@/lib/site';
+import { AUTHOR, SITE_NAME, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Acerca de este curso',
@@ -26,7 +26,9 @@ export default function Page() {
             logo: { '@type': 'ImageObject', url: `${SITE_URL}/img/icono.png` },
             description: 'Curso gratuito para aprender náhuatl central y de la Huasteca desde el español.',
             knowsLanguage: ['es-MX', 'nah'],
+            founder: AUTHOR,
           },
+          author: AUTHOR,
         }}
       />
       <Breadcrumbs trail={[['/acerca', 'Acerca de este curso']]} />
@@ -35,6 +37,16 @@ export default function Page() {
         <p className="text-lg">
           Aprender Náhuatl es un curso gratuito para que cualquier persona que hable español pueda dar sus primeros pasos en
           náhuatl de forma entretenida, desde el celular. Para empezar solo pedimos un correo.
+        </p>
+
+        <h2 id="quien" className="scroll-mt-24">Quién hace este sitio</h2>
+        <p>
+          <a className="font-bold underline" href="https://www.linkedin.com/in/harry-harrison/" rel="author noopener" target="_blank">
+            Harry Harrison
+          </a>{' '}
+          creó Aprender Náhuatl para que cualquier hispanohablante pueda empezar con la lengua de forma gratuita. No es hablante
+          nativo: las lecciones se escribieron a partir de gramáticas y diccionarios publicados, y buscamos hablantes y docentes
+          que las revisen.
         </p>
 
         <h2>Qué náhuatl enseñamos</h2>

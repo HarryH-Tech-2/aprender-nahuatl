@@ -5,7 +5,7 @@ import { Fragment, Suspense } from 'react';
 import { Breadcrumbs, Faq, JsonLd } from '@/components/Seo';
 import { LESSONS } from '@/content/lessons';
 import { RESPUESTAS, respuestaBySlug } from '@/content/respuestas';
-import { SITE_NAME, SITE_URL } from '@/lib/site';
+import { AUTHOR, SITE_NAME, SITE_URL } from '@/lib/site';
 
 const UPDATED = '2026-11-25';
 
@@ -68,7 +68,7 @@ async function Respuesta({ params }: { params: Promise<{ slug: string }> }) {
           inLanguage: 'es-MX',
           dateModified: UPDATED,
           image: `${SITE_URL}/img/og.jpg`,
-          author: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+          author: AUTHOR,
           publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL, logo: { '@type': 'ImageObject', url: `${SITE_URL}/img/icono.png` } },
           isPartOf: { '@type': 'WebSite', name: SITE_NAME, url: SITE_URL },
         }}

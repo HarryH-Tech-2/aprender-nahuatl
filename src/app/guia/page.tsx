@@ -11,7 +11,12 @@ export const metadata: Metadata = {
   description:
     'Guía práctica para aprender náhuatl siendo hispanohablante: qué variante elegir, cómo se pronuncia, cómo funciona la gramática, un plan de cuatro semanas y recursos gratuitos.',
   alternates: { canonical: '/guia' },
-  openGraph: { type: 'article', title: TITLE },
+  // Setting openGraph here replaces the site default, so the share image must be repeated.
+  openGraph: {
+    type: 'article',
+    title: TITLE,
+    images: [{ url: '/img/og.jpg', width: 1200, height: 630, alt: 'Ilustración de Tenochtitlan al estilo de los códices' }],
+  },
 };
 
 const FAQ: [string, string][] = [

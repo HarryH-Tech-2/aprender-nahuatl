@@ -1,5 +1,6 @@
 export const SITE_NAME = 'Aprender Náhuatl';
-export const SITE_URL = 'https://aprendernahuatl.com';
+// The www host is the one Vercel serves (the bare domain redirects to it), so canonicals must use it.
+export const SITE_URL = 'https://www.aprendernahuatl.com';
 
 export const TOOLS = [
   { href: '/pronunciacion', title: 'Alfabeto y pronunciación', blurb: 'Cada letra del náhuatl, con ejemplos y una prueba rápida.', sign: 2 },

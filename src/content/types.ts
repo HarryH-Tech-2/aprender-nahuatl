@@ -26,6 +26,8 @@ export type Lesson = {
   sign: string;
   title: string;
   subtitle: string;
+  /** Search-result description, when the default (subtitle + intro without its first sentence) reads badly. */
+  metaDescription?: string;
   intro: string;
   minutes: number;
   access: 'free' | 'member';

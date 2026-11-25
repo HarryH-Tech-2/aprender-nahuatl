@@ -27,6 +27,8 @@ export const lesson05: Lesson = {
   slug: 'mi-casa-mi-familia',
   sign: 'Coatl',
   title: 'Mi casa, mi familia',
+  metaDescription:
+    'Mío, tuyo, suyo, nuestro. Cómo decir «mi casa» y «tu familia» en náhuatl: el sustantivo suelta su terminación y lleva un prefijo posesivo.',
   subtitle: 'Mío, tuyo, suyo, nuestro',
   intro:
     'Coatl, la serpiente, cambia de piel. Las palabras en náhuatl también: cuando algo es «de alguien», el sustantivo suelta su terminación y se pone un prefijo. Aquí aprendes a hablar de tu casa, tu familia y tus mascotas.',

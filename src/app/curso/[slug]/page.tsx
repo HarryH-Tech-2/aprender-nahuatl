@@ -8,6 +8,7 @@ import { LESSONS, lessonBySlug } from '@/content/lessons';
 import { SIGNS } from '@/content/signs';
 import { Breadcrumbs, JsonLd } from '@/components/Seo';
 import { SITE_URL } from '@/lib/site';
+import { clipText } from '@/lib/text';
 
 export function generateStaticParams() {
   return LESSONS.map((l) => ({ slug: l.slug }));
@@ -18,7 +19,8 @@ export async function generateMetadata({ params }: PageProps<'/curso/[slug]'>): 
   if (!lesson) return {};
   return {
     title: `Lección ${lesson.n}: ${lesson.title}`,
-    description: `${lesson.subtitle}. ${lesson.intro}`.slice(0, 158),
+    // Every intro opens with the day-sign image; searchers want what the lesson teaches, so skip that sentence.
+    description: lesson.metaDescription ?? clipText(`${lesson.subtitle}. ${lesson.intro.replace(/^[^.]*\.\s*/, '')}`, 155),
     alternates: { canonical: `/curso/${lesson.slug}` },
   };
 }

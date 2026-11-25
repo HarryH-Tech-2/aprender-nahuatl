@@ -26,15 +26,21 @@ export function HeroVideo() {
     let seen = false;
     try {
       seen = sessionStorage.getItem(SEEN_KEY) === '1';
-      sessionStorage.setItem(SEEN_KEY, '1');
     } catch {
       // Storage blocked: just play the intro.
     }
+    // Mark it seen only once it actually starts (inside the timeout), so a cancelled first run of this effect
+    // (React StrictMode in dev) does not skip the intro.
     const t = setTimeout(() => {
       if (seen) {
         setPhase('world');
         world.current?.play().catch(() => {});
       } else {
+        try {
+          sessionStorage.setItem(SEEN_KEY, '1');
+        } catch {
+          // Ignore.
+        }
         intro.current?.play().catch(() => {
           // Autoplay blocked: skip to the world still/loop.
           setPhase('world');

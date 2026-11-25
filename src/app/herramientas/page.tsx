@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { ToolGrid } from '@/components/ToolGrid';
 
 export const metadata: Metadata = {
-  title: 'Herramientas gratuitas para aprender náhuatl',
+  title: 'Herramientas gratis para aprender náhuatl',
   description: 'Convertidor de números, guía de pronunciación, tu signo del tonalpohualli, significado de nombres de lugares, nahuatlismos y diccionario.',
   alternates: { canonical: '/herramientas' },
 };

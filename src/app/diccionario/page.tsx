@@ -3,8 +3,8 @@ import { ToolPage } from '@/components/ToolPage';
 import { DictionaryList } from '@/components/tools/Lists';
 
 export const metadata: Metadata = {
-  title: 'Diccionario náhuatl-español básico: más de 100 palabras',
-  description: 'Diccionario náhuatl-español con más de 100 palabras básicas en náhuatl central y de la Huasteca: saludos, números, familia, verbos y lugares. Busca en náhuatl o en español.',
+  title: { absolute: 'Diccionario náhuatl-español básico: más de 100 palabras' },
+  description: 'Más de 100 palabras básicas en náhuatl central y de la Huasteca: saludos, números, familia, verbos y lugares. Busca en náhuatl o en español.',
   alternates: { canonical: '/diccionario' },
 };
 

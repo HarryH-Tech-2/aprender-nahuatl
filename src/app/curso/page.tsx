@@ -4,9 +4,9 @@ import { SignWheel } from '@/components/SignWheel';
 import { Breadcrumbs, Faq } from '@/components/Seo';
 
 export const metadata: Metadata = {
-  title: 'Curso de náhuatl gratis en línea: 8 lecciones desde cero',
+  title: { absolute: 'Curso de náhuatl gratis en línea: 8 lecciones desde cero' },
   description:
-    'El curso completo: ocho lecciones gratuitas para aprender náhuatl desde cero, cada una con un signo del tonalpohualli. Sonidos, saludos, números, familia, verbos y lugares.',
+    'Ocho lecciones gratis para aprender náhuatl desde cero, cada una con un signo del tonalpohualli: sonidos, saludos, números, familia, verbos y lugares.',
   alternates: { canonical: '/curso' },
 };
 

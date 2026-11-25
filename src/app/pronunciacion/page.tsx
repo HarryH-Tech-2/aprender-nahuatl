@@ -3,7 +3,7 @@ import { ToolPage } from '@/components/ToolPage';
 import { PronunciationGuide } from '@/components/tools/PronunciationGuide';
 
 export const metadata: Metadata = {
-  title: 'Alfabeto náhuatl y pronunciación: cómo se leen tl, tz, x y el saltillo',
+  title: { absolute: 'Alfabeto náhuatl y pronunciación: tl, tz, x y saltillo' },
   description: 'El alfabeto náhuatl explicado para hispanohablantes: las 18 letras y combinaciones, cómo suena cada una, ejemplos y una prueba rápida. Gratis.',
   alternates: { canonical: '/pronunciacion' },
 };

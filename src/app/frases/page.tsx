@@ -3,11 +3,12 @@ import Link from 'next/link';
 import { Breadcrumbs, Faq } from '@/components/Seo';
 import { LESSONS } from '@/content/lessons';
 import { TEMAS } from '@/content/frases-temas';
+import { RESPUESTAS } from '@/content/respuestas';
 
 export const metadata: Metadata = {
-  title: 'Frases en náhuatl: saludos, gracias, te quiero y más (con traducción)',
+  title: { absolute: 'Frases en náhuatl: saludos, gracias y te quiero' },
   description:
-    'Las frases básicas en náhuatl con su traducción al español: hola, ¿cómo estás?, gracias, me llamo, te quiero, mi mamá y preguntas útiles. En náhuatl central y de la Huasteca.',
+    'Frases básicas en náhuatl con traducción: hola, ¿cómo estás?, gracias, me llamo, te quiero y preguntas útiles. En náhuatl central y de la Huasteca.',
   alternates: { canonical: '/frases' },
 };
 
@@ -36,6 +37,19 @@ export default function Page() {
           <Link className="font-bold underline underline-offset-4" href="/pronunciacion">guía de pronunciación</Link>.
         </p>
       </div>
+
+      <nav aria-label="Respuestas rápidas" className="mt-6">
+        <p className="font-bold">Respuestas rápidas:</p>
+        <ul className="mt-2 flex flex-wrap gap-2">
+          {RESPUESTAS.map((r) => (
+            <li key={r.slug}>
+              <Link href={`/frases/${r.slug}`} className="inline-block rounded-full border-2 border-ink bg-maize-soft px-4 py-1.5 font-bold hover:bg-maize">
+                {r.h1.replace(/^¿Cómo se dice |\?$/g, '')}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </nav>
 
       <nav aria-label="Temas" className="mt-8 flex flex-wrap gap-2">
         {TEMAS.map((t) => (

@@ -3,7 +3,7 @@ import { Prose, ToolPage } from '@/components/ToolPage';
 import { SignoTool } from '@/components/tools/SignoTool';
 
 export const metadata: Metadata = {
-  title: 'Tu signo azteca: calcula tu día en el tonalpohualli',
+  title: { absolute: 'Tu signo azteca: calcula tu día en el tonalpohualli' },
   description: 'Pon tu fecha de nacimiento y descubre tu signo y tu número en el tonalpohualli, el calendario de 260 días de los mexicas. Gratis y sin registro.',
   alternates: { canonical: '/tu-signo' },
 };

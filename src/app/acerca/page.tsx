@@ -1,20 +1,40 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Breadcrumbs, JsonLd } from '@/components/Seo';
+import { SITE_NAME, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'Acerca de este curso',
-  description: 'Qué es Aprender Náhuatl, qué variantes enseña, cómo se escribió el contenido y qué falta por hacer.',
+  description: 'Qué es Aprender Náhuatl, qué variantes enseña, cómo hacemos y revisamos el contenido, nuestras fuentes y qué falta por hacer.',
   alternates: { canonical: '/acerca' },
 };
 
 export default function Page() {
   return (
     <div className="wrap py-10">
-      <div className="prose-col space-y-4 [&_h2]:mt-8 [&_h2]:text-2xl">
+      <JsonLd
+        data={{
+          '@context': 'https://schema.org',
+          '@type': 'AboutPage',
+          name: 'Acerca de este curso',
+          url: `${SITE_URL}/acerca`,
+          inLanguage: 'es-MX',
+          mainEntity: {
+            '@type': 'Organization',
+            name: SITE_NAME,
+            url: SITE_URL,
+            logo: { '@type': 'ImageObject', url: `${SITE_URL}/img/icono.png` },
+            description: 'Curso gratuito para aprender náhuatl central y de la Huasteca desde el español.',
+            knowsLanguage: ['es-MX', 'nah'],
+          },
+        }}
+      />
+      <Breadcrumbs trail={[['/acerca', 'Acerca de este curso']]} />
+      <div className="prose-col mt-6 space-y-4 [&_h2]:mt-8 [&_h2]:text-2xl">
         <h1 className="text-4xl sm:text-5xl">Acerca de este curso</h1>
         <p className="text-lg">
           Aprender Náhuatl es un curso gratuito para que cualquier persona que hable español pueda dar sus primeros pasos en
-          náhuatl de forma entretenida, desde el celular, sin registrarse.
+          náhuatl de forma entretenida, desde el celular. Para empezar solo pedimos un correo.
         </p>
 
         <h2>Qué náhuatl enseñamos</h2>
@@ -53,6 +73,35 @@ export default function Page() {
         <p>
           <strong>Son ocho lecciones.</strong> El tonalpohualli tiene veinte signos; los otros doce están por escribirse.
         </p>
+
+        <h2 id="como-hacemos" className="scroll-mt-24">Cómo hacemos el contenido</h2>
+        <p>
+          <strong>Una sola fuente.</strong> Cada palabra y cada frase en náhuatl del sitio sale de las lecciones del curso, de
+          la lista de frases o de los nombres de los signos del calendario. Las páginas de frases, el diccionario y las
+          respuestas rápidas no inventan formas nuevas: una prueba automática revisa que todo lo que publican ya esté en el
+          curso, con la misma ortografía y la misma variante.
+        </p>
+        <p>
+          <strong>Las dos variantes, por separado.</strong> Cuando el náhuatl central y el de la Huasteca dicen algo distinto,
+          mostramos las dos formas; cuando coinciden, una sola.
+        </p>
+        <p>
+          <strong>Correcciones.</strong> Si encuentras un error, <Link className="font-bold underline" href="/contacto">escríbenos</Link>.
+          Corregimos la lección y, con ella, todas las páginas que usan esa palabra.
+        </p>
+
+        <h2>Fuentes</h2>
+        <ul className="list-disc space-y-1.5 pl-6">
+          <li>
+            Número de hablantes: INEGI, Censo de Población y Vivienda 2020 (1,651,958 personas de 3 años o más hablan
+            náhuatl).
+          </li>
+          <li>
+            Ortografía del náhuatl de la Huasteca: la que usan los materiales del Instituto de Docencia e Investigación
+            Etnológica de Zacatecas (IDIEZ).
+          </li>
+          <li>Correlación del tonalpohualli con nuestro calendario: la de Alfonso Caso.</li>
+        </ul>
 
         <h2>Las ilustraciones</h2>
         <p>

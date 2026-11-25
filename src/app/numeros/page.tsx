@@ -4,7 +4,7 @@ import { Prose, ToolPage } from '@/components/ToolPage';
 import { NumberTool } from '@/components/tools/NumberTool';
 
 export const metadata: Metadata = {
-  title: 'Números en náhuatl: convertidor del 1 al 7,999',
+  title: { absolute: 'Números en náhuatl: convertidor del 1 al 7,999' },
   description: 'Escribe cualquier número y míralo en náhuatl, con su desglose de veinte en veinte y en glifos mexicas: puntos, banderas y plumas.',
   alternates: { canonical: '/numeros' },
 };

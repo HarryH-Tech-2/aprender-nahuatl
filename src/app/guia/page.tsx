@@ -7,9 +7,9 @@ const TITLE = 'Cómo aprender náhuatl desde cero: guía para principiantes';
 const UPDATED = '2026-11-24';
 
 export const metadata: Metadata = {
-  title: TITLE,
+  title: { absolute: TITLE },
   description:
-    'Guía práctica para aprender náhuatl siendo hispanohablante: qué variante elegir, cómo se pronuncia, cómo funciona la gramática, un plan de cuatro semanas y recursos gratuitos.',
+    'Guía para aprender náhuatl si hablas español: qué variante elegir, cómo se pronuncia, cómo funciona la gramática, un plan de cuatro semanas y recursos.',
   alternates: { canonical: '/guia' },
   // Setting openGraph here replaces the site default, so the share image must be repeated.
   openGraph: {

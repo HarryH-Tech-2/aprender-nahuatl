@@ -9,6 +9,7 @@ import { SIGNS } from '@/content/signs';
 import { Breadcrumbs, JsonLd } from '@/components/Seo';
 import { SITE_URL } from '@/lib/site';
 import { clipText } from '@/lib/text';
+import { lessonPhrases } from '@/lib/lesson-phrases';
 
 export function generateStaticParams() {
   return LESSONS.map((l) => ({ slug: l.slug }));
@@ -39,6 +40,7 @@ async function LessonContent({ params }: { params: Promise<{ slug: string }> }) 
   if (!lesson) notFound();
   const sign = SIGNS[lesson.n - 1];
   const topics = lesson.steps.filter((s) => s.type === 'info').map((s) => s.title).slice(0, -1);
+  const phrases = lessonPhrases(lesson);
 
   return (
     <div className="wrap py-10">
@@ -87,6 +89,32 @@ async function LessonContent({ params }: { params: Promise<{ slug: string }> }) 
           <div className="mt-4"><VocabTable words={lesson.vocab} /></div>
         </section>
       </div>
+
+      {/* Sentences from the lesson itself: real Nahuatl in context for readers and search engines. */}
+      <section aria-labelledby="frases-leccion" className="mt-12">
+        <h2 id="frases-leccion" className="text-2xl">Frases de esta lección</h2>
+        <div className="plate-flat mt-4 overflow-x-auto">
+          <table className="w-full min-w-[36rem] text-left">
+            <caption className="sr-only">Frases de la lección {lesson.n} en español, náhuatl central y náhuatl de la Huasteca</caption>
+            <thead className="bg-amate-deep">
+              <tr>
+                <th scope="col" className="px-4 py-3">Español</th>
+                <th scope="col" className="px-4 py-3">Náhuatl central</th>
+                <th scope="col" className="px-4 py-3">Náhuatl de la Huasteca</th>
+              </tr>
+            </thead>
+            <tbody>
+              {phrases.map((p) => (
+                <tr key={`${p.central}|${p.es}`} className="border-t-2 border-ink/10 align-top">
+                  <th scope="row" className="px-4 py-2.5 font-normal">{p.es}</th>
+                  <td className="px-4 py-2.5"><span lang="nah" className="nah">{p.central}</span></td>
+                  <td className="px-4 py-2.5"><span lang="nah" className="nah">{p.huasteca}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   );
 }

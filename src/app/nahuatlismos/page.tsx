@@ -4,7 +4,7 @@ import { ToolPage } from '@/components/ToolPage';
 import { NahuatlismosList } from '@/components/tools/Lists';
 
 export const metadata: Metadata = {
-  title: 'Nahuatlismos: más de 100 palabras del español que vienen del náhuatl',
+  title: { absolute: 'Nahuatlismos: más de 100 palabras que vienen del náhuatl' },
   description: 'Aguacate, chocolate, tianguis, apapachar, cuate, papalote: la lista de palabras del español de México que vienen del náhuatl, con su origen y significado.',
   alternates: { canonical: '/nahuatlismos' },
 };

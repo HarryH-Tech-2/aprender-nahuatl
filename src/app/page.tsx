@@ -12,9 +12,9 @@ import { toNahuatl } from '@/lib/numbers';
 import { SITE_NAME, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Aprende náhuatl gratis: curso en línea desde cero, en español' },
+  title: { absolute: 'Aprende náhuatl gratis: curso en línea desde cero' },
   description:
-    'Curso de náhuatl gratuito y en español: 8 lecciones interactivas, frases básicas, números y pronunciación. Aprende náhuatl central o de la Huasteca desde cero, gratis.',
+    'Curso de náhuatl gratis y en español: 8 lecciones interactivas, frases, números y pronunciación. Náhuatl central o de la Huasteca, desde cero.',
   alternates: { canonical: '/' },
 };
 

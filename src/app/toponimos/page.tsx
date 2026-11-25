@@ -4,7 +4,7 @@ import { ToolPage } from '@/components/ToolPage';
 import { ToponimosList } from '@/components/tools/Lists';
 
 export const metadata: Metadata = {
-  title: '¿Qué significa tu ciudad? Nombres de lugares en náhuatl',
+  title: { absolute: '¿Qué significa tu ciudad? Nombres de lugares en náhuatl' },
   description: 'El significado de México, Xochimilco, Chapultepec, Oaxaca, Acapulco y decenas de lugares más con nombre náhuatl, desarmados pieza por pieza.',
   alternates: { canonical: '/toponimos' },
 };

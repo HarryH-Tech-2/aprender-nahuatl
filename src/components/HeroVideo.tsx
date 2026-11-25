@@ -1,14 +1,12 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 
-const SEEN_KEY = 'an.heroIntro.v1';
-
 type Phase = 'intro' | 'world';
 
 /**
- * Home hero background. On the first visit of a session the temple doors open (intro clip, played once) and
- * the scene crossfades into a seamless loop of the Aztec world beyond them. Later visits in the same session go
- * straight to the world. People who ask for reduced motion get the still of the world, nothing plays.
+ * Home hero background. On every visit the temple doors open (intro clip, played once per page load) and the
+ * scene crossfades into a seamless loop of the city beyond them. People who ask for reduced motion get the still
+ * of the city straight away (CSS hides the doors, so there is no flash of them first) and nothing plays.
  * Moving content longer than 5 s must be pausable, hence the button.
  */
 export function HeroVideo() {
@@ -19,33 +17,14 @@ export function HeroVideo() {
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      // Show the world still without playing anything.
       const t = setTimeout(() => setPhase('world'), 0);
       return () => clearTimeout(t);
     }
-    let seen = false;
-    try {
-      seen = sessionStorage.getItem(SEEN_KEY) === '1';
-    } catch {
-      // Storage blocked: just play the intro.
-    }
-    // Mark it seen only once it actually starts (inside the timeout), so a cancelled first run of this effect
-    // (React StrictMode in dev) does not skip the intro.
     const t = setTimeout(() => {
-      if (seen) {
+      intro.current?.play().catch(() => {
+        // Autoplay blocked: show the city instead of frozen doors.
         setPhase('world');
-        world.current?.play().catch(() => {});
-      } else {
-        try {
-          sessionStorage.setItem(SEEN_KEY, '1');
-        } catch {
-          // Ignore.
-        }
-        intro.current?.play().catch(() => {
-          // Autoplay blocked: skip to the world still/loop.
-          setPhase('world');
-        });
-      }
+      });
     }, 0);
     return () => clearTimeout(t);
   }, []);
@@ -67,7 +46,7 @@ export function HeroVideo() {
     <>
       <video
         ref={world}
-        className={`${common} ${phase === 'world' ? 'opacity-100' : 'opacity-0'}`}
+        className={`${common} motion-reduce:opacity-100 ${phase === 'world' ? 'opacity-100' : 'opacity-0'}`}
         poster="/video/world-poster.webp"
         muted loop playsInline preload="auto" aria-hidden tabIndex={-1}
         onPlay={() => setPlaying(true)}
@@ -78,7 +57,7 @@ export function HeroVideo() {
       </video>
       <video
         ref={intro}
-        className={`${common} ${phase === 'intro' ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+        className={`${common} motion-reduce:hidden ${phase === 'intro' ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
         poster="/video/intro-poster.webp"
         muted playsInline preload="auto" aria-hidden tabIndex={-1}
         onPlay={() => setPlaying(true)}

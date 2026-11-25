@@ -77,27 +77,25 @@ export function Header() {
           </span>
         </Link>
 
-        {!inLesson && (
-          <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">
-            {NAV.map((n) => {
-              const current = pathname === n.href || pathname.startsWith(`${n.href}/`);
-              return (
-                <Link
-                  key={n.href}
-                  href={n.href}
-                  aria-current={current ? 'page' : undefined}
-                  className="group relative px-3 py-2 font-bold text-amate/85 transition-colors hover:text-white aria-[current=page]:text-white"
-                >
-                  {n.label}
-                  <span
-                    aria-hidden
-                    className="absolute inset-x-3 -bottom-0.5 h-[3px] origin-left scale-x-0 rounded-full bg-maize transition-transform duration-300 group-hover:scale-x-100 group-aria-[current=page]:scale-x-100"
-                  />
-                </Link>
-              );
-            })}
+        <nav aria-label="Principal" className="hidden items-center gap-1 lg:flex">
+          {NAV.map((n) => {
+            const current = pathname === n.href || pathname.startsWith(`${n.href}/`);
+            return (
+              <Link
+                key={n.href}
+                href={n.href}
+                aria-current={current ? 'page' : undefined}
+                className="group relative px-3 py-2 font-bold text-amate/85 transition-colors hover:text-white aria-[current=page]:text-white"
+              >
+                {n.label}
+                <span
+                  aria-hidden
+                  className="absolute inset-x-3 -bottom-0.5 h-[3px] origin-left scale-x-0 rounded-full bg-maize transition-transform duration-300 group-hover:scale-x-100 group-aria-[current=page]:scale-x-100"
+                />
+              </Link>
+            );
+          })}
           </nav>
-        )}
 
         <div className="ml-auto hidden items-center gap-5 lg:flex">
           {/* Not during a lesson: switching variant there would restart it. */}

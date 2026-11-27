@@ -45,3 +45,7 @@ create policy "Learners create their own profile"
     and stripe_subscription_id is null
     and lifetime_payment_intent is null
   );
+
+-- Disputes arrive with only a payment intent, so look the lifetime purchase up by it.
+create unique index if not exists profiles_lifetime_payment_intent_key
+  on public.profiles (lifetime_payment_intent);

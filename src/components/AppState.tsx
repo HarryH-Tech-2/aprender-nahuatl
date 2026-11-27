@@ -3,10 +3,18 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { emptyProgress, type Progress } from '@/lib/progress';
 import { getProgress, setProgress, subscribeProgress, useHydrated, useProgress } from '@/lib/store';
 import { getSupabase, supabaseConfigured } from '@/lib/supabase';
+import { parsePlan, type Plan } from '@/lib/plan';
 import { reconcile } from '@/lib/sync';
 import type { Variant } from '@/lib/variant';
 
-export type Account = { id: string; email: string | null; name: string | null; plan: string };
+export type Account = {
+  id: string;
+  email: string | null;
+  name: string | null;
+  plan: Plan;
+  /** False until the first profile read finishes (or fails); gates must not decide before then. */
+  planLoaded: boolean;
+};
 
 type AppState = {
   progress: Progress;
@@ -22,6 +30,8 @@ type AppState = {
   /** True when the last attempt to save to the account failed. */
   syncFailed: boolean;
   retrySync: () => void;
+  /** Re-read the account (plan and progress), e.g. after returning from checkout. */
+  refreshAccount: () => Promise<void>;
   /** Resolves to false when the sign-out did not go through. Pass false to skip the final save (after deleting the account). */
   signOut: (save?: boolean) => Promise<boolean>;
   signInOpen: boolean;
@@ -68,6 +78,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       if (userId.current !== id) return;
       if (read.error) {
         setSyncFailed(true);
+        // Do not leave the UI waiting on a plan that may never load: treat it as free until a retry works.
+        setAccount((a) => (a && a.id === id && !a.planLoaded ? { ...a, planLoaded: true } : a));
         return;
       }
       const { writeLocal, writeRemote } = reconcile(getProgress(), { ok: true, progress: read.data?.progress ?? null });
@@ -77,7 +89,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         applying.current = false;
       }
       const row = read.data;
-      if (row) setAccount((a) => (a && a.id === id ? { ...a, plan: row.plan ?? 'free', name: row.display_name ?? a.name } : a));
+      setAccount((a) =>
+        a && a.id === id ? { ...a, plan: parsePlan(row?.plan), planLoaded: true, name: row?.display_name ?? a.name } : a,
+      );
       if (!writeRemote && row) {
         setSyncFailed(false);
         return;
@@ -122,6 +136,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         email: user.email ?? null,
         name: userName.current,
         plan: 'free',
+        planLoaded: false,
       });
       // Deferred so Supabase is never called from inside its own auth callback.
       setTimeout(() => void sync(), 0);
@@ -166,11 +181,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       account,
       syncFailed,
       retrySync,
+      refreshAccount: sync,
       signOut,
       signInOpen,
       openSignIn,
     }),
-    [progress, hydrated, setVariant, update, account, syncFailed, retrySync, signOut, signInOpen],
+    [progress, hydrated, setVariant, update, account, syncFailed, retrySync, sync, signOut, signInOpen],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

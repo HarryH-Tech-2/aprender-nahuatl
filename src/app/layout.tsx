@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Alfa_Slab_One, Atkinson_Hyperlegible } from 'next/font/google';
 import './globals.css';
 import { AppStateProvider } from '@/components/AppState';
+import { PendingCheckout } from '@/components/PendingCheckout';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { VariantChooser } from '@/components/VariantChooser';
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           <Footer />
           <VariantChooser />
           <SignInDialog />
+          <PendingCheckout />
           <CookieBanner />
         </AppStateProvider>
         <Analytics />

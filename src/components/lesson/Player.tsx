@@ -9,14 +9,13 @@ import { ChoiceExercise, MatchExercise, TilesExercise, TypeExercise } from './Ex
 import { LESSONS } from '@/content/lessons';
 import { SIGNS } from '@/content/signs';
 import type { Lesson } from '@/content/types';
-import { canAccess } from '@/lib/access';
+import { lessonGate } from '@/lib/access';
 import { todayISO } from '@/lib/daily';
-import { completeLesson, isUnlocked } from '@/lib/progress';
+import { completeLesson } from '@/lib/progress';
 import { useSessionSeed } from '@/lib/store';
 import { pick } from '@/lib/variant';
 import { track } from '@/lib/analytics';
-import { useSignup } from '@/lib/signup-store';
-import { SignupForm } from './SignupGate';
+import { Offer } from '../Offer';
 
 type Feedback = { correct: boolean; answer: string; explain?: string; again: boolean };
 
@@ -36,7 +35,6 @@ function LessonRun({ lesson }: { lesson: Lesson }) {
   const { progress, variant, hydrated, update, account, accountsEnabled, openSignIn } = useAppState();
   // Order of the answer options: different on every visit, stable while you play.
   const seed = useSessionSeed() + lesson.n * 1000;
-  const signup = useSignup();
   const [queue, setQueue] = useState(() => lesson.steps.map((_, i) => i));
   const [pos, setPos] = useState(0);
   const [feedback, setFeedback] = useState<Feedback | null>(null);
@@ -48,7 +46,21 @@ function LessonRun({ lesson }: { lesson: Lesson }) {
 
   if (!hydrated) return <div className="wrap py-16 text-center font-bold">Cargando la lección…</div>;
 
-  if (score === null && (!isUnlocked(progress, variant, lesson.n, LESSONS) || !canAccess(account, lesson))) {
+  const gate = lessonGate({ lesson, account, progress, variant, lessons: LESSONS });
+
+  if (score === null && gate === 'loading') return <div className="wrap py-16 text-center font-bold">Cargando la lección…</div>;
+
+  if (score === null && gate === 'offer') {
+    return (
+      <div className="wrap max-w-3xl py-12 text-center">
+        <h1 className="text-3xl sm:text-4xl">Sigue con el curso completo</h1>
+        <p className="mb-8 mt-3">«{lesson.title}» es parte del curso completo. La lección 1 sigue siendo gratis.</p>
+        <Offer context="locked" />
+      </div>
+    );
+  }
+
+  if (score === null && gate === 'finish-previous') {
     const prev = LESSONS.find((l) => l.n === lesson.n - 1);
     return (
       <div className="wrap max-w-xl py-16 text-center">
@@ -59,30 +71,33 @@ function LessonRun({ lesson }: { lesson: Lesson }) {
     );
   }
 
-  // Open lessons need a waitlist sign-up first (asked once per device).
-  if (score === null && !signup) return <SignupForm lesson={lesson} sign={sign} mode="start" onDone={() => {}} />;
-
   // ---- finished ----
   if (score !== null) {
     const next = LESSONS.find((l) => l.n === lesson.n + 1);
     const pct = Math.round(score * 100);
+    const nextNeedsOffer = next ? lessonGate({ lesson: next, account, progress, variant, lessons: LESSONS }) === 'offer' : false;
     return (
-      <div className="wrap max-w-xl py-12 text-center">
+      <div className={`wrap py-12 text-center ${nextNeedsOffer ? 'max-w-3xl' : 'max-w-xl'}`}>
         <div className="pop mx-auto w-fit"><SignBadge sign={sign} state="done" size={168} /></div>
         <h1 className="mt-6 text-4xl">¡Cualli! Encendiste {sign.nah}</h1>
         <p className="mt-3 text-lg">
           Terminaste «{lesson.title}» con {pct}% de respuestas correctas al primer intento.
         </p>
         {progress.streak.current > 1 && <p className="mt-1 font-bold">Llevas {progress.streak.current} días seguidos.</p>}
+        {nextNeedsOffer && (
+          <div className="mt-10">
+            <Offer context="lesson-end" />
+          </div>
+        )}
         <div className="mt-7 flex flex-col items-center gap-3">
-          {next ? (
+          {nextNeedsOffer ? null : next ? (
             <Link href={`/curso/${next.slug}`} className="btn btn-red">Siguiente: {next.title}</Link>
           ) : (
             <Link href="/juegos" className="btn btn-red">Practicar con juegos</Link>
           )}
           <Link href="/curso" className="font-bold underline underline-offset-4">Ver el curso</Link>
         </div>
-        {accountsEnabled && !account && (
+        {accountsEnabled && !account && !nextNeedsOffer && (
           <div className="plate mt-10 p-5 text-left">
             <p className="display text-xl">No pierdas tu avance</p>
             <p className="mt-1">Ahora mismo solo está guardado en este navegador. Con una cuenta gratuita te sigue a donde vayas.</p>

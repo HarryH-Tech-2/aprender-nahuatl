@@ -4,27 +4,33 @@ import Link from 'next/link';
 import { useAppState } from './AppState';
 import { LESSONS } from '@/content/lessons';
 import { SIGNS, type Sign } from '@/content/signs';
+import { isMember } from '@/lib/plan';
 import { isUnlocked } from '@/lib/progress';
 
-export type SignState = 'done' | 'next' | 'locked' | 'soon';
+export type SignState = 'done' | 'next' | 'open' | 'locked' | 'soon';
 
 /** State of each of the 20 signs for the current variant. */
 export function useSignStates(): SignState[] {
-  const { progress, variant } = useAppState();
+  const { progress, variant, account } = useAppState();
   const done = progress[variant].completed;
-  const next = LESSONS.find((l) => !done.includes(l.slug) && isUnlocked(progress, variant, l.n, LESSONS));
+  const member = isMember(account);
+  // Members can open any lesson, so the suggestion is simply the first one not yet done.
+  const next = LESSONS.find((l) => !done.includes(l.slug) && (member || isUnlocked(progress, variant, l.n, LESSONS)));
   return SIGNS.map((s) => {
     const lesson = LESSONS.find((l) => l.n === s.n);
     if (!lesson) return 'soon';
     if (done.includes(lesson.slug)) return 'done';
-    return lesson === next ? 'next' : 'locked';
+    if (lesson === next) return 'next';
+    if (lesson.access === 'member' && !member) return 'locked';
+    return member ? 'open' : 'locked';
   });
 }
 
 const STATE_LABEL: Record<SignState, string> = {
   done: 'completada',
   next: 'siguiente lección',
-  locked: 'bloqueada',
+  open: 'disponible',
+  locked: 'curso completo',
   soon: 'próximamente',
 };
 

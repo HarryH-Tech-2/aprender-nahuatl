@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { LessonList } from '@/components/LessonList';
+import { Offer } from '@/components/Offer';
 import { SignWheel } from '@/components/SignWheel';
 import { Breadcrumbs, Faq } from '@/components/Seo';
 
@@ -26,6 +27,10 @@ export default function CursoPage() {
           </p>
         </div>
         <SignWheel />
+      </div>
+
+      <div className="mt-12">
+        <Offer context="curso" />
       </div>
 
       <h2 className="mt-14 text-3xl">Las lecciones</h2>

@@ -6,6 +6,8 @@ import { VariantSwitch } from './Header';
 import { LESSONS } from '@/content/lessons';
 import { todayISO } from '@/lib/daily';
 import { liveStreak } from '@/lib/progress';
+import { openBillingPortal, startCheckout, checkoutEnabled } from '@/lib/checkout-client';
+import { PRICES } from '@/lib/plan';
 import { getSupabase } from '@/lib/supabase';
 import { VARIANT_NAMES, VARIANTS } from '@/lib/variant';
 
@@ -31,6 +33,18 @@ export function AccountPanel() {
     setStatus('Tu cuenta y tu avance se borraron.');
   }
 
+  async function portal() {
+    setStatus('');
+    if ((await openBillingPortal()) === 'error') setStatus('No pudimos abrir la gestión de tu suscripción. Inténtalo de nuevo.');
+  }
+
+  async function upgrade() {
+    setStatus('');
+    const r = await startCheckout('lifetime');
+    if (r === 'error') setStatus('No pudimos abrir el pago. Inténtalo de nuevo.');
+    if (r === 'already') setStatus('Ya tienes este plan.');
+  }
+
   const streak = liveStreak(progress.streak, todayISO());
 
   return (
@@ -47,6 +61,26 @@ export function AccountPanel() {
               </p>
             ) : (
               <p className="mt-2">Tu avance se guarda en tu cuenta y te sigue en cualquier dispositivo.</p>
+            )}
+            <p className="mt-3 font-bold">
+              Plan: {!account.planLoaded ? '…' : account.plan === 'free' ? 'Gratis' : PRICES[account.plan].label}
+            </p>
+            {account.planLoaded && account.plan === 'free' && (
+              <p className="mt-1"><Link href="/curso#curso-completo" className="font-bold underline underline-offset-4">Desbloquea el curso completo</Link></p>
+            )}
+            {account.plan === 'lifetime' && <p className="mt-1">Tienes el curso completo para siempre.</p>}
+            {account.plan === 'monthly' && (
+              <div className="mt-2">
+                <div className="flex flex-wrap gap-3">
+                  <button type="button" className="btn btn-sm" onClick={() => void portal()}>Gestionar suscripción</button>
+                  {checkoutEnabled && (
+                    <button type="button" className="btn btn-sm btn-red" onClick={() => void upgrade()}>
+                      Pásate a de por vida — MXN ${PRICES.lifetime.mxn}
+                    </button>
+                  )}
+                </div>
+                {checkoutEnabled && <p className="mt-2 text-sm">Tu plan mensual se cancela al instante; los meses ya pagados no se reembolsan.</p>}
+              </div>
             )}
             <button
               type="button" className="btn btn-plain mt-4"

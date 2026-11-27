@@ -13,6 +13,7 @@ export function LessonList() {
         const state = states[l.n - 1];
         const sign = SIGNS[l.n - 1];
         const locked = state === 'locked';
+        const memberOnly = l.access === 'member';
         const inner = (
           <>
             <SignBadge sign={sign} state={state} size={76} />
@@ -25,14 +26,15 @@ export function LessonList() {
               <span className="mt-1.5 block text-sm font-bold">
                 {state === 'done' && <span className="text-jade">Completada ✓</span>}
                 {state === 'next' && <span>Unos {l.minutes} minutos</span>}
-                {locked && <span className="opacity-70">Se abre al terminar la lección {l.n - 1}</span>}
+                {state === 'open' && <span>Disponible · unos {l.minutes} minutos</span>}
+                {locked && <span className="opacity-70">{memberOnly ? 'Parte del curso completo' : `Se abre al terminar la lección ${l.n - 1}`}</span>}
               </span>
             </span>
           </>
         );
         return (
           <li key={l.slug}>
-            {locked ? (
+            {locked && !memberOnly ? (
               <div className="plate-flat flex h-full items-center gap-4 p-4 opacity-80">{inner}</div>
             ) : (
               <Link href={`/curso/${l.slug}`} className="plate flex h-full items-center gap-4 p-4 hover:bg-maize-soft">

@@ -15,7 +15,7 @@ export function useSignStates(): SignState[] {
   const done = progress[variant].completed;
   const member = isMember(account);
   // Members can open any lesson, so the suggestion is simply the first one not yet done.
-  const next = LESSONS.find((l) => !done.includes(l.slug) && (member || isUnlocked(progress, variant, l.n, LESSONS)));
+  const next = LESSONS.find((l) => !done.includes(l.slug) && (member || (l.access === 'free' && isUnlocked(progress, variant, l.n, LESSONS))));
   return SIGNS.map((s) => {
     const lesson = LESSONS.find((l) => l.n === s.n);
     if (!lesson) return 'soon';
@@ -45,7 +45,8 @@ export function SignBadge({ sign, state, size }: { sign: Sign; state?: SignState
 /** The tonalpohualli as a ring of 20 day-signs; the first 8 are lessons. */
 export function SignWheel() {
   const states = useSignStates();
-  const { variant, progress } = useAppState();
+  const { variant, progress, account } = useAppState();
+  const member = isMember(account);
   const doneCount = progress[variant].completed.filter((s) => LESSONS.some((l) => l.slug === s)).length;
   const next = LESSONS.find((l) => states[l.n - 1] === 'next');
 
@@ -86,6 +87,11 @@ export function SignWheel() {
       <div className="absolute inset-[27%] flex flex-col items-center justify-center rounded-full p-3 text-center">
         <p className="display text-[clamp(1.6rem,9vw,3.25rem)] leading-none">{doneCount}<span className="text-[0.55em]"> de 8</span></p>
         <p className="mt-1 text-[clamp(0.7rem,2.6vw,0.95rem)] font-bold leading-tight">signos completados</p>
+        {!next && !member && doneCount > 0 && (
+          <Link href="/curso#curso-completo" className="btn btn-sm mt-2 max-sm:!min-h-8 max-sm:!px-2 max-sm:!text-xs">
+            Ver el curso completo
+          </Link>
+        )}
         {next && (
           <Link href={`/curso/${next.slug}`} className="btn btn-sm mt-2 max-sm:!min-h-8 max-sm:!px-2 max-sm:!text-xs">
             {doneCount === 0 ? 'Empezar' : 'Continuar'}

@@ -122,6 +122,7 @@ body {
 .sign.is-locked img, .sign.is-soon img { filter: grayscale(1) contrast(0.85); opacity: 0.45; }
 .sign.is-soon { border-style: dashed; }
 .sign.is-done { box-shadow: 0 0 0 4px var(--color-jade); }
+.sign.is-open { box-shadow: 0 0 0 4px var(--color-maize); }
 .sign.is-next { box-shadow: 0 0 0 4px var(--color-maize); animation: glow 1.8s ease-in-out infinite; }
 @keyframes glow { 50% { box-shadow: 0 0 0 8px var(--color-maize); } }
 

@@ -67,7 +67,7 @@ export async function POST(request: Request) {
       billing_address_collection: 'auto',
       locale: 'es-419',
       allow_promotion_codes: false,
-      success_url: `${origin}/curso/bienvenida?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${origin}/curso/bienvenida?session_id={CHECKOUT_SESSION_ID}&plan=${plan}`,
       cancel_url: `${origin}/curso?compra=cancelada`,
     });
     if (!session.url) return Response.json({ error: 'Could not start checkout' }, { status: 500 });

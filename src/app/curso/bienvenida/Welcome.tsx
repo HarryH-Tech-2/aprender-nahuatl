@@ -1,11 +1,12 @@
 'use client';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { useAppState } from '@/components/AppState';
 import { LESSONS } from '@/content/lessons';
 import { track } from '@/lib/analytics';
-import { isMember, PRICES } from '@/lib/plan';
+import { isMember, parsePlan, PRICES, type PaidPlan } from '@/lib/plan';
 
+const subscribeNever = () => () => {};
 const POLL_MS = 2000;
 const GIVE_UP_MS = 30_000;
 
@@ -13,7 +14,11 @@ const GIVE_UP_MS = 30_000;
 export function Welcome() {
   const { account, hydrated, refreshAccount, progress, variant, accountsEnabled, openSignIn } = useAppState();
   const [timedOut, setTimedOut] = useState(false);
-  const member = isMember(account);
+  // Only what to wait for, never a grant: access still comes from the account's own plan.
+  const search = useSyncExternalStore(subscribeNever, () => window.location.search, () => null);
+  const wanted = search === null ? null : parsePlan(new URLSearchParams(search).get('plan'));
+  const bought: PaidPlan | null | undefined = wanted === null ? undefined : wanted === 'free' ? null : wanted; // undefined until the URL is read
+  const member = isMember(account) && bought !== undefined && (!bought || account?.plan === 'lifetime' || account?.plan === bought);
   const signedIn = Boolean(account);
   const plan = account?.plan ?? 'free';
   const tracked = useRef(false);
@@ -34,6 +39,7 @@ export function Welcome() {
 
   useEffect(() => {
     if (!member || plan === 'free' || tracked.current) return;
+    const paid: PaidPlan = bought ?? (plan as PaidPlan);
     tracked.current = true;
     const sessionId = new URLSearchParams(window.location.search).get('session_id');
     if (!sessionId) return;
@@ -44,8 +50,8 @@ export function Welcome() {
     } catch {
       // Without sessionStorage a reload may count the purchase twice; still better than losing it.
     }
-    track('purchase', { plan, value: PRICES[plan].mxn, currency: 'MXN', transaction_id: sessionId });
-  }, [member, plan]);
+    track('purchase', { plan: paid, value: PRICES[paid].mxn, currency: 'MXN', transaction_id: sessionId });
+  }, [member, plan, bought]);
 
   if (!hydrated) return <p className="font-bold">Cargando…</p>;
 

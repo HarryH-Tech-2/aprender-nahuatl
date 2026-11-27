@@ -148,7 +148,7 @@ async function Respuesta({ params }: { params: Promise<{ slug: string }> }) {
         <p>
           Practícalo en la{' '}
           <Link className="font-bold underline underline-offset-4" href={`/curso/${lesson.slug}`}>lección {lesson.n}: {lesson.title}</Link>{' '}
-          del curso gratis, o mira todas las <Link className="font-bold underline underline-offset-4" href="/frases">frases en náhuatl</Link>.
+          del curso, o mira todas las <Link className="font-bold underline underline-offset-4" href="/frases">frases en náhuatl</Link>.
         </p>
         <p className="rounded-xl border-2 border-dashed border-ink/50 p-3 text-sm">
           <strong>Contenido en revisión.</strong> Estas formas vienen del curso, que aún no ha sido revisado por hablantes nativos.{' '}

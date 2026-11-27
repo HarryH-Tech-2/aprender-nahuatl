@@ -12,9 +12,9 @@ import { toNahuatl } from '@/lib/numbers';
 import { SITE_NAME, SITE_URL } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Aprende náhuatl gratis: curso en línea desde cero' },
+  title: { absolute: 'Aprende náhuatl: curso en línea desde cero, lección 1 gratis' },
   description:
-    'Curso de náhuatl gratis y en español: 8 lecciones interactivas, frases, números y pronunciación. Náhuatl central o de la Huasteca, desde cero.',
+    'Curso de náhuatl en español: lección 1 gratis y curso completo de 8 lecciones interactivas, con frases, números y pronunciación. Náhuatl central o de la Huasteca, desde cero.',
   alternates: { canonical: '/' },
 };
 
@@ -59,7 +59,7 @@ const FAQ: [string, string][] = [
   ],
   [
     '¿Se puede aprender náhuatl gratis en línea?',
-    'Sí. En Aprender Náhuatl las lecciones, los juegos y las herramientas son gratuitos y están en español. Para empezar solo te pedimos tu correo; no hay pagos ni tarjeta.',
+    'En parte. En Aprender Náhuatl la lección 1, los juegos y las herramientas son gratis y están en español. El curso completo, con las ocho lecciones, cuesta MXN $89 al mes o MXN $299 una sola vez, de por vida (IVA incluido).',
   ],
   [
     '¿Es difícil aprender náhuatl?',
@@ -116,16 +116,19 @@ const jsonLd = [
     '@type': 'Course',
     name: 'Curso de náhuatl para hablantes de español',
     description:
-      'Curso interactivo y gratuito para aprender náhuatl desde cero: pronunciación, saludos, números, familia, verbos, nombres de lugares y conversación. En náhuatl central y de la Huasteca.',
+      'Curso interactivo para aprender náhuatl desde cero: pronunciación, saludos, números, familia, verbos, nombres de lugares y conversación. En náhuatl central y de la Huasteca.',
     url: `${SITE_URL}/curso`,
     inLanguage: 'es-MX',
-    isAccessibleForFree: true,
+    isAccessibleForFree: false,
     educationalLevel: 'Principiante',
     coursePrerequisites: 'Ninguno. Solo hablar español.',
     teaches: ['Pronunciación del náhuatl', 'Saludos y frases básicas', 'Números en náhuatl', 'Prefijos de persona y posesión', 'Verbos en presente', 'Nombres de lugares de México'],
     numberOfLessons: LESSONS.length,
     provider: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
-    offers: { '@type': 'Offer', category: 'Free', price: 0, priceCurrency: 'MXN' },
+    offers: [
+      { '@type': 'Offer', category: 'Subscription', price: '89', priceCurrency: 'MXN', url: `${SITE_URL}/curso` },
+      { '@type': 'Offer', category: 'Paid', price: '299', priceCurrency: 'MXN', url: `${SITE_URL}/curso` },
+    ],
     hasCourseInstance: { '@type': 'CourseInstance', courseMode: 'Online', courseWorkload: 'PT2H' },
     hasPart: LESSONS.map((l) => ({
       '@type': 'LearningResource',
@@ -170,7 +173,7 @@ export default function Home() {
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-white/90 [text-shadow:0_2px_12px_rgba(0,0,0,.7)] sm:text-xl">
             De Tenochtitlan a tu calle: la lengua de los mexicas sigue viva en más de un millón y medio de voces. Aprende a
-            hablarla con lecciones interactivas, gratis, desde cero y en español.
+            hablarla con lecciones interactivas, desde cero y en español. La primera es gratis.
           </p>
           <Link href="/curso/sonidos-y-saludos" className="hero-cta group mt-10">
             <span className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-[#3a2410]/70 bg-[#1a1008]">
@@ -178,7 +181,7 @@ export default function Home() {
             </span>
             <span className="text-left">
               <span className="block text-xl font-bold leading-tight">Empezar el curso</span>
-              <span className="block text-sm opacity-80">Gratis, solo con tu correo. Central o Huasteca.</span>
+              <span className="block text-sm opacity-80">Lección 1 gratis · sin registro. Central o Huasteca.</span>
             </span>
           </Link>
           <Link href="/curso" className="mt-5 text-sm font-bold text-white/85 underline underline-offset-4 hover:text-maize">

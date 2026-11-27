@@ -186,7 +186,7 @@ export default function Page() {
 
           <H2 id="recursos">Recursos para seguir</H2>
           <ul>
-            <li>El <Link className="font-bold underline underline-offset-4" href="/curso">curso gratuito de Aprender Náhuatl</Link>, con las ocho lecciones de esta guía.</li>
+            <li>El <Link className="font-bold underline underline-offset-4" href="/curso">curso de Aprender Náhuatl</Link>, con las ocho lecciones de esta guía (la primera es gratis).</li>
             <li>El <Link className="font-bold underline underline-offset-4" href="/diccionario">diccionario del curso</Link> y las <Link className="font-bold underline underline-offset-4" href="/frases">frases básicas</Link>.</li>
             <li>El Gran Diccionario Náhuatl de la UNAM, para buscar palabras del náhuatl clásico.</li>
             <li>Los materiales del IDIEZ, para el náhuatl de la Huasteca.</li>

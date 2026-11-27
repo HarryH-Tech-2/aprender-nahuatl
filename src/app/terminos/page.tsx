@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { CONTACT_EMAIL, LEGAL_UPDATED, OPERATOR_NAME, pending } from '@/lib/legal';
+import { CONTACT_EMAIL, LEGAL_UPDATED, OPERATOR_ADDRESS, OPERATOR_NAME, pending } from '@/lib/legal';
 
 export const metadata: Metadata = {
   title: 'Términos de uso',
@@ -20,8 +20,19 @@ export default function Page() {
         <h2>El servicio</h2>
         <p>
           Aprender Náhuatl es un sitio educativo operado por {pending(OPERATOR_NAME, 'nombre de la persona o empresa responsable')}.
-          Hoy todo su contenido es gratuito. Si en el futuro se ofrecen funciones de paga, se avisará con claridad antes de cobrar nada.
+          La lección 1, las herramientas, las frases y los juegos son gratis. El curso completo, con todas las lecciones, es de pago,
+          como se explica en «Precios y pagos».
         </p>
+
+        <h2>Precios y pagos</h2>
+        <ul className="list-disc space-y-2 pl-5">
+          <li><strong>Plan mensual:</strong> MXN $89 al mes, IVA incluido. Se renueva cada mes hasta que lo canceles desde «Mi cuenta»; al cancelar conservas el acceso hasta el final del periodo ya pagado.</li>
+          <li><strong>De por vida:</strong> MXN $299, pago único, IVA incluido. Da acceso a las lecciones actuales y a las que se agreguen en el futuro, mientras el sitio exista.</li>
+          <li><strong>Pasar de mensual a de por vida:</strong> al comprar el plan de por vida se cancela la suscripción mensual. No se reembolsan los meses ya pagados.</li>
+          <li><strong>Formas de pago:</strong> tarjeta (incluye Apple Pay y Google Pay) y Link. Los pagos los procesa Stripe.</li>
+          <li><strong>Reembolsos:</strong> {pending('', 'política de reembolsos')}</li>
+          <li><strong>Vendedor:</strong> {pending(OPERATOR_NAME, 'nombre y dirección del vendedor')}{OPERATOR_ADDRESS ? `, ${OPERATOR_ADDRESS}` : ''}</li>
+        </ul>
 
         <h2>Contenido en revisión</h2>
         <p>

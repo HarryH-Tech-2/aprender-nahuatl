@@ -9,7 +9,7 @@ const COLUMNS: { title: string; links: [string, string][] }[] = [
     title: 'Aprender',
     links: [
       ['/curso/sonidos-y-saludos', 'Lección 1: Sonidos y saludos'],
-      ['/curso', 'Curso de náhuatl gratis'],
+      ['/curso', 'Curso de náhuatl en línea'],
       ['/guia', 'Guía para aprender náhuatl'],
       ['/frases', 'Frases en náhuatl'],
       ['/juegos', 'Juegos'],
@@ -54,7 +54,7 @@ export function Footer() {
           <p lang="nah" className="display text-[clamp(2.5rem,6vw,4rem)] leading-none text-maize">Ma cualli ohtli</p>
           <p className="mt-2 text-lg text-amate/80">«Que tengas buen camino».</p>
           <p className="mt-6 max-w-sm leading-relaxed text-amate/75">
-            Un curso gratuito para acercarse al náhuatl, la lengua indígena más hablada de México, en español y desde cero.
+            Un curso en línea (con la lección 1 gratis) para acercarse al náhuatl, la lengua indígena más hablada de México, en español y desde cero.
           </p>
           <Link href="/curso/sonidos-y-saludos" className="btn btn-red mt-7">Empezar la lección 1</Link>
         </div>

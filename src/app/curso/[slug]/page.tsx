@@ -54,7 +54,7 @@ async function LessonContent({ params }: { params: Promise<{ slug: string }> }) 
           inLanguage: 'es-MX',
           learningResourceType: 'Lección interactiva',
           educationalLevel: 'Principiante',
-          isAccessibleForFree: true,
+          isAccessibleForFree: lesson.access === 'free',
           timeRequired: `PT${lesson.minutes}M`,
           teaches: lesson.subtitle,
           isPartOf: { '@type': 'Course', name: 'Curso de náhuatl para hablantes de español', url: `${SITE_URL}/curso` },

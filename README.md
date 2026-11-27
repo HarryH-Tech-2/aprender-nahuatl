@@ -1,6 +1,6 @@
 # aprendernahuatl.com
 
-A free site, in Mexican Spanish, for learning Nahuatl: an 8-lesson interactive course in two variants (Central and Huasteca), tools and two games. Next.js on Vercel, with optional accounts on Supabase.
+A site, in Mexican Spanish, for learning Nahuatl: an 8-lesson interactive course in two variants (Central and Huasteca; lesson 1 free, the full course paid), plus free tools and two games. Next.js on Vercel, with optional accounts on Supabase.
 
 Design: `docs/superpowers/specs/2026-11-24-aprendernahuatl-design.md`.
 
@@ -23,7 +23,7 @@ No environment variables are needed. Without them the sign-in buttons are hidden
 | `src/content/lessons/` | The eight lessons, one file each. Every Nahuatl string is either a plain string (same in both variants) or `v('central form', 'huasteca form')`. |
 | `src/content/` | Day-signs, pronunciation guide, place names, nahuatlismos. |
 | `src/lib/` | Logic with tests: numbers, tonalpohualli, answer checking, progress, access. |
-| `src/lib/access.ts` | The one place that decides who can open a lesson. Paid plans later change only this (plus each lesson's `access` field). |
+| `src/lib/access.ts` | The one place that decides who can open a lesson. Paid access is decided here (plus each lesson's `access` field). |
 | `src/lib/legal.ts` | Contact email and operator name for the legal pages. **Empty: fill in before launch.** |
 | `src/components/lesson/` | The lesson player and the six exercise types. |
 | `supabase/migrations/` | Database setup for accounts. |
@@ -32,8 +32,8 @@ No environment variables are needed. Without them the sign-in buttons are hidden
 ## Before launch
 
 1. Have a Nahuatl speaker or teacher review every lesson, in both variants. Until then keep the "Contenido en revisión" notes (footer, lesson pages, `/acerca`).
-2. Fill in `src/lib/legal.ts` and have the privacy notice and terms reviewed. Remove their "Borrador" boxes.
-3. Turn on accounts (below).
+2. Fill in `src/lib/legal.ts` (seller name and address, contact email) and the refund policy in `/terminos` (search for `política de reembolsos`), and have the privacy notice and terms reviewed. Remove their "Borrador" boxes.
+3. Turn on accounts (below) and set up payments ("Pagos (Stripe)" below).
 
 ## Hosting on Vercel
 
@@ -58,7 +58,7 @@ No environment variables are needed. Without them the sign-in buttons are hidden
 
 ## Course waitlist (demand test)
 
-- Starting lesson 1 asks for an email first (once per device). Lessons 2-8 appear normal, but starting one shows "not open yet, we'll email you" and records the interest. Switch: `RELEASED_LESSONS` in `src/lib/release.ts`.
+- The waitlist records sign-ups and lesson interest through `/api/waitlist`. The old "not open yet" gate (`RELEASED_LESSONS`) is gone: lessons 2-8 now sell the paid plan.
 - Storage: run `supabase/migrations/0002_waitlist.sql`; needs `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel. Until those exist, learners are let in and nothing is stored (only GA4 counts).
 - Reports: the SQL file has queries for sign-ups per week and interest per locked lesson. GA4 events: `sign_up` (source, variant) and `lesson_interest` (lesson, variant).
 
@@ -85,6 +85,34 @@ Preferred: a Domain property (covers https, http, www and every page).
 
 Alternative: a URL-prefix property verified by HTML tag. Put the tag's `content` value in `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` and redeploy.
 
-## Adding a paid plan later
+## Pagos (Stripe)
 
-Each lesson has `access: 'free' | 'member'` and each profile has `plan` (only the server can change it). To charge: mark lessons `member`, add Stripe checkout, and have a Stripe webhook set `plan = 'member'` using the service-role key.
+Lesson 1 is free; lessons 2-8 need a paid plan: **Mensual** MXN $89/mes or **De por vida** MXN $299 (pago único), both IVA incluido (`PRICES` in `src/lib/plan.ts`). Payment methods: card (including Apple Pay and Google Pay) and Link; no OXXO. Accounts are required to buy, so finish the Supabase setup above first.
+
+### Setup
+
+1. **Stripe account and prices.** Create the (UK) Stripe account. Create one product with two MXN prices, both **tax-inclusive**: a monthly recurring price (89) and a one-time price (299). Copy both price ids (`price_...`). Turn on Stripe Tax and add the Mexico registration once you are registered with SAT.
+2. **Vercel environment variables** (then redeploy): `NEXT_PUBLIC_ACCOUNTS_ENABLED=1`, `STRIPE_SECRET_KEY` (`sk_...`), `STRIPE_WEBHOOK_SECRET` (step 3), `STRIPE_PRICE_MONTHLY`, `STRIPE_PRICE_LIFETIME`, and `NEXT_PUBLIC_CHECKOUT_ENABLED=1` once the other four Stripe values are set. Until the flag is on, the buy buttons stay off.
+3. **Webhook.** Stripe Dashboard, Developers, Webhooks, add endpoint `https://www.aprendernahuatl.com/api/stripe/webhook` with exactly these events: `checkout.session.completed`, `customer.subscription.updated`, `customer.subscription.deleted`, `charge.refunded`, `charge.dispute.closed`. Copy its signing secret (`whsec_...`) into `STRIPE_WEBHOOK_SECRET`.
+4. **Customer portal.** Stripe, Settings, Billing, Customer portal: enable it (the "Gestionar suscripción" button in Mi cuenta opens it).
+5. **Database.** In the Supabase SQL editor run `supabase/migrations/0001_profiles.sql` (if not already) and then `0003_billing.sql` (`0002_waitlist.sql` is only for the old waitlist). Check the auth redirect URLs and the Google provider (see Hosting on Vercel).
+
+### Stripe settings to respect
+
+- **No free trials and no 100%-off coupons or promotion codes.** Access is granted only when the checkout session has `payment_status = 'paid'`; a trial or fully discounted checkout is "no_payment_required" and would never unlock the lessons.
+- In Billing settings leave **failed-payment retries (Smart Retries / dunning) on**. The site keeps access while a subscription is `past_due` and removes it when it ends as `canceled` or `unpaid`.
+- Refunding or losing a dispute on the lifetime payment removes access (`charge.refunded`, `charge.dispute.closed`).
+
+### Testing locally
+
+1. Use test-mode keys and test-mode price ids in `.env.local`, plus `NEXT_PUBLIC_CHECKOUT_ENABLED=1`.
+2. Run `npm run dev` and, in another terminal, `stripe listen --forward-to localhost:3000/api/stripe/webhook`. Put the `whsec_...` it prints in `STRIPE_WEBHOOK_SECRET` and restart the dev server.
+3. Buy with test cards: `4242 4242 4242 4242` (success), `4000 0000 0000 9995` (declined, insufficient funds), any future expiry, any CVC. Check the plan in Mi cuenta and the `profiles` table.
+
+### Waitlist export
+
+Existing waitlist sign-ups (decide yourself whether to email them about the launch). In the Supabase SQL editor:
+
+```sql
+select email, variant, created_at from waitlist order by created_at;
+```

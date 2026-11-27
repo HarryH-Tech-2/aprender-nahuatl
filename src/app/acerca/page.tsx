@@ -24,7 +24,7 @@ export default function Page() {
             name: SITE_NAME,
             url: SITE_URL,
             logo: { '@type': 'ImageObject', url: `${SITE_URL}/img/icono.png` },
-            description: 'Curso gratuito para aprender náhuatl central y de la Huasteca desde el español.',
+            description: 'Curso en línea para aprender náhuatl central y de la Huasteca desde el español: lección 1 gratis y curso completo de pago.',
             knowsLanguage: ['es-MX', 'nah'],
             founder: AUTHOR,
           },
@@ -35,7 +35,7 @@ export default function Page() {
       <div className="prose-col mt-6 space-y-4 [&_h2]:mt-8 [&_h2]:text-2xl">
         <h1 className="text-4xl sm:text-5xl">Acerca de este curso</h1>
         <p className="text-lg">
-          Aprender Náhuatl es un curso gratuito para que cualquier persona que hable español pueda dar sus primeros pasos en
+          Aprender Náhuatl es un curso en línea para que cualquier persona que hable español pueda dar sus primeros pasos en
           náhuatl de forma entretenida, desde el celular. Para empezar solo pedimos un correo.
         </p>
 
@@ -44,7 +44,7 @@ export default function Page() {
           <a className="font-bold underline" href="https://www.linkedin.com/in/harry-harrison/" rel="author noopener" target="_blank">
             Harry Harrison
           </a>{' '}
-          creó Aprender Náhuatl para que cualquier hispanohablante pueda empezar con la lengua de forma gratuita. No es hablante
+          creó Aprender Náhuatl para que cualquier hispanohablante pueda empezar con la lengua: la lección 1, las herramientas y los juegos son gratis. No es hablante
           nativo: las lecciones se escribieron a partir de gramáticas y diccionarios publicados, y buscamos hablantes y docentes
           que las revisen.
         </p>

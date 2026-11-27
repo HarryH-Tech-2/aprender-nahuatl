@@ -29,6 +29,7 @@ export default function Page() {
           <li><strong>Sin cuenta:</strong> ninguno en nuestros servidores. Tu avance (lecciones terminadas, puntajes, racha y la variante que elegiste) se guarda solo en tu navegador.</li>
           <li><strong>Con cuenta:</strong> tu correo electrónico, tu nombre si entras con Google, y ese mismo avance, para que te siga entre dispositivos.</li>
           <li><strong>Lista del curso:</strong> para empezar las lecciones te pedimos tu correo y, si quieres, tu nombre. Los usamos para avisarte de lecciones nuevas y para saber qué lecciones interesan más. Puedes pedir que te borremos de la lista en cualquier momento.</li>
+          <li><strong>Pagos:</strong> los pagos del curso los procesa Stripe. Tus datos de tarjeta los recibe Stripe directamente; nosotros nunca los vemos ni los guardamos. Solo guardamos el identificador de cliente de Stripe y tu plan (mensual o de por vida).</li>
           <li><strong>Estadísticas de uso:</strong> usamos Google Analytics para saber cuántas personas visitan el sitio, qué páginas leen y cuántas lecciones terminan. Google Analytics usa cookies y recibe datos como tu navegador, tu dispositivo, tu ubicación aproximada (ciudad) y las páginas que visitas. No le enviamos tu nombre ni tu correo.</li>
           <li><strong>Fecha de nacimiento:</strong> la herramienta «Tu signo» hace el cálculo en tu dispositivo. La fecha no se envía ni se guarda.</li>
         </ul>
@@ -48,7 +49,7 @@ export default function Page() {
         </p>
 
         <h2>Dónde se guardan</h2>
-        <p>Las cuentas y el avance se almacenan con Supabase, el sitio se sirve desde Vercel y las estadísticas las procesa Google; los tres actúan como encargados y pueden procesar datos fuera de México.</p>
+        <p>Las cuentas y el avance se almacenan con Supabase, el sitio se sirve desde Vercel, los pagos los procesa Stripe y las estadísticas las procesa Google; los cuatro actúan como encargados y pueden procesar datos fuera de México.</p>
 
         <h2>Tus derechos</h2>
         <p>

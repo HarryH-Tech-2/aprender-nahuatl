@@ -18,9 +18,9 @@ const body = Atkinson_Hyperlegible({ weight: ['400', '700'], subsets: ['latin', 
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: 'Aprende náhuatl gratis: curso interactivo en español', template: `%s | ${SITE_NAME}` },
+  title: { default: 'Aprende náhuatl: curso interactivo en español, lección 1 gratis', template: `%s | ${SITE_NAME}` },
   description:
-    'Curso interactivo y gratuito para aprender náhuatl desde cero, en español de México. Ocho lecciones, náhuatl central y de la Huasteca, juegos y herramientas.',
+    'Curso interactivo para aprender náhuatl desde cero, en español de México. Lección 1 gratis y curso completo de ocho lecciones, náhuatl central y de la Huasteca, con juegos y herramientas gratis.',
   applicationName: SITE_NAME,
   openGraph: {
     type: 'website',

@@ -36,7 +36,7 @@ export default function Page() {
         <h1 className="text-4xl sm:text-5xl">Acerca de este curso</h1>
         <p className="text-lg">
           Aprender Náhuatl es un curso en línea para que cualquier persona que hable español pueda dar sus primeros pasos en
-          náhuatl de forma entretenida, desde el celular. Para empezar solo pedimos un correo.
+          náhuatl de forma entretenida, desde el celular. La lección 1 es gratis y no necesitas registrarte; el curso completo cuesta MXN $89 al mes o MXN $299 de por vida.
         </p>
 
         <h2 id="quien" className="scroll-mt-24">Quién hace este sitio</h2>

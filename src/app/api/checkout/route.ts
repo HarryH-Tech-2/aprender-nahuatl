@@ -20,11 +20,14 @@ export async function POST(request: Request) {
   const price = priceId(plan);
   if (!price) return Response.json({ error: 'Checkout is not configured' }, { status: 503 });
 
-  const { data: profile, error } = await admin
-    .from('profiles')
-    .select('plan, stripe_customer_id')
-    .eq('id', user.id)
-    .maybeSingle();
+  const readProfile = () =>
+    admin.from('profiles').select('plan, stripe_customer_id').eq('id', user.id).maybeSingle();
+  let { data: profile, error } = await readProfile();
+  if (!error && !profile) {
+    // First sign-in race: the profile row is not there yet, so create it and read again.
+    const created = await admin.from('profiles').upsert({ id: user.id }, { onConflict: 'id', ignoreDuplicates: true });
+    if (!created.error) ({ data: profile, error } = await readProfile());
+  }
   if (error || !profile) return Response.json({ error: 'Profile not found' }, { status: 500 });
 
   if (!canBuy(parsePlan(profile.plan), plan)) return Response.json({ error: 'already' }, { status: 409 });
@@ -68,7 +71,7 @@ export async function POST(request: Request) {
       locale: 'es-419',
       allow_promotion_codes: false,
       success_url: `${origin}/curso/bienvenida?session_id={CHECKOUT_SESSION_ID}&plan=${plan}`,
-      cancel_url: `${origin}/curso?compra=cancelada`,
+      cancel_url: parsePlan(profile.plan) === 'monthly' ? `${origin}/cuenta` : `${origin}/curso#curso-completo`,
     });
     if (!session.url) return Response.json({ error: 'Could not start checkout' }, { status: 500 });
     return Response.json({ url: session.url });

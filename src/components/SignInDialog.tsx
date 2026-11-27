@@ -1,7 +1,16 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import { useAppState } from './AppState';
+import { PENDING_PLAN_KEY, readPendingPlan } from '@/lib/plan';
 import { getSupabase } from '@/lib/supabase';
+
+function hasPendingPlan(): boolean {
+  try {
+    return readPendingPlan(localStorage.getItem(PENDING_PLAN_KEY), Date.now()) !== null;
+  } catch {
+    return false;
+  }
+}
 
 export function SignInDialog() {
   const { signInOpen, openSignIn, accountsEnabled, account } = useAppState();
@@ -9,6 +18,19 @@ export function SignInDialog() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
   const show = accountsEnabled && signInOpen && !account;
+
+  // Only read while the dialog is open (never during server render or hydration, where `show` is false).
+  const purchase = show && hasPendingPlan();
+
+  function dismiss() {
+    // Closing without signing in drops the remembered plan, so a later sign-in does not jump to Stripe.
+    try {
+      localStorage.removeItem(PENDING_PLAN_KEY);
+    } catch {
+      // Storage unavailable: nothing to clear.
+    }
+    openSignIn(false);
+  }
 
   useEffect(() => {
     const d = ref.current;
@@ -34,11 +56,15 @@ export function SignInDialog() {
     <dialog
       ref={ref}
       aria-labelledby="iniciar-sesion"
-      onClose={() => openSignIn(false)}
+      onClose={() => (account ? openSignIn(false) : dismiss())}
       className="plate m-auto w-[min(28rem,calc(100vw-2rem))] p-6 backdrop:bg-ink/60"
     >
-      <h2 id="iniciar-sesion" className="text-3xl">Guarda tu avance</h2>
-      <p className="mt-2">Con una cuenta, tus lecciones y tu racha te siguen en cualquier dispositivo. Es gratis.</p>
+      <h2 id="iniciar-sesion" className="text-3xl">{purchase ? 'Inicia sesión para completar tu compra' : 'Guarda tu avance'}</h2>
+      <p className="mt-2">
+        {purchase
+          ? 'Después te llevamos directo al pago seguro con Stripe.'
+          : 'Con una cuenta, tus lecciones y tu racha te siguen en cualquier dispositivo. Es gratis.'}
+      </p>
 
       <button type="button" className="btn btn-plain mt-5 w-full" onClick={withGoogle}>Continuar con Google</button>
 
@@ -57,7 +83,7 @@ export function SignInDialog() {
         </p>
       </form>
 
-      <button type="button" className="mt-2 font-bold underline underline-offset-4" onClick={() => openSignIn(false)}>
+      <button type="button" className="mt-2 font-bold underline underline-offset-4" onClick={dismiss}>
         Ahora no
       </button>
     </dialog>

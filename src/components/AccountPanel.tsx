@@ -139,6 +139,8 @@ export function AccountPanel() {
         <section className="border-t-[3px] border-ink pt-6">
           <h2 className="text-2xl">Borrar mi cuenta</h2>
           <p className="mt-2">Se borran tu cuenta y todo tu avance, aquí y en nuestros servidores. No se puede deshacer.</p>
+          {account.plan === 'monthly' && <p className="mt-2 font-bold">Tu suscripción mensual se cancela y no se reembolsa el periodo en curso.</p>}
+          {account.plan === 'lifetime' && <p className="mt-2 font-bold">Perderás el acceso de por vida al curso completo; no se reembolsa.</p>}
           {confirming ? (
             <div className="mt-4 flex flex-wrap gap-3">
               <button type="button" className="btn btn-red" onClick={() => void deleteAccount()}>Sí, borrar mi cuenta</button>

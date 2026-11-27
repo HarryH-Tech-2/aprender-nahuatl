@@ -43,7 +43,7 @@ No environment variables are needed. Without them the sign-in buttons are hidden
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `SUPABASE_SERVICE_ROLE_KEY`
 3. Open the Supabase dashboard from Vercel → **SQL Editor** → paste and run `supabase/migrations/0001_profiles.sql`.
-4. Supabase → **Authentication → URL Configuration**: set Site URL to `https://aprendernahuatl.com` and add `https://aprendernahuatl.com/cuenta` (and `http://localhost:3000/cuenta` for local testing) to Redirect URLs.
+4. Supabase → **Authentication → URL Configuration**: set Site URL to `https://www.aprendernahuatl.com` and add `https://www.aprendernahuatl.com/cuenta` and `https://aprendernahuatl.com/cuenta` (and `http://localhost:3000/cuenta` for local testing) to Redirect URLs.
 5. Supabase → **Authentication → Providers → Google**: enable it and paste a client ID and secret created in Google Cloud Console (OAuth consent screen + "Web application" credentials, with the callback URL Supabase shows you).
 6. Email links work out of the box but Supabase's built-in sender is rate-limited; for real traffic add your own SMTP under **Authentication → Emails**.
 7. Redeploy so the new variables take effect.

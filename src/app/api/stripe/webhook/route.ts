@@ -3,6 +3,7 @@ import { nextBilling, type BillingState } from '@/lib/billing';
 import { billingChanged, eventsToApply, type LiveFacts } from '@/lib/checkout-guard';
 import { parsePlan } from '@/lib/plan';
 import { getStripe } from '@/lib/stripe';
+import { cancelSubscriptionTolerant } from '@/lib/stripe-cancel';
 import { toBillingEvent, type MappedEvent } from '@/lib/stripe-events';
 import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
@@ -106,17 +107,7 @@ export async function POST(request: Request) {
 
     // Cancel first: if it fails we return 500 without saving, so the retry cancels again.
     for (const id of toCancel) {
-      try {
-        await stripe.subscriptions.cancel(id);
-      } catch (err) {
-        const e = err as { code?: string; statusCode?: number };
-        if (e.code === 'resource_missing' || e.statusCode === 404) continue;
-        try {
-          if ((await stripe.subscriptions.retrieve(id)).status === 'canceled') continue;
-        } catch {
-          // fall through to the failure below
-        }
-        console.error('stripe webhook: could not cancel subscription', id, err);
+      if (!(await cancelSubscriptionTolerant(stripe, id))) {
         return Response.json({ error: 'Could not cancel subscription' }, { status: 500 });
       }
     }

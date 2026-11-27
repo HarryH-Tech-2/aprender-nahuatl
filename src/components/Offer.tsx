@@ -43,11 +43,13 @@ export function Offer({ context }: { context: OfferContext }) {
   const [error, setError] = useState('');
   const member = isMember(account);
 
-  useEffect(() => {
-    track('view_offer', { context });
-  }, [context]);
+  const shown = !member && (!account || account.planLoaded);
 
-  if (member) return null;
+  useEffect(() => {
+    if (shown) track('view_offer', { context });
+  }, [context, shown]);
+
+  if (!shown) return null;
 
   async function choose(plan: PaidPlan) {
     setError('');

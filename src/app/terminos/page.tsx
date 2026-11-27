@@ -41,7 +41,7 @@ export default function Page() {
         </p>
 
         <h2>Tu cuenta</h2>
-        <p>Crear una cuenta es opcional. Eres responsable de lo que se haga con ella. Puedes borrarla cuando quieras desde «Mi cuenta».</p>
+        <p>Crear una cuenta es opcional, salvo para comprar el curso completo. Eres responsable de lo que se haga con ella. Puedes borrarla cuando quieras desde «Mi cuenta».</p>
 
         <h2>Uso permitido</h2>
         <p>

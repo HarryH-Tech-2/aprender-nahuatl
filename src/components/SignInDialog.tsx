@@ -24,10 +24,14 @@ export function SignInDialog() {
 
   function dismiss() {
     // Closing without signing in drops the remembered plan, so a later sign-in does not jump to Stripe.
-    try {
-      localStorage.removeItem(PENDING_PLAN_KEY);
-    } catch {
-      // Storage unavailable: nothing to clear.
+    // Once an email link has been sent, keep it: the learner closes the dialog to go and open that link,
+    // and the purchase must continue when it signs them in.
+    if (status !== 'sent') {
+      try {
+        localStorage.removeItem(PENDING_PLAN_KEY);
+      } catch {
+        // Storage unavailable: nothing to clear.
+      }
     }
     openSignIn(false);
   }

@@ -30,14 +30,22 @@ export function nextBilling(
         };
       }
       if (current.plan === 'lifetime') return { next: current, cancelSubscription: e.subscriptionId };
-      return { next: { ...current, plan: 'monthly', subscriptionId: e.subscriptionId }, cancelSubscription: null };
+      return {
+        next: { ...current, plan: 'monthly', subscriptionId: e.subscriptionId },
+        cancelSubscription:
+          current.subscriptionId && current.subscriptionId !== e.subscriptionId ? current.subscriptionId : null,
+      };
 
     case 'subscription_changed':
       if (current.plan === 'lifetime' || current.subscriptionId !== e.subscriptionId) return same;
       if (ACTIVE_SUB_STATUSES.includes(e.status)) {
         return { next: { ...current, plan: 'monthly' }, cancelSubscription: null };
       }
-      return { next: { ...current, plan: 'free', subscriptionId: null }, cancelSubscription: null };
+      // Recoverable statuses (unpaid, paused, incomplete...) keep the id so a later 'active' restores access.
+      if (e.status === 'canceled' || e.status === 'incomplete_expired') {
+        return { next: { ...current, plan: 'free', subscriptionId: null }, cancelSubscription: null };
+      }
+      return { next: { ...current, plan: 'free' }, cancelSubscription: null };
 
     case 'payment_revoked':
       if (current.lifetimePaymentIntent !== null && current.lifetimePaymentIntent === e.paymentIntentId) {

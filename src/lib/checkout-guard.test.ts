@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { eventsToApply } from './checkout-guard';
+import { billingChanged, eventsToApply } from './checkout-guard';
 import type { MappedEvent } from './stripe-events';
 
 const sub: MappedEvent = {
@@ -50,5 +50,19 @@ describe('eventsToApply', () => {
 
   it('skips a lifetime payment whose dispute was lost', () => {
     expect(eventsToApply(pay, { disputeLost: true })).toEqual([]);
+  });
+});
+
+describe('billingChanged', () => {
+  const a = { plan: 'monthly' as const, subscriptionId: 'sub_1', lifetimePaymentIntent: null };
+  it('is false for equal states', () => {
+    expect(billingChanged(a, { ...a })).toBe(false);
+  });
+  it.each([
+    { plan: 'free' as const },
+    { subscriptionId: null },
+    { lifetimePaymentIntent: 'pi_1' },
+  ])('is true when %o differs', (diff) => {
+    expect(billingChanged(a, { ...a, ...diff })).toBe(true);
   });
 });

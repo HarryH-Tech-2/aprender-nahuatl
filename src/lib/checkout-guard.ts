@@ -1,4 +1,4 @@
-import type { BillingEvent } from './billing';
+import type { BillingEvent, BillingState } from './billing';
 import type { MappedEvent } from './stripe-events';
 
 /** What Stripe says right now about the thing a checkout event refers to. */
@@ -24,4 +24,9 @@ export function eventsToApply(mapped: MappedEvent, live: LiveFacts): BillingEven
   }
   if (live.chargeRefunded || live.disputeLost) return [];
   return [e];
+}
+
+/** True when two billing states differ, i.e. there is something to save. */
+export function billingChanged(a: BillingState, b: BillingState): boolean {
+  return a.plan !== b.plan || a.subscriptionId !== b.subscriptionId || a.lifetimePaymentIntent !== b.lifetimePaymentIntent;
 }

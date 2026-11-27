@@ -1,6 +1,6 @@
 import type Stripe from 'stripe';
 import { nextBilling, type BillingState } from '@/lib/billing';
-import { eventsToApply, type LiveFacts } from '@/lib/checkout-guard';
+import { billingChanged, eventsToApply, type LiveFacts } from '@/lib/checkout-guard';
 import { parsePlan } from '@/lib/plan';
 import { getStripe } from '@/lib/stripe';
 import { toBillingEvent, type MappedEvent } from '@/lib/stripe-events';
@@ -8,12 +8,13 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin';
 
 type Row = {
   id: string;
+  updated_at: string;
   plan: string;
   stripe_customer_id: string | null;
   stripe_subscription_id: string | null;
   lifetime_payment_intent: string | null;
 };
-const COLUMNS = 'id, plan, stripe_customer_id, stripe_subscription_id, lifetime_payment_intent';
+const COLUMNS = 'id, updated_at, plan, stripe_customer_id, stripe_subscription_id, lifetime_payment_intent';
 
 /** Live Stripe facts for a checkout event, so a retried or late event cannot re-grant lost access. */
 async function liveFacts(stripe: Stripe, mapped: MappedEvent): Promise<LiveFacts> {
@@ -93,23 +94,49 @@ export async function POST(request: Request) {
     // A subscription that is still the current one must not be cancelled by an earlier step.
     if (state.subscriptionId) toCancel.delete(state.subscriptionId);
 
-    const update: Record<string, unknown> = {
-      plan: state.plan,
-      stripe_subscription_id: state.subscriptionId,
-      lifetime_payment_intent: state.lifetimePaymentIntent,
+    const current: BillingState = {
+      plan: parsePlan(row.plan),
+      subscriptionId: row.stripe_subscription_id,
+      lifetimePaymentIntent: row.lifetime_payment_intent,
     };
-    if (mapped.event.kind === 'checkout_completed' && mapped.customerId && !row.stripe_customer_id) {
-      update.stripe_customer_id = mapped.customerId;
+    const addCustomer = mapped.event.kind === 'checkout_completed' && !!mapped.customerId && !row.stripe_customer_id;
+    if (!billingChanged(current, state) && !addCustomer && toCancel.size === 0) {
+      return Response.json({ received: true });
     }
-    const { error } = await admin.from('profiles').update(update).eq('id', row.id);
-    if (error) return Response.json({ error: 'Could not save billing state' }, { status: 500 });
 
+    // Cancel first: if it fails we return 500 without saving, so the retry cancels again.
     for (const id of toCancel) {
       try {
         await stripe.subscriptions.cancel(id);
       } catch (err) {
-        // Already cancelled (or gone) is fine; the billing state is saved either way.
-        console.warn('stripe webhook: could not cancel subscription', id, (err as Error).message);
+        const e = err as { code?: string; statusCode?: number };
+        if (e.code === 'resource_missing' || e.statusCode === 404) continue;
+        try {
+          if ((await stripe.subscriptions.retrieve(id)).status === 'canceled') continue;
+        } catch {
+          // fall through to the failure below
+        }
+        console.error('stripe webhook: could not cancel subscription', id, err);
+        return Response.json({ error: 'Could not cancel subscription' }, { status: 500 });
+      }
+    }
+
+    if (billingChanged(current, state) || addCustomer) {
+      const update: Record<string, unknown> = {
+        plan: state.plan,
+        stripe_subscription_id: state.subscriptionId,
+        lifetime_payment_intent: state.lifetimePaymentIntent,
+      };
+      if (addCustomer) update.stripe_customer_id = mapped.customerId;
+      // Only write if the row is unchanged since we read it; otherwise Stripe retries and we start over.
+      const { data: saved, error } = await admin
+        .from('profiles')
+        .update(update)
+        .eq('id', row.id)
+        .eq('updated_at', row.updated_at)
+        .select('id');
+      if (error || !saved || saved.length === 0) {
+        return Response.json({ error: 'Could not save billing state' }, { status: 500 });
       }
     }
     return Response.json({ received: true });

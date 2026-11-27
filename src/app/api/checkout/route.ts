@@ -32,22 +32,31 @@ export async function POST(request: Request) {
   try {
     let customerId: string | null = profile.stripe_customer_id ?? null;
     if (!customerId) {
-      const customer = await stripe.customers.create({
-        email: user.email ?? undefined,
-        metadata: { user_id: user.id },
-      });
+      const customer = await stripe.customers.create(
+        { email: user.email ?? undefined, metadata: { user_id: user.id } },
+        { idempotencyKey: `customer-${user.id}` },
+      );
       customerId = customer.id;
-      const { error: saveError } = await admin
+      const { data: saved, error: saveError } = await admin
         .from('profiles')
         .update({ stripe_customer_id: customerId })
-        .eq('id', user.id);
+        .eq('id', user.id)
+        .is('stripe_customer_id', null)
+        .select('id');
       if (saveError) return Response.json({ error: 'Could not start checkout' }, { status: 500 });
+      if (!saved || saved.length === 0) {
+        // A parallel request saved its customer first: use that one.
+        const { data: again } = await admin.from('profiles').select('stripe_customer_id').eq('id', user.id).maybeSingle();
+        customerId = again?.stripe_customer_id ?? null;
+        if (!customerId) return Response.json({ error: 'Could not start checkout' }, { status: 500 });
+      }
     }
 
     const origin = new URL(request.url).origin;
     const metadata = { user_id: user.id, plan };
     const session = await stripe.checkout.sessions.create({
       mode: plan === 'monthly' ? 'subscription' : 'payment',
+      allowed_payment_method_types: ['card', 'link'],
       line_items: [{ price, quantity: 1 }],
       customer: customerId,
       client_reference_id: user.id,

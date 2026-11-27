@@ -15,9 +15,8 @@ import { completeLesson, isUnlocked } from '@/lib/progress';
 import { useSessionSeed } from '@/lib/store';
 import { pick } from '@/lib/variant';
 import { track } from '@/lib/analytics';
-import { isReleased } from '@/lib/release';
 import { useSignup } from '@/lib/signup-store';
-import { LockedLesson, SignupForm } from './SignupGate';
+import { SignupForm } from './SignupGate';
 
 type Feedback = { correct: boolean; answer: string; explain?: string; again: boolean };
 
@@ -60,8 +59,6 @@ function LessonRun({ lesson }: { lesson: Lesson }) {
     );
   }
 
-  // Demand test: lessons past the release line take sign-ups instead of playing.
-  if (score === null && !isReleased(lesson.n)) return <LockedLesson lesson={lesson} sign={sign} />;
   // Open lessons need a waitlist sign-up first (asked once per device).
   if (score === null && !signup) return <SignupForm lesson={lesson} sign={sign} mode="start" onDone={() => {}} />;
 

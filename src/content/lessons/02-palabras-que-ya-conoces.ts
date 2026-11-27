@@ -32,7 +32,7 @@ export const lesson02: Lesson = {
   intro:
     'Ehecatl, el viento, lleva las palabras de un lugar a otro. El náhuatl le regaló al español de México cientos de ellas: aguacate, tianguis, papalote, apapachar. Con ellas vas a aprender cómo terminan los sustantivos en náhuatl.',
   minutes: 15,
-  access: 'free',
+  access: 'member',
   vocab,
   steps: [
     info(

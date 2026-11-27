@@ -29,7 +29,7 @@ export const lesson04: Lesson = {
   intro:
     'Cuetzpalin, la lagartija, es signo de abundancia. Los nahuas contaban con manos y pies: de cinco en cinco hasta veinte, y de veinte en veinte hasta cuatrocientos. Una vez que ves el patrón, los números se arman solos.',
   minutes: 15,
-  access: 'free',
+  access: 'member',
   vocab,
   steps: [
     info(

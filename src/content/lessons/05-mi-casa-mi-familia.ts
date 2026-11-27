@@ -33,7 +33,7 @@ export const lesson05: Lesson = {
   intro:
     'Coatl, la serpiente, cambia de piel. Las palabras en náhuatl también: cuando algo es «de alguien», el sustantivo suelta su terminación y se pone un prefijo. Aquí aprendes a hablar de tu casa, tu familia y tus mascotas.',
   minutes: 15,
-  access: 'free',
+  access: 'member',
   vocab,
   steps: [
     info(

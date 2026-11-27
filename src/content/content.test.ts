@@ -20,10 +20,10 @@ describe('signs', () => {
 });
 
 describe('lessons', () => {
-  it('has 8 lessons numbered 1-8 with unique slugs, all free', () => {
+  it('has 8 lessons numbered 1-8 with unique slugs; lesson 1 is free, 2-8 are member', () => {
     expect(LESSONS.map((l) => l.n)).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
     expect(new Set(LESSONS.map((l) => l.slug)).size).toBe(8);
-    expect(LESSONS.every((l) => l.access === 'free')).toBe(true);
+    expect(LESSONS.map((l) => l.access)).toEqual(['free', ...Array(7).fill('member')]);
   });
   it('each lesson uses the day-sign with its number', () => {
     for (const l of LESSONS) expect(l.sign).toBe(SIGNS[l.n - 1].nah);

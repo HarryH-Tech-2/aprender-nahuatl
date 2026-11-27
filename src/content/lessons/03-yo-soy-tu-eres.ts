@@ -29,7 +29,7 @@ export const lesson03: Lesson = {
   intro:
     'Calli, la casa: el lugar donde uno es quien es. En náhuatl no existe el verbo «ser». Para decir «soy mexicana» basta pegarle un prefijo al sustantivo. Una sola palabra, una oración completa.',
   minutes: 15,
-  access: 'free',
+  access: 'member',
   vocab,
   steps: [
     info(

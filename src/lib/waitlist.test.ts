@@ -1,14 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isReleased, RELEASED_LESSONS } from './release';
 import { parseSignup, validateSignup } from './waitlist';
-
-describe('release', () => {
-  it('only lesson 1 is open', () => {
-    expect(RELEASED_LESSONS).toBe(1);
-    expect(isReleased(1)).toBe(true);
-    for (const n of [2, 3, 8]) expect(isReleased(n)).toBe(false);
-  });
-});
 
 describe('validateSignup', () => {
   it('accepts a normal sign-up and tidies it', () => {

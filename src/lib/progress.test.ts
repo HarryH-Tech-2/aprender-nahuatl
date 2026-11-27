@@ -125,6 +125,8 @@ describe('canAccess', () => {
   it('member lessons need a member plan', () => {
     expect(canAccess(null, { access: 'member' })).toBe(false);
     expect(canAccess({ plan: 'free' }, { access: 'member' })).toBe(false);
-    expect(canAccess({ plan: 'member' }, { access: 'member' })).toBe(true);
+    expect(canAccess({ plan: 'monthly' }, { access: 'member' })).toBe(true);
+    expect(canAccess({ plan: 'lifetime' }, { access: 'member' })).toBe(true);
+    expect(canAccess({ plan: 'member' }, { access: 'member' })).toBe(false);
   });
 });

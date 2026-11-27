@@ -29,7 +29,7 @@ export const lesson06: Lesson = {
   intro:
     'Miquiztli no es un signo de mal agüero: marca el fin de una etapa y el inicio de otra. Hasta aquí nombrabas cosas; desde aquí cuentas lo que pasa. Los verbos usan los mismos prefijos ni- y ti- que ya conoces.',
   minutes: 18,
-  access: 'free',
+  access: 'member',
   vocab,
   steps: [
     info(

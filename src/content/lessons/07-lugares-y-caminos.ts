@@ -28,7 +28,7 @@ export const lesson07: Lesson = {
   intro:
     'Mazatl, el venado, conoce todos los caminos del monte. Miles de pueblos y ciudades de México tienen nombre náhuatl, y casi todos se arman igual: una o dos raíces y una terminación de lugar. Después de esta lección no vas a ver el mapa igual.',
   minutes: 15,
-  access: 'free',
+  access: 'member',
   vocab,
   steps: [
     info(

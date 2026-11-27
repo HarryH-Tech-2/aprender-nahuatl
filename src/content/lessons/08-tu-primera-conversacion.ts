@@ -28,7 +28,7 @@ export const lesson08: Lesson = {
   intro:
     'Tochtli, el conejo, es signo de fiesta: toca celebrar. Con las palabras para preguntar —qué, quién, dónde, cuántos— vas a juntar todo lo aprendido en una plática de verdad, de principio a fin.',
   minutes: 18,
-  access: 'free',
+  access: 'member',
   vocab,
   steps: [
     info(

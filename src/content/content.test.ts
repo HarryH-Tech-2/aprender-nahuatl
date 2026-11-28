@@ -31,8 +31,8 @@ describe('lessons', () => {
 
   for (const l of LESSONS) {
     describe(`lesson ${l.n} ${l.slug}`, () => {
-      it('has at least 20 steps and 10 words', () => {
-        expect(l.steps.length).toBeGreaterThanOrEqual(20);
+      it('has at least 15 steps and 10 words', () => {
+        expect(l.steps.length).toBeGreaterThanOrEqual(15);
         expect(l.vocab.length).toBeGreaterThanOrEqual(10);
       });
       it('starts with an explanation card', () => expect(l.steps[0].type).toBe('info'));

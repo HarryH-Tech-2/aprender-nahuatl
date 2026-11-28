@@ -16,8 +16,9 @@ import { useSessionSeed } from '@/lib/store';
 import { pick } from '@/lib/variant';
 import { track } from '@/lib/analytics';
 import { Offer } from '../Offer';
+import { Burst, CacaoIcon, CountUp } from './Fx';
 
-type Feedback = { correct: boolean; answer: string; explain?: string; again: boolean };
+type Feedback = { correct: boolean; answer: string; explain?: string; again: boolean; gain: number; combo: number };
 
 const PRAISE = ['¡Cualli!', '¡Órale, muy bien!', '¡Eso!', '¡Cualli, así se hace!'];
 
@@ -40,6 +41,10 @@ function LessonRun({ lesson }: { lesson: Lesson }) {
   const [feedback, setFeedback] = useState<Feedback | null>(null);
   const [firstTry, setFirstTry] = useState<Record<number, boolean>>({});
   const [score, setScore] = useState<number | null>(null);
+  // Session-only game layer: cacao beans as points and a streak of right answers.
+  const [cacao, setCacao] = useState(0);
+  const [combo, setCombo] = useState(0);
+  const [bestCombo, setBestCombo] = useState(0);
 
   const sign = SIGNS[lesson.n - 1];
   const exitHref = `/curso/${lesson.slug}`;
@@ -78,10 +83,28 @@ function LessonRun({ lesson }: { lesson: Lesson }) {
     const nextNeedsOffer = next ? lessonGate({ lesson: next, account, progress, variant, lessons: LESSONS }) === 'offer' : false;
     return (
       <div className={`wrap py-12 text-center ${nextNeedsOffer ? 'max-w-3xl' : 'max-w-xl'}`}>
-        <div className="pop mx-auto w-fit"><SignBadge sign={sign} state="done" size={168} /></div>
-        <h1 className="mt-6 text-4xl">¡Cualli! Encendiste {sign.nah}</h1>
-        <p className="mt-3 text-lg">
+        <div className="relative mx-auto w-fit">
+          <div className="pop"><SignBadge sign={sign} state="done" size={168} /></div>
+          <div className="absolute left-1/2 top-1/2"><Burst pieces={36} spread={220} /></div>
+        </div>
+        <h1 className="rise mt-6 text-4xl" style={{ animationDelay: '250ms' }}>¡Cualli! Encendiste {sign.nah}</h1>
+        <p className="rise mt-3 text-lg" style={{ animationDelay: '350ms' }}>
           Terminaste «{lesson.title}» con {pct}% de respuestas correctas al primer intento.
+        </p>
+        <div className="mt-7 grid grid-cols-3 gap-3 text-center">
+          {[
+            { label: 'Cacao ganado', value: <span className="inline-flex items-center gap-1.5"><CacaoIcon size={24} /><CountUp value={cacao} /></span> },
+            { label: 'Al primer intento', value: <><CountUp value={pct} />%</> },
+            { label: 'Mejor racha', value: <>×<CountUp value={bestCombo} /></> },
+          ].map((s, i) => (
+            <div key={s.label} className="plate rise px-2 py-4" style={{ animationDelay: `${500 + i * 140}ms` }}>
+              <p className="display text-3xl">{s.value}</p>
+              <p className="mt-1 text-sm font-bold">{s.label}</p>
+            </div>
+          ))}
+        </div>
+        <p className="rise mt-4 text-sm opacity-75" style={{ animationDelay: '950ms' }}>
+          Los mexicas usaban granos de cacao como moneda.
         </p>
         {progress.streak.current > 1 && <p className="mt-1 font-bold">Llevas {progress.streak.current} días seguidos.</p>}
         {nextNeedsOffer && (
@@ -118,7 +141,13 @@ function LessonRun({ lesson }: { lesson: Lesson }) {
     if (first) setFirstTry((f) => ({ ...f, [idx]: correct }));
     if (!correct && first) setQueue((q) => [...q, idx]); // one more try at the end
     const explain = 'explain' in step && step.explain ? pick(step.explain, variant) : undefined;
-    setFeedback({ correct, answer: answerText, explain, again: !correct && first });
+    // First-try answers earn 10 beans plus a streak bonus; a right retry still earns 5.
+    const streak = correct ? combo + 1 : 0;
+    const gain = !correct ? 0 : first ? 10 + Math.min(combo, 4) * 2 : 5;
+    setCombo(streak);
+    setBestCombo((b) => Math.max(b, streak));
+    setCacao((c) => c + gain);
+    setFeedback({ correct, answer: answerText, explain, again: !correct && first, gain, combo: streak });
   }
 
   function next() {
@@ -140,27 +169,40 @@ function LessonRun({ lesson }: { lesson: Lesson }) {
   const common = { variant, seed: seed + pos * 31, locked: feedback !== null, onAnswer: answer };
 
   return (
-    <div className="wrap min-h-[85dvh] max-w-2xl pb-40 pt-5">
+    <div className="wrap min-h-[85dvh] max-w-3xl pb-40 pt-5">
+      <div className="mb-4 flex items-center gap-3">
+        <span className="shrink-0 -rotate-2 rounded-lg border-[3px] border-ink bg-maize px-2.5 py-0.5 text-sm font-bold shadow-[3px_3px_0_var(--color-ink)]">
+          Lección {lesson.n}
+        </span>
+        <span className="display truncate text-xl sm:text-2xl">{lesson.title}</span>
+        <Footprints done={pos} total={queue.length} />
+        <span
+          key={cacao} aria-label={`${cacao} granos de cacao`}
+          className={`${cacao ? 'bump' : ''} ml-auto inline-flex shrink-0 items-center gap-1.5 rounded-full border-[3px] border-ink bg-stucco px-2.5 py-0.5 font-bold shadow-[2px_2px_0_var(--color-ink)] sm:ml-0`}
+        >
+          <CacaoIcon /> {cacao}
+        </span>
+      </div>
       <div className="flex items-center gap-3">
         <Link href={exitHref} className="font-bold underline underline-offset-4">Salir</Link>
         <div
           role="progressbar" aria-label="Avance de la lección" aria-valuemin={0} aria-valuemax={queue.length} aria-valuenow={pos}
           className="h-5 flex-1 overflow-hidden rounded-full border-[3px] border-ink bg-stucco"
         >
-          <div className="h-full bg-jade transition-[width] duration-300" style={{ width: `${(pos / queue.length) * 100}%` }} />
+          <div className="progress-fill h-full bg-jade transition-[width] duration-500 ease-out" style={{ width: `${(pos / queue.length) * 100}%` }} />
         </div>
         <SignBadge sign={sign} size={40} />
       </div>
 
       <div key={stepKey} className="mt-8">
         {step.type === 'info' && (
-          <article>
+          <article className="stagger">
             <h1 className="text-3xl sm:text-4xl">{step.title}</h1>
             <RichText text={pick(step.body, variant)} className="mt-4 text-lg" />
             {step.examples && (
-              <ul className="plate-flat mt-6 divide-y-2 divide-ink/15">
+              <ul className="plate-flat stagger mt-6 divide-y-2 divide-ink/15">
                 {step.examples.map((ex, i) => (
-                  <li key={i} className="px-4 py-3">
+                  <li key={i} className="px-4 py-3 transition-colors hover:bg-maize-soft/60">
                     <Nah v={ex.nah} className="nah block text-xl" />
                     <span>{ex.es}</span>
                   </li>
@@ -179,13 +221,26 @@ function LessonRun({ lesson }: { lesson: Lesson }) {
       {feedback && (
         <div
           role="status"
-          className={`fixed inset-x-0 bottom-0 z-20 border-t-[3px] border-ink ${feedback.correct ? 'bg-jade-soft' : 'bg-[#f6cfc9]'}`}
+          className={`sheet-up fixed inset-x-0 bottom-0 z-20 border-t-[3px] border-ink ${feedback.correct ? 'bg-jade-soft' : 'bg-[#f6cfc9]'}`}
         >
-          <div className="wrap flex max-w-2xl flex-col gap-3 py-4 sm:flex-row sm:items-center">
+          {feedback.correct && <div className="absolute left-1/2 top-0"><Burst /></div>}
+          <div className="wrap flex max-w-3xl flex-col gap-3 py-4 sm:flex-row sm:items-center">
             <div className="flex-1">
-              <p className="display text-2xl">
-                {feedback.correct ? PRAISE[(seed + pos) % PRAISE.length] : step.type === 'match' ? 'Lo lograste, con algún tropiezo' : 'Casi'}
-              </p>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <p className={`display text-2xl ${feedback.correct ? 'pop' : 'wobble'}`}>
+                  {feedback.correct ? PRAISE[(seed + pos) % PRAISE.length] : step.type === 'match' ? 'Lo lograste, con algún tropiezo' : 'Casi'}
+                </p>
+                {feedback.gain > 0 && (
+                  <span className="float-gain inline-flex items-center gap-1 font-bold text-jade">
+                    +{feedback.gain} <CacaoIcon size={16} />
+                  </span>
+                )}
+                {feedback.combo >= 2 && (
+                  <span className="pop rounded-full border-2 border-ink bg-maize px-2 py-0.5 text-sm font-bold" style={{ animationDelay: '150ms' }}>
+                    Racha ×{feedback.combo}
+                  </span>
+                )}
+              </div>
               {!feedback.correct && feedback.answer && (
                 <p className="mt-0.5">Respuesta correcta: <strong lang="nah">{feedback.answer}</strong></p>
               )}
@@ -196,6 +251,35 @@ function LessonRun({ lesson }: { lesson: Lesson }) {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/**
+ * A codex footprint trail (the painted sign for a journey): one print per slice of the lesson,
+ * inked in as you go. Decorative: the progress bar below carries the real value.
+ */
+function Footprints({ done, total }: { done: number; total: number }) {
+  const prints = 9;
+  // The first print is always inked: you have already set out.
+  const filled = total ? Math.max(1, Math.round((done / total) * prints)) : 1;
+  return (
+    <div aria-hidden className="ml-auto hidden shrink-0 items-center gap-3 pr-1 sm:flex">
+      {Array.from({ length: prints }, (_, i) => (
+        <svg
+          key={i === filled - 1 ? `${i}-${filled}` : i} viewBox="0 0 16 24" width="17" height="26"
+          className={`transition-colors duration-300 ${i < filled ? 'text-ink' : 'text-ink/25'} ${i === filled - 1 && filled > 1 ? 'hop' : ''}`}
+          style={{ transform: `translateY(${i % 2 ? 5 : -5}px) rotate(${i % 2 ? 100 : 80}deg)` }}
+        >
+          <g fill="currentColor">
+            <path d="M8 7c4 0 5.5 4 5 9-.4 4-2.4 7-5 7s-4.6-3-5-7c-.5-5 1-9 5-9z" />
+            <circle cx="3.2" cy="4.6" r="1.5" />
+            <circle cx="6" cy="2.4" r="1.6" />
+            <circle cx="9.4" cy="2.2" r="1.7" />
+            <circle cx="12.6" cy="4" r="1.6" />
+          </g>
+        </svg>
+      ))}
     </div>
   );
 }

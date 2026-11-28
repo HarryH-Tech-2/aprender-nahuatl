@@ -26,5 +26,11 @@ export default function PlayPage({ params }: PageProps<'/curso/[slug]/jugar'>) {
 async function PlayContent({ params }: { params: Promise<{ slug: string }> }) {
   const lesson = lessonBySlug((await params).slug);
   if (!lesson) notFound();
-  return <Player lesson={lesson} />;
+  return (
+    <>
+      <div aria-hidden className="lesson-bg" />
+      <div aria-hidden className="lesson-band" />
+      <Player lesson={lesson} />
+    </>
+  );
 }

@@ -32,7 +32,7 @@ export function Footer() {
   // The 20 day-signs twice over, so the band can scroll forever without a gap.
   const band = [...SIGNS, ...SIGNS];
   return (
-    <footer className="relative mt-20 overflow-hidden bg-[#1a1613] text-amate">
+    <footer className="footer-bg relative mt-20 overflow-hidden text-amate">
       <div aria-hidden className="codex-stripe h-1.5" />
 
       {/* A slow procession of the 20 day-signs. */}
@@ -49,7 +49,7 @@ export function Footer() {
         <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#1a1613]" />
       </div>
 
-      <div className="wrap grid gap-12 py-14 lg:grid-cols-[1.3fr_2fr]">
+      <div className="wrap grid gap-12 py-14 lg:grid-cols-[1fr_2.3fr]">
         <div>
           <p lang="nah" className="display text-[clamp(2.5rem,6vw,4rem)] leading-none text-maize">Ma cualli ohtli</p>
           <p className="mt-2 text-lg text-amate/80">«Que tengas buen camino».</p>
@@ -62,11 +62,11 @@ export function Footer() {
         <div className="grid gap-10 sm:grid-cols-3">
           {COLUMNS.map((c) => (
             <nav key={c.title} aria-label={c.title}>
-              <p className="mb-4 text-sm font-bold text-maize">{c.title}</p>
-              <ul className="space-y-2.5">
+              <p className="mb-4 text-base font-bold text-maize">{c.title}</p>
+              <ul className="space-y-3">
                 {c.links.map(([href, label]) => (
                   <li key={href}>
-                    <Link href={href} className="text-[0.95rem] text-amate/80 transition-colors hover:text-white">
+                    <Link href={href} className="text-[1.05rem] font-semibold text-amate/95 underline-offset-4 transition-colors hover:text-maize hover:underline">
                       {label}
                     </Link>
                   </li>
@@ -77,7 +77,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-amate/10">
+      <div className="border-t border-amate/10 bg-[#1a1613]/80">
         <div className="wrap flex flex-col gap-3 py-6 text-sm text-amate/65 md:flex-row md:items-center md:justify-between">
           <p>
             <strong className="text-amate/90">Contenido en revisión.</strong> Las lecciones aún no las revisan hablantes nativos.{' '}

@@ -30,7 +30,7 @@ export function ChoiceExercise({ step, variant, seed, locked, onAnswer }: Common
   const answerText = pick(step.options[step.answer], variant);
 
   return (
-    <div>
+    <div className="stagger">
       {step.type === 'blank' ? (
         <>
           <p className="font-bold">Completa la frase</p>
@@ -45,7 +45,7 @@ export function ChoiceExercise({ step, variant, seed, locked, onAnswer }: Common
           {step.nah && <p lang="nah" className="nah-big mt-3">{pick(step.nah, variant)}</p>}
         </>
       )}
-      <div role="radiogroup" aria-label="Opciones" className="mt-6 grid gap-3 sm:grid-cols-2">
+      <div role="radiogroup" aria-label="Opciones" className="stagger mt-6 grid gap-3 sm:grid-cols-2">
         {order.map((i) => {
           const state = !locked ? '' : i === step.answer ? 'is-right' : i === selected ? 'is-wrong' : '';
           return (
@@ -89,11 +89,11 @@ export function MatchExercise({ step, variant, seed, locked, onAnswer }: Common 
   }
 
   return (
-    <div>
+    <div className="stagger">
       <p className="text-xl font-bold">Une cada palabra con su significado</p>
       <p className="mt-1">Toca una palabra en náhuatl y luego su traducción.</p>
       <div className="mt-6 grid grid-cols-2 gap-3">
-        <div className="grid gap-3">
+        <div className="stagger grid gap-3">
           {left.map((i) => (
             <button
               key={i} type="button" lang="nah" disabled={matched.includes(i) || locked}
@@ -105,7 +105,7 @@ export function MatchExercise({ step, variant, seed, locked, onAnswer }: Common 
             </button>
           ))}
         </div>
-        <div className="grid gap-3">
+        <div className="stagger grid gap-3">
           {right.map((i) => (
             <button
               key={i} type="button" disabled={matched.includes(i) || locked}
@@ -138,7 +138,7 @@ export function TilesExercise({ step, variant, seed, locked, onAnswer }: Common 
   const given = picked.map(text).join(joiner);
 
   return (
-    <div>
+    <div className="stagger">
       <p className="font-bold">{step.prompt}</p>
       <p className="mt-2 text-2xl font-bold">{step.es}</p>
 
@@ -149,7 +149,7 @@ export function TilesExercise({ step, variant, seed, locked, onAnswer }: Common 
         {picked.length === 0 && <span className="px-2 opacity-60">Toca las piezas en orden</span>}
         {picked.map((id) => (
           <button
-            key={id} type="button" lang="nah" disabled={locked} className="tile !min-h-12"
+            key={id} type="button" lang="nah" disabled={locked} className="tile pop !min-h-12"
             aria-label={`Quitar ${text(id)}`} onClick={() => setPicked((p) => p.filter((x) => x !== id))}
           >
             {text(id)}
@@ -157,7 +157,7 @@ export function TilesExercise({ step, variant, seed, locked, onAnswer }: Common 
         ))}
       </div>
 
-      <div className="mt-5 flex flex-wrap gap-3">
+      <div className="stagger mt-5 flex flex-wrap gap-3">
         {bank.map((b) => {
           const used = picked.includes(b.id);
           return (
@@ -187,7 +187,7 @@ export function TypeExercise({ step, variant, locked, onAnswer }: Common & { ste
   const accepted = step.accepted[variant];
   const submit = () => onAnswer(isCorrect(value, accepted), accepted[0]);
   return (
-    <form onSubmit={(e) => { e.preventDefault(); if (!locked && value.trim()) submit(); }}>
+    <form className="stagger" onSubmit={(e) => { e.preventDefault(); if (!locked && value.trim()) submit(); }}>
       <label htmlFor="respuesta" className="block text-xl font-bold">{step.prompt}</label>
       <input
         id="respuesta" lang="nah" className="field mt-5" value={value} readOnly={locked}
